@@ -10,16 +10,16 @@ public class ResponseDto {
 
     private final String email;
 
-//    private final LocalDateTime updatedAt;
+    private final LocalDateTime updatedAt;
 
 
     public ResponseDto(String email, LocalDateTime updatedAt) {
         this.email = email;
-        updatedAt = updatedAt;
+        this.updatedAt = updatedAt;
     }
 
-//    public static ResponseDto toDto(User user) {
-//        this.email = user.getEmail();
-//        this.updated_at = user.getUpdatedAt;
-//    }
+    public static ResponseDto toDto(User user) {
+        this.email = user.getEmail();
+        this.updated_at = user.getUpdatedAt;
+    }
 }

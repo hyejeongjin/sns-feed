@@ -1,5 +1,6 @@
 package com.example.sns_feed.user.entity;
 
+import com.example.sns_feed.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "user")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
