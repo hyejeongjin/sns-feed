@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "user")
 public class User extends BaseEntity {
 
+    //test
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
