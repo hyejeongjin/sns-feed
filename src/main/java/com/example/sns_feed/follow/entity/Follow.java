@@ -1,6 +1,7 @@
 package com.example.sns_feed.follow.entity;
 
 import com.example.sns_feed.follow.enums.FollowStatus;
+import com.example.sns_feed.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,14 @@ public class Follow {
     @Column(name = "follow_id")
     private Long followId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "following_user_id", nullable = false)
-//    private User followingUser;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "follow_user_id", nullable = false)
-//    private User followingUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "following_user_id", nullable = false)
+    private User followingUser; // 팔로우 당하는 유저
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "follow_user_id", nullable = false)
+    private User followUser;  // 팔로우 신청한 유저
+
 
     @Column(name = "follow_status", nullable = false)
     @Enumerated(EnumType.STRING)
