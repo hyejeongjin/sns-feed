@@ -1,4 +1,11 @@
 package com.example.sns_feed.user.service;
 
-public class UserService {
+import com.example.sns_feed.user.dto.responsedto.ResponseDto;
+
+import java.util.List;
+
+public interface UserService {
+
+
+    List<ResponseDto> findUsers();
 }
