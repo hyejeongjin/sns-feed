@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService {
 
         List<User> findUser = userRepository.findAll();
 
-//        return findUser.stream().map(ResponseDto::toDto).toList();
-        return  null;
+        return findUser.stream().map(ResponseDto::toDto).toList();
     }
 }

@@ -2,7 +2,6 @@ package com.example.sns_feed.user.controller;
 
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.user.service.UserService;
-import com.example.sns_feed.user.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +26,7 @@ public class UserController {
 
         List<ResponseDto> users = userService.findUsers();
 
-//        return new ResponseEntity<>(users, HttpStatus.OK);
-        return null;
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 
