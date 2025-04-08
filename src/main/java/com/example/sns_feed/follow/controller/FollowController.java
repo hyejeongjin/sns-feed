@@ -22,8 +22,8 @@ public class FollowController {
     }
 
     // 팔로우 수락/거절
-    @PostMapping("/accept")
-    public void respondFollowAccept(@RequestBody RespondFollowRequestDto request) throws IllegalAccessException {
-        followService.respondFollowRequest(request);
+    @PatchMapping("/{id}/accept")
+    public void respondFollowAccept(@PathVariable Long id, @RequestBody RespondFollowRequestDto request) throws IllegalAccessException {
+        followService.respondFollowRequest(id, request);
     }
 }

@@ -46,8 +46,8 @@ public class FollowService {
 
     //팔로우 수락, 거절
     @Transactional
-    public void respondFollowRequest(RespondFollowRequestDto request) throws IllegalAccessException {
-        Follow follow = followRepository.findById(request.getSenderId()).orElseThrow(()-> new IllegalArgumentException("팔로우 요청 없음"));
+    public void respondFollowRequest(Long followId, RespondFollowRequestDto request) throws IllegalAccessException {
+        Follow follow = followRepository.findById(followId).orElseThrow(()-> new IllegalArgumentException("팔로우 요청 없음"));
 
         if (!follow.getFollowStatus().equals(FollowStatus.PENDING)){
             throw new IllegalAccessException("이미 처리했다");
