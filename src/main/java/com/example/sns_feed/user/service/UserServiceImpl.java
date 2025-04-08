@@ -37,9 +37,7 @@ public class UserServiceImpl implements UserService {
      * */
     @Override
     public MessageResponseDto signup( RequestDto dto) {
-
-        User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
-        if(findUser.getEmail().equals(dto.getEmail())){
+        if(existsByEmail(dto.getEmail())){
             throw new DuplicateKeyException("이미 가입된 정보입니다.");
         }
         User user = new User(dto);
@@ -47,7 +45,9 @@ public class UserServiceImpl implements UserService {
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
     }
-
+    public boolean existsByEmail(String email){
+        return userRepository.findByEmail(email).isPresent();
+    }
     /*
      * 202 04 07
      * 김형진
@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
     public MessageResponseDto Login(RequestDto dto) {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
+        //세션에서 확인하기.
         if (findUser.getEmail().equals(dto.getEmail())) {
             throw new DuplicateKeyException("이미 가입된 정보입니다.");
         }

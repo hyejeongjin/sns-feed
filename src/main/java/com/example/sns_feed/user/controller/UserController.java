@@ -1,5 +1,6 @@
 package com.example.sns_feed.user.controller;
 
+import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
@@ -30,8 +31,6 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<MessageResponseDto> signup(
             @RequestBody RequestDto dto){
-         //HttpSession session = request.getSession();
-        //session.setAttribute("test_Id", messageResponseDto);
         return new ResponseEntity<>(userService.signup(dto), HttpStatus.OK);
     }
 

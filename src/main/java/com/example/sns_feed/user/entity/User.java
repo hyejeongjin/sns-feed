@@ -2,9 +2,9 @@ package com.example.sns_feed.user.entity;
 
 import com.example.sns_feed.common.entity.BaseEntity;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
-import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -37,11 +37,10 @@ public class User extends BaseEntity {
 
     private LocalDateTime deletedAt;
 
-
     public User() {
 
     }
-   /*
+    /*
     * 2025 04 07
     * 김형진
     *  생성자 업데이트

@@ -3,19 +3,20 @@ package com.example.sns_feed.user.service;
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface UserService {
 
 
-    MessageResponseDto signup(RequestDto dto);
+    MessageResponseDto signup(@RequestBody  RequestDto dto);
 
-    MessageResponseDto Login(String email, String password);
+    MessageResponseDto Login(@RequestBody RequestDto dto);
 
     ResponseDto findpassword(String email);
 
-    void delete (String email, String password);
+    MessageResponseDto delete (String email, String password);
 
     List<ResponseDto> findUsers();
 
