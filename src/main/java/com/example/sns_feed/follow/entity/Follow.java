@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(
-        name = "follows",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"follow_user_id", "following_user_id"})
-)
+@Table(name = "follows")
 @NoArgsConstructor
 public class Follow extends BaseEntity {
 
@@ -22,21 +19,21 @@ public class Follow extends BaseEntity {
     private Long followId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "following_user_id", nullable = false)
-    private User followingUser; // 팔로우 당하는 유저
+    @JoinColumn(name = "sender", nullable = false)
+    private User sender; // 팔로우 신청 유저
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "follow_user_id", nullable = false)
-    private User followUser;  // 팔로우 신청한 유저
+    @JoinColumn(name = "receiver", nullable = false)
+    private User receiver;  // 팔로우 받는 유저
 
 
     @Column(name = "follow_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private FollowStatus followStatus;
 
-    public Follow(User followUser, User followingUser, FollowStatus followStatus) {
-        this.followUser = followUser;
-        this.followingUser = followingUser;
+    public Follow(User sender, User receiver, FollowStatus followStatus) {
+        this.sender = sender;
+        this.receiver = receiver;
         this.followStatus = followStatus;
     }
 }

@@ -14,13 +14,9 @@ public class FollowController {
 
     private final FollowService followService;
 
-    // 팔로우 신청
-//    @PostMapping
-//    public FollowResponseDto follow(
-//            @SessionAttribute(name="loginUser") User userId,
-//            @RequestBody FollowRequestDto requestDto) {
-//        return followService.follow(userId, requestDto);
-//    }
-
-
+    // 팔로우 요청
+    @PostMapping
+    public FollowResponseDto follow(User userId, @RequestBody FollowRequestDto requestDto) throws IllegalAccessException {
+        return followService.followRequest(requestDto, userId);
+    }
 }
