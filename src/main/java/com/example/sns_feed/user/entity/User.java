@@ -55,10 +55,13 @@ public class User extends BaseEntity {
    }
 
 
+    /**
+     * 2025 04 08
+     * 양재호
+     * updateUser를 위한 메서드
+     */
    public void updateUser(RequestDto dto) {
        this.mobileNumber = dto.getMobileNumber();
    }
-
-
 
 }
