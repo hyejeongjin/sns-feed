@@ -104,6 +104,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDto updateUser(Long id, RequestDto dto) {
-        return null;
+
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+
+        findUser.updateUser(dto);
+
+        User updatedUser = userRepository.save(findUser);
+
+        return new ResponseDto(updatedUser);
     }
 }

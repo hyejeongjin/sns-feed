@@ -55,6 +55,10 @@ public class User extends BaseEntity {
    }
 
 
+   public void updateUser(RequestDto dto) {
+       this.mobileNumber = dto.getMobileNumber();
+   }
+
 
 
 }

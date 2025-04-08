@@ -42,8 +42,8 @@ public class UserController {
             @RequestBody RequestDto dto
     ) {
 
-        userService.updateUser(id, dto);
+        ResponseDto updateUser = userService.updateUser(id, dto);
 
-        return new ResponseEntity<>(, HttpStatus.OK);
+        return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 }
