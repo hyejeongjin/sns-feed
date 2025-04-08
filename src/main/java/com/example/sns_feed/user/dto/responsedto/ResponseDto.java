@@ -10,12 +10,22 @@ public class ResponseDto {
 
     private final String email;
 
-//    private final LocalDateTime updatedAt;
+    private final LocalDateTime updatedAt;
 
+
+    /*
+    * 2025 04 07
+    * 상태메세지 출력
+    * */
+//    private String message;
+//    public ResponseDto( String message) {
+//
+//        this.message = message;
+//    }
 
     public ResponseDto(String email, LocalDateTime updatedAt) {
         this.email = email;
-        updatedAt = updatedAt;
+        this.updatedAt = updatedAt;
     }
 
 //    public static ResponseDto toDto(User user) {
