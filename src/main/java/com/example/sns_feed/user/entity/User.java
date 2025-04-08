@@ -39,7 +39,17 @@ public class User extends BaseEntity {
     public User() {
 
     }
-
+   /*
+    * 2025 04 07
+    * 김형진
+    *  생성자 업데이트
+    *  */
+   public User(String email, String password, String mobileNumber, String brithDate){
+       this.email = email;
+       this.password = password;
+       this.mobileNumber = mobileNumber;
+       this.brithDate = brithDate;
+   }
     public User(String email, String password, String mobileNumber, String brithDate, LocalDateTime deletedAt) {
         this.email = email;
         this.password = password;
