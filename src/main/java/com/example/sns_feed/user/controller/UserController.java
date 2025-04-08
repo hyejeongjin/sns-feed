@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 2025 04 08
+ * 양재호
+ * 전제 기능에 session기준 추가해야함(로그인 되었을 경우에 조회가능~)
+ */
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -43,19 +48,55 @@ public class UserController {
         return new ResponseEntity(userService.Login(dto), HttpStatus.OK);
     }
 
+    /**
+     * 2025 04 08
+     * 양재호
+     * 전체 유저 조회 기능
+     */
     @GetMapping
     public ResponseEntity<List<ResponseDto>> findUsers(
-            @RequestParam(required = false) String email
+            @RequestParam(required = false) String userName
     ) {
 
-        List<ResponseDto> users = userService.findUsers();
+        if (!(userName == null)) {
+            List<ResponseDto> users = userService.findUsersByEmail(userName);
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } else {
+            List<ResponseDto> users = userService.findUsers();
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        }
+    }
 
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    /**
+     * 2025 04 08
+     * 양재호
+     * 특정 유저 조회 기능
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto> findUserById(@PathVariable Long id) {
+
+        ResponseDto findUser = userService.findUserById(id);
+
+        return new ResponseEntity<>(findUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/withdraw")
     public ResponseEntity<MessageResponseDto>delete(@RequestBody RequestDto dto){
         return new ResponseEntity<>(userService.delete(dto.getEmail(), dto.getPassword()), HttpStatus.OK);
     }
+    /**
+     * 2025 04 08
+     * 양재호
+     * 유저 수정 기능
+     */
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseDto> updateUser(
+            @PathVariable Long id,
+            @RequestBody RequestDto dto
+    ) {
 
+        ResponseDto updateUser = userService.updateUser(id, dto);
+
+        return new ResponseEntity<>(updateUser, HttpStatus.OK);
+    }
 }

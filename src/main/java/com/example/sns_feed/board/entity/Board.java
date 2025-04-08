@@ -15,7 +15,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name="board")
+@Table(name="boards")
 public class Board extends BaseEntity{
 
     @Id

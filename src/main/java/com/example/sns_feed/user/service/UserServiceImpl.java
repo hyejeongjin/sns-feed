@@ -8,6 +8,7 @@ import com.example.sns_feed.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -88,6 +89,11 @@ public class UserServiceImpl implements UserService {
         return new MessageResponseDto("탈퇴되었습니다.");
     }
 
+    /**
+     * 2025 04 08
+     * 양재호
+     * 전체 유저 조회 기능
+     */
     @Override
     public List<ResponseDto> findUsers() {
 
@@ -95,4 +101,50 @@ public class UserServiceImpl implements UserService {
 
         return findUser.stream().map(ResponseDto::toDto).toList();
     }
+
+    /**
+     * 2025 04 08
+     * 양재호
+     * 전체 유저 조회 기능(QueryString에 userName이 있는 경우)
+     */
+    @Override
+    public List<ResponseDto> findUsersByEmail(String userName) {
+
+        List<User> findUsers = userRepository.findUserByUserName(userName);
+
+        return findUsers.stream().map(ResponseDto::toDto).toList();
+    }
+
+    /**
+     * 2025 04 08
+     * 양재호
+     * 특정 유저 조회 기능
+     */
+    @Override
+    public ResponseDto findUserById(Long id) {
+
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+
+        return new ResponseDto(findUser);
+    }
+
+    /**
+     * 2025 04 08
+     * 양재호
+     * 유저 수정 기능
+     */
+    @Transactional
+    @Override
+    public ResponseDto updateUser(Long id, RequestDto dto) {
+
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+
+        findUser.updateUser(dto);
+
+        User updatedUser = userRepository.save(findUser);
+
+        return new ResponseDto(updatedUser);
+    }
+
+
 }
