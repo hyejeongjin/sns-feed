@@ -13,6 +13,8 @@ public class BoardSaveResponseDto {
 
     private final Long id;
 
+    private final String userName;
+
     private final String title;
 
     private final String contents;
@@ -21,7 +23,5 @@ public class BoardSaveResponseDto {
 
     private final LocalDateTime updatedAt;
 
-    private static BoardSaveResponseDto toDto(Board board) {
-        return new BoardSaveResponseDto(board.getId(), board.getTitle(), board.getContents(), board.getCreateAt(),board.getUpdatedAt());
-    }
+
 }

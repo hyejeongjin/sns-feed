@@ -1,6 +1,7 @@
 package com.example.sns_feed.board.service;
 
 import com.example.sns_feed.board.dto.request.BoardRequestDto;
+import com.example.sns_feed.board.dto.response.BoardResponseDto;
 import com.example.sns_feed.board.dto.response.BoardSaveResponseDto;
 import com.example.sns_feed.board.entity.Board;
 import com.example.sns_feed.board.repository.BoardRepository;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -31,9 +33,30 @@ public class BoardService {
 
         return new BoardSaveResponseDto(
                                 board.getId(),
+                                user.getUserName(),
                                 board.getTitle(),
                                 board.getContents(),
                                 board.getCreateAt(),
                                 board.getUpdatedAt());
     }
+
+    @Transactional(readOnly = true)
+    public BoardResponseDto findById(Long id) {
+
+
+        Board board = boardRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return new BoardResponseDto(
+                            board.getId(),
+                            board.getUser().getUserName(),
+                            board.getTitle(),
+                            board.getContents(),
+                            board.getUpdatedAt());
+    }
+
+//    public BoardResponseDto updateBoard(@PathVariable Long id, )
+
+
+
+
 }

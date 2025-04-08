@@ -1,6 +1,7 @@
 package com.example.sns_feed.board.controller;
 
 import com.example.sns_feed.board.dto.request.BoardRequestDto;
+import com.example.sns_feed.board.dto.response.BoardResponseDto;
 import com.example.sns_feed.board.dto.response.BoardSaveResponseDto;
 import com.example.sns_feed.board.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,12 @@ public class BoardController {
         Long id = (Long) session.getAttribute("sessionId");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(boardService.saveBoard(id, boardRequestDto));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BoardResponseDto> findSingleBoard(@PathVariable Long id) {
+
+        return ResponseEntity.ok(boardService.findById(id));
     }
 
 
