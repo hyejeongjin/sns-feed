@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -34,11 +36,8 @@ public class UserServiceImpl implements UserService {
      * 가입
      * */
     @Override
-    public MessageResponseDto signup(RequestDto dto) {
-
-
-        User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
-        if(findUser.getEmail().equals(dto.getEmail())){
+    public MessageResponseDto signup( RequestDto dto) {
+        if(existsByEmail(dto.getEmail())){
             throw new DuplicateKeyException("이미 가입된 정보입니다.");
         }
         User user = new User(dto);
@@ -46,20 +45,23 @@ public class UserServiceImpl implements UserService {
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
     }
-
+    public boolean existsByEmail(String email){
+        return userRepository.findByEmail(email).isPresent();
+    }
     /*
      * 202 04 07
      * 김형진
      * 로그인
      * */
     @Override
-    public MessageResponseDto Login(String email, String password) {
+    public MessageResponseDto Login(RequestDto dto) {
 
-        User findUser = userRepository.findByEmailOrThrow(email);
-        if (findUser.getEmail().equals(email)) {
+        User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
+        //세션에서 확인하기.
+        if (findUser.getEmail().equals(dto.getEmail())) {
             throw new DuplicateKeyException("이미 가입된 정보입니다.");
         }
-        return null;
+        return new MessageResponseDto("로그인 성공!");
     }
     /*
      * 202 04 07
@@ -79,12 +81,13 @@ public class UserServiceImpl implements UserService {
      * 예외 수정할것.
      * */
     @Override
-    public void delete(String email, String password) {
+    public  MessageResponseDto delete(String email, String password) {
         User findUser = userRepository.findByEmailOrThrow(email);
         if(!findUser.equals(password)){
             throw new RuntimeException("입력한 패스워드와 다릅니다.");
         }
         userRepository.delete(findUser);
+        return new MessageResponseDto("탈퇴되었습니다.");
     }
 
     /**

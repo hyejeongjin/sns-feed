@@ -15,12 +15,14 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email);
     List<User> findByUserName(String userName);
 
 
     default User findByEmailOrThrow(String Email){
         return findByEmail(Email).orElseThrow(()-> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
     }
+
     default User findByEmailOrThrow(String Email, String password){
         return findByEmail(Email).filter(User-> User.getPassword().equals(password))
                 .orElseThrow(() -> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
