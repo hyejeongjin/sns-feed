@@ -93,4 +93,17 @@ public class UserServiceImpl implements UserService {
 
         return findUser.stream().map(ResponseDto::toDto).toList();
     }
+
+    @Override
+    public ResponseDto findUserById(Long id) {
+
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+
+        return new ResponseDto(findUser);
+    }
+
+    @Override
+    public ResponseDto updateUser(Long id, RequestDto dto) {
+        return null;
+    }
 }

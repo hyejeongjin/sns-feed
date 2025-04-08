@@ -18,4 +18,8 @@ public interface UserService {
     void delete (String email, String password);
 
     List<ResponseDto> findUsers();
+
+    ResponseDto findUserById(Long id);
+
+    ResponseDto updateUser(Long id, RequestDto dto);
 }
