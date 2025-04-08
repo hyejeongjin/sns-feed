@@ -1,12 +1,15 @@
 package com.example.sns_feed.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.user.entity.User;
 import com.example.sns_feed.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -32,14 +35,13 @@ public class UserServiceImpl implements UserService {
      * 가입
      * */
     @Override
-    public MessageResponseDto signup(String email, String password, String mobileNumber, String birthDate) {
+    public MessageResponseDto signup( RequestDto dto) {
 
-
-        User findUser = userRepository.findByEmailOrThrow(email);
-        if(findUser.getEmail().equals(email)){
+        User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
+        if(findUser.getEmail().equals(dto.getEmail())){
             throw new DuplicateKeyException("이미 가입된 정보입니다.");
         }
-        User user = new User(email, password, mobileNumber, birthDate);
+        User user = new User(dto);
         User saveUser = userRepository.save(user);
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
@@ -51,13 +53,13 @@ public class UserServiceImpl implements UserService {
      * 로그인
      * */
     @Override
-    public MessageResponseDto Login(String email, String password) {
+    public MessageResponseDto Login(RequestDto dto) {
 
-        User findUser = userRepository.findByEmailOrThrow(email);
-        if (findUser.getEmail().equals(email)) {
+        User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
+        if (findUser.getEmail().equals(dto.getEmail())) {
             throw new DuplicateKeyException("이미 가입된 정보입니다.");
         }
-        return null;
+        return new MessageResponseDto("로그인 성공!");
     }
     /*
      * 202 04 07
@@ -77,12 +79,13 @@ public class UserServiceImpl implements UserService {
      * 예외 수정할것.
      * */
     @Override
-    public void delete(String email, String password) {
+    public  MessageResponseDto delete(String email, String password) {
         User findUser = userRepository.findByEmailOrThrow(email);
         if(!findUser.equals(password)){
             throw new RuntimeException("입력한 패스워드와 다릅니다.");
         }
         userRepository.delete(findUser);
+        return new MessageResponseDto("탈퇴되었습니다.");
     }
 
     @Override
