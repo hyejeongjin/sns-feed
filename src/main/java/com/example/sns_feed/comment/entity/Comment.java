@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 public class Comment extends BaseEntity {
 
     @Id

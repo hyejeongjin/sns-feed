@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User extends BaseEntity {
 
     //test
@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     private String mobileNumber;
 
     @Column(nullable = false)
-    private String brithDate;
+    private String birthDate;
 
     private LocalDateTime deletedAt;
 
@@ -44,17 +44,17 @@ public class User extends BaseEntity {
     * 김형진
     *  생성자 업데이트
     *  */
-   public User(String email, String password, String mobileNumber, String brithDate){
+   public User(String email, String password, String mobileNumber, String birthDate){
        this.email = email;
        this.password = password;
        this.mobileNumber = mobileNumber;
-       this.brithDate = brithDate;
+       this.birthDate = birthDate;
    }
-    public User(String email, String password, String mobileNumber, String brithDate, LocalDateTime deletedAt) {
+    public User(String email, String password, String mobileNumber, String birthDate, LocalDateTime deletedAt) {
         this.email = email;
         this.password = password;
         this.mobileNumber = mobileNumber;
-        this.brithDate = brithDate;
+        this.birthDate = birthDate;
         this.deletedAt = deletedAt;
     }
 }
