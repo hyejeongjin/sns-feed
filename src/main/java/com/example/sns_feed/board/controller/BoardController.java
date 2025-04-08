@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 @Validated
 @RestController
@@ -23,14 +20,16 @@ public class BoardController {
 
     private final BoardService boardService;
 
-//    public ResponseEntity<BoardSaveResponseDto> saveBoard(@Valid @RequestBody BoardRequestDto boardRequestDto, HttpServletRequest request){
-//
-//        HttpSession session = request.getSession();
-//
-//
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.saveBoard());
-//    }
+    @PostMapping
+    public ResponseEntity<BoardSaveResponseDto> saveBoard(@Valid @RequestBody BoardRequestDto boardRequestDto, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("sessionId", 1);
+
+        Long id = (Long) session.getAttribute("sessionId");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.saveBoard(id, boardRequestDto));
+    }
 
 
 }
