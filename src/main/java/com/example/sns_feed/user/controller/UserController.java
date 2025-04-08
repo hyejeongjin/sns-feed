@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 2025 04 08
+ * 양재호
+ * 전제 기능에 session기준 추가해야함(로그인 되었을 경우에 조회가능~)
+ */
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
