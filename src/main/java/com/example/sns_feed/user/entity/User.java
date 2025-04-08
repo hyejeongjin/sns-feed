@@ -57,4 +57,6 @@ public class User extends BaseEntity {
         this.brithDate = brithDate;
         this.deletedAt = deletedAt;
     }
+    // test
+
 }
