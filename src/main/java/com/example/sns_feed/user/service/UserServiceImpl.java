@@ -113,4 +113,12 @@ public class UserServiceImpl implements UserService {
 
         return new ResponseDto(updatedUser);
     }
+
+    @Override
+    public List<ResponseDto> findUsersByEmail(String userName) {
+
+        List<User> findUsers = userRepository.findUserByUserName(userName);
+
+        return findUsers.stream().map(ResponseDto::toDto).toList();
+    }
 }

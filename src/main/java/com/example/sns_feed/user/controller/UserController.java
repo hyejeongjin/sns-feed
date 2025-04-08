@@ -20,10 +20,15 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<ResponseDto>> findUsers(
-            @RequestParam(required = false) String email
+            @RequestParam(required = false) String userName
     ) {
 
+        if(!(userName == null)) {
+            userService.findUsersByEmail(userName);
+        }
+
         List<ResponseDto> users = userService.findUsers();
+
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
