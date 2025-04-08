@@ -29,10 +29,10 @@ public class Board extends BaseEntity{
     private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "boards")
+    @OneToMany(mappedBy = "board")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments = new ArrayList<>();
 
