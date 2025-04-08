@@ -8,3 +8,7 @@ select * from user;
 select * from comment;
 
 select * from board;
+drop table users;
+
+DROP DATABASE sns_feed;
+CREATE DATABASE sns_feed CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
