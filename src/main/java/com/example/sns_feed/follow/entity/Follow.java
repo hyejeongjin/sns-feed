@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name="follow")
+@Table(name="follows")
 @NoArgsConstructor
 public class Follow {
 

@@ -2,6 +2,7 @@ package com.example.sns_feed.user.entity;
 
 import com.example.sns_feed.common.entity.BaseEntity;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -54,14 +55,13 @@ public class User extends BaseEntity {
        this.birthDate = dto.getBirthDate();
    }
 
-
     /**g
      * 2025 04 08
      * 양재호
      * updateUser를 위한 메서드
      */
-   public void updateUser(RequestDto dto) {
-       this.mobileNumber = dto.getMobileNumber();
-   }
+    public void updateUser(RequestDto dto) {
+        this.mobileNumber = dto.getMobileNumber();
+    }
 
 }
