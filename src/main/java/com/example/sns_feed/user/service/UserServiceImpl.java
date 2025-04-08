@@ -1,12 +1,14 @@
 package com.example.sns_feed.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.user.entity.User;
 import com.example.sns_feed.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,14 +34,14 @@ public class UserServiceImpl implements UserService {
      * 가입
      * */
     @Override
-    public MessageResponseDto signup(String email, String password, String mobileNumber, String birthDate) {
+    public MessageResponseDto signup(RequestDto dto) {
 
 
-        User findUser = userRepository.findByEmailOrThrow(email);
-        if(findUser.getEmail().equals(email)){
+        User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
+        if(findUser.getEmail().equals(dto.getEmail())){
             throw new DuplicateKeyException("이미 가입된 정보입니다.");
         }
-        User user = new User(email, password, mobileNumber, birthDate);
+        User user = new User(dto);
         User saveUser = userRepository.save(user);
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
@@ -85,6 +87,11 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(findUser);
     }
 
+    /**
+     * 2025 04 08
+     * 양재호
+     * 전체 유저 조회 기능
+     */
     @Override
     public List<ResponseDto> findUsers() {
 
@@ -92,4 +99,50 @@ public class UserServiceImpl implements UserService {
 
         return findUser.stream().map(ResponseDto::toDto).toList();
     }
+
+    /**
+     * 2025 04 08
+     * 양재호
+     * 전체 유저 조회 기능(QueryString에 userName이 있는 경우)
+     */
+    @Override
+    public List<ResponseDto> findUsersByEmail(String userName) {
+
+        List<User> findUsers = userRepository.findUserByUserName(userName);
+
+        return findUsers.stream().map(ResponseDto::toDto).toList();
+    }
+
+    /**
+     * 2025 04 08
+     * 양재호
+     * 특정 유저 조회 기능
+     */
+    @Override
+    public ResponseDto findUserById(Long id) {
+
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+
+        return new ResponseDto(findUser);
+    }
+
+    /**
+     * 2025 04 08
+     * 양재호
+     * 유저 수정 기능
+     */
+    @Transactional
+    @Override
+    public ResponseDto updateUser(Long id, RequestDto dto) {
+
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+
+        findUser.updateUser(dto);
+
+        User updatedUser = userRepository.save(findUser);
+
+        return new ResponseDto(updatedUser);
+    }
+
+
 }
