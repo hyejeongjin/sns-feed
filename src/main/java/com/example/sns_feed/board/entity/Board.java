@@ -16,8 +16,6 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name="board")
-@NoArgsConstructor
-@RequiredArgsConstructor
 public class Board extends BaseEntity{
 
     @Id
@@ -37,5 +35,15 @@ public class Board extends BaseEntity{
     @OneToMany(mappedBy = "board")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments = new ArrayList<>();
+
+    public Board() {
+
+    }
+
+    public Board(String title, String contents, User user) {
+        this.title = title;
+        this.contents = contents;
+        this.user = user;
+    }
 
 }
