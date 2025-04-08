@@ -1,6 +1,7 @@
 package com.example.sns_feed.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface UserService {
 
 
-    MessageResponseDto signup(String email, String password, String mobileNumber, String birthday);
+    MessageResponseDto signup(RequestDto dto);
 
     MessageResponseDto Login(String email, String password);
 
