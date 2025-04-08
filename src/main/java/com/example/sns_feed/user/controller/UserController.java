@@ -32,14 +32,13 @@ public class UserController {
             @RequestParam(required = false) String userName
     ) {
 
-        if(!(userName == null)) {
-            userService.findUsersByEmail(userName);
+        if (!(userName == null)) {
+            List<ResponseDto> users = userService.findUsersByEmail(userName);
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } else {
+            List<ResponseDto> users = userService.findUsers();
+            return new ResponseEntity<>(users, HttpStatus.OK);
         }
-
-        List<ResponseDto> users = userService.findUsers();
-
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     /**
