@@ -2,7 +2,7 @@ package com.example.sns_feed.comment.entity;
 
 
 import com.example.sns_feed.board.entity.Board;
-import com.example.sns_feed.common.BaseEntity;
+import com.example.sns_feed.common.entity.BaseEntity;
 import com.example.sns_feed.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
