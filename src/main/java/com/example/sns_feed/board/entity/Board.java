@@ -15,7 +15,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name="board")
+@Table(name="boards")
 public class Board extends BaseEntity{
 
     @Id
@@ -32,7 +32,7 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "boards")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments = new ArrayList<>();
 
