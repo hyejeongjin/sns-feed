@@ -12,7 +12,6 @@ public class ResponseDto {
 
     private final LocalDateTime updatedAt;
 
-
     public ResponseDto(User user) {
         this.email = user.getEmail();
         this.updatedAt = user.getUpdatedAt();
