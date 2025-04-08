@@ -40,19 +40,19 @@ public class BoardService {
                                 board.getUpdatedAt());
     }
 
-    @Transactional(readOnly = true)
-    public BoardResponseDto findById(Long id) {
-
-
-        Board board = boardRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        return new BoardResponseDto(
-                            board.getId(),
-                            board.getUser().getUserName(),
-                            board.getTitle(),
-                            board.getContents(),
-                            board.getUpdatedAt());
-    }
+//    @Transactional(readOnly = true)
+//    public BoardResponseDto findById(Long id) {
+//
+//
+//        Board board = boardRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//
+//        return new BoardResponseDto(
+//                            board.getId(),
+//                            board.getUser().getUserName(),
+//                            board.getTitle(),
+//                            board.getContents(),
+//                            board.getUpdatedAt());
+//    }
 
 //    public BoardResponseDto updateBoard(@PathVariable Long id, )
 
