@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Entity
 @Table(name = "comment")
-@NoArgsConstructor
-@RequiredArgsConstructor
 public class Comment extends BaseEntity {
 
     @Id
@@ -21,14 +19,25 @@ public class Comment extends BaseEntity {
     private Long comment_id;
 
     @Column(nullable = false)
-    private String content;
+    private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "board_id")
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Comment() {
+
+    }
+
+    public Comment(String contents, Board board, User user) {
+        this.contents = contents;
+        this.board = board;
+        this.user = user;
+    }
+
 
 }
