@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User extends BaseEntity {
 
     //test
@@ -55,7 +55,7 @@ public class User extends BaseEntity {
    }
 
 
-    /**
+    /**g
      * 2025 04 08
      * 양재호
      * updateUser를 위한 메서드
