@@ -12,24 +12,12 @@ public class ResponseDto {
 
     private final LocalDateTime updatedAt;
 
-
-    /*
-    * 2025 04 07
-    * 상태메세지 출력
-    * */
-//    private String message;
-//    public ResponseDto( String message) {
-//
-//        this.message = message;
-//    }
-
-    public ResponseDto(String email, LocalDateTime updatedAt) {
-        this.email = email;
-        this.updatedAt = updatedAt;
+    public ResponseDto(User user) {
+        this.email = user.getEmail();
+        this.updatedAt = user.getUpdatedAt();
     }
 
-//    public static ResponseDto toDto(User user) {
-//        this.email = user.getEmail();
-//        this.updated_at = user.getUpdatedAt;
-//    }
+    public static ResponseDto toDto(User user) {
+        return new ResponseDto(user);
+    }
 }
