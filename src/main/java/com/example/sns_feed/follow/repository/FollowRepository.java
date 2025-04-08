@@ -21,8 +21,4 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query("select f from Follow f where f.sender.id=:senderId and f.receiver.id =:receiverId")
     Optional<Follow> findBySenderAndReceiver(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
 
-    // 쿼리 메서드는 너무 헷갈림
-    Optional<Follow> findByFollowUserAndFollowingUser(User followUser, User followingUser);
-    List<Follow> findByFollowingUserAndFollowStatus(User user, FollowStatus status); // 나를 팔로우하는 사람들
-    List<Follow> findByFollowUserAndFollowStatus(User user, FollowStatus status);    // 내가 팔로우하는 사람들
 }

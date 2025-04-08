@@ -36,4 +36,8 @@ public class Follow extends BaseEntity {
         this.receiver = receiver;
         this.followStatus = followStatus;
     }
+
+    public void updateStatus(FollowStatus status){
+        this.followStatus = status;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.sns_feed.follow.service;
 
 import com.example.sns_feed.follow.dto.FollowRequestDto;
 import com.example.sns_feed.follow.dto.FollowResponseDto;
+import com.example.sns_feed.follow.dto.RespondFollowRequestDto;
 import com.example.sns_feed.follow.entity.Follow;
 import com.example.sns_feed.follow.enums.FollowStatus;
 import com.example.sns_feed.follow.repository.FollowRepository;
@@ -10,9 +11,6 @@ import com.example.sns_feed.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +42,28 @@ public class FollowService {
         Follow savedFollow = followRepository.save(follow);
 
         return new FollowResponseDto(savedFollow);
+    }
+
+    //팔로우 수락, 거절
+    @Transactional
+    public void respondFollowRequest(RespondFollowRequestDto request) throws IllegalAccessException {
+        Follow follow = followRepository.findById(request.getSenderId()).orElseThrow(()-> new IllegalArgumentException("팔로우 요청 없음"));
+
+        if (!follow.getFollowStatus().equals(FollowStatus.PENDING)){
+            throw new IllegalAccessException("이미 처리했다");
+        }
+
+        if(request.getAccept()){
+            // 요청 수락
+            follow.updateStatus(FollowStatus.ACCEPTED);
+            // follow 수 늘리는 코드
+        } else if (request.getReject()) {
+            // 요청 거절
+            follow.updateStatus(FollowStatus.REJECTED);
+        } else {
+            throw new IllegalAccessException("잘못된 형식");
+        }
+
     }
 
 //    @Transactional

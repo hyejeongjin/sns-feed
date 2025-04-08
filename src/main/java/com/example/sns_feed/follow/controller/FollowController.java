@@ -2,6 +2,7 @@ package com.example.sns_feed.follow.controller;
 
 import com.example.sns_feed.follow.dto.FollowRequestDto;
 import com.example.sns_feed.follow.dto.FollowResponseDto;
+import com.example.sns_feed.follow.dto.RespondFollowRequestDto;
 import com.example.sns_feed.follow.service.FollowService;
 import com.example.sns_feed.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,13 @@ public class FollowController {
 
     // 팔로우 요청
     @PostMapping
-    public FollowResponseDto follow(User userId, @RequestBody FollowRequestDto requestDto) throws IllegalAccessException {
-        return followService.followRequest(requestDto, userId);
+    public FollowResponseDto follow(User user, @RequestBody FollowRequestDto requestDto) throws IllegalAccessException {
+        return followService.followRequest(requestDto, user);
+    }
+
+    // 팔로우 수락/거절
+    @PostMapping("/accept")
+    public void respondFollowAccept(@RequestBody RespondFollowRequestDto request) throws IllegalAccessException {
+        followService.respondFollowRequest(request);
     }
 }
