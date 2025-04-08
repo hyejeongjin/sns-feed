@@ -16,6 +16,11 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String profile;
+
+    @Column(nullable = false)
+    private String userName;
+
     @Column(nullable = false)
     private String email;
 
@@ -29,6 +34,7 @@ public class User extends BaseEntity {
     private String brithDate;
 
     private LocalDateTime deletedAt;
+
 
     public User() {
 
