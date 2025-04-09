@@ -36,12 +36,13 @@ public class UserController {
      * 2025 04 08
      * 김형진
      * 회워 가입
+     *
      * @param dto
      * @return 정상가입 메제지 출력
      */
     @PostMapping("/signup")
     public ResponseEntity<MessageResponseDto> signup(
-            @RequestBody RequestDto dto){
+            @RequestBody RequestDto dto) {
         return new ResponseEntity<>(userService.signup(dto), HttpStatus.OK);
     }
 
@@ -49,62 +50,67 @@ public class UserController {
      * 2025 04 08
      * 김형진
      * 로그인
+     *
      * @param dto
      * @param request
-     * @return  정상로그인 메세지 출력
+     * @return 정상로그인 메세지 출력
      */
     @PostMapping("/login")
-    public ResponseEntity<Map<String,String >> login(
+    public ResponseEntity<Map<String, String>> login(
             @RequestBody RequestDto dto,
-            HttpServletRequest request){
+            HttpServletRequest request) {
 
         UserResponseDto UserResponseDto = userService.login(dto);
 
         HttpSession session = request.getSession();
-        session.setAttribute(Const.LOGIN_USER,UserResponseDto);
+        session.setAttribute(Const.LOGIN_USER, UserResponseDto);
 
-        return new ResponseEntity<>(Map.of("message", "로그인에 성공하였습니다."),HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "로그인에 성공하였습니다."), HttpStatus.OK);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Map<String,String >> logOut(
+    public ResponseEntity<Map<String, String>> logOut(
             HttpServletRequest request
-    ){
+    ) {
         // 로그인하지 않으면 HttpSession이 null로 반환된다.
         HttpSession session = request.getSession(false);
-        if(session != null){
+        if (session != null) {
             session.invalidate();// 해당 세션(데이터)을 삭제한다.
         }
-        return new ResponseEntity<>(Map.of("message", "로그아웃이 정상 처리 되었습니다."),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(Map.of("message", "로그아웃이 정상 처리 되었습니다."), HttpStatus.ACCEPTED);
     }
+
     /**
      * 2025 04 08
      * 김형진
+     *
      * @param dto
      * @return
      */
     @PatchMapping("/updatePassword")
-    public ResponseEntity<Map<String,String>>updatePasswrd(
+    public ResponseEntity<Map<String, String>> updatePasswrd(
             @RequestBody UpdatePasswordRequestDto dto,
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser){
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
         userService.updatePassword(dto, loginUser.getId());
-        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."),HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
 
     /**
      * 2025 04 07
      * 김형진
+     *
      * @param dto
      * @return
      */
     @DeleteMapping("/withdraw")
-    public ResponseEntity<Map<String,String>>delete(
+    public ResponseEntity<Map<String, String>> delete(
             @RequestBody RequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
-    ){
+    ) {
         userService.delete(loginUser, dto.getPassword());
-        return new ResponseEntity<>(Map.of("message", "회원 탈퇴 성공하였습니다."),HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "회원 탈퇴 성공하였습니다."), HttpStatus.OK);
     }
+
     /**
      * 2025 04 08
      * 양재호
@@ -131,9 +137,16 @@ public class UserController {
      * 특정 유저 조회 기능
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto> findUserById(@PathVariable Long id) {
+    public ResponseEntity<ResponseDto> findUserById(
+            @PathVariable Long id,
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
+    ) {
 
-        ResponseDto findUser = userService.findUserById(id);
+        if (id != loginUser.getId()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ResponseDto findUser = userService.findUserById(loginUser.getId());
 
         return new ResponseEntity<>(findUser, HttpStatus.OK);
     }
@@ -147,10 +160,15 @@ public class UserController {
     @PatchMapping("/{id}")
     public ResponseEntity<ResponseDto> updateUser(
             @PathVariable Long id,
-            @RequestBody RequestDto dto
+            @RequestBody RequestDto dto,
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
 
-        ResponseDto updateUser = userService.updateUser(id, dto);
+        if (id != loginUser.getId()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        ResponseDto updateUser = userService.updateUser(loginUser.getId(), dto);
 
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
