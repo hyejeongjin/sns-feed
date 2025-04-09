@@ -3,12 +3,11 @@ package com.example.sns_feed.domain.user.dto.requestdto;
 import lombok.Getter;
 
 @Getter
-public class LoginRequestDto {
-    private final String email;
+public class WithdrawRequestDto {
+
     private final String password;
 
-    public LoginRequestDto(String email, String password) {
-        this.email = email;
+    public WithdrawRequestDto(String password) {
         this.password = password;
     }
 }
