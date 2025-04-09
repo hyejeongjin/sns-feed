@@ -1,9 +1,12 @@
 package com.example.sns_feed.domain.comment.controller;
 
+import com.example.sns_feed.comment.dto.CommentRequestDto;
+import com.example.sns_feed.comment.dto.CommentResponseDto;
+import com.example.sns_feed.comment.service.CommentService;
+import com.example.sns_feed.common.Const;
 import com.example.sns_feed.domain.comment.dto.CommentRequestDto;
 import com.example.sns_feed.domain.comment.dto.CommentResponseDto;
 import com.example.sns_feed.domain.comment.service.CommentService;
-import com.example.sns_feed.common.Const;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -2,10 +2,12 @@ package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
-import com.example.sns_feed.domain.user.dto.requestdto.*;
+import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +96,7 @@ public class UserController {
 
     /**
      * 2025 04 07
-     * 김형진(
+     * 김형진
      * @param dto
      * @return
      */
