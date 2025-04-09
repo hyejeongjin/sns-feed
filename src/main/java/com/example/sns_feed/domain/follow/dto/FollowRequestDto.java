@@ -1,8 +1,7 @@
 package com.example.sns_feed.domain.follow.dto;
 
-import com.example.sns_feed.follow.enums.FollowStatus;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

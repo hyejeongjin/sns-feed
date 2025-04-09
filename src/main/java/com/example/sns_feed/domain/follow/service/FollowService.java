@@ -1,16 +1,21 @@
-package com.example.sns_feed.follow.service;
+package com.example.sns_feed.domain.follow.service;
 
-import com.example.sns_feed.follow.dto.FollowRequestDto;
-import com.example.sns_feed.follow.dto.FollowResponseDto;
-import com.example.sns_feed.follow.dto.RespondFollowRequestDto;
-import com.example.sns_feed.follow.entity.Follow;
-import com.example.sns_feed.follow.enums.FollowStatus;
-import com.example.sns_feed.follow.repository.FollowRepository;
-import com.example.sns_feed.user.entity.User;
-import com.example.sns_feed.user.repository.UserRepository;
+
+import com.example.sns_feed.domain.follow.dto.FollowListDto;
+import com.example.sns_feed.domain.follow.dto.FollowRequestDto;
+import com.example.sns_feed.domain.follow.dto.FollowResponseDto;
+import com.example.sns_feed.domain.follow.dto.RespondFollowRequestDto;
+import com.example.sns_feed.domain.follow.entity.Follow;
+import com.example.sns_feed.domain.follow.enums.FollowStatus;
+import com.example.sns_feed.domain.follow.repository.FollowRepository;
+import com.example.sns_feed.domain.user.entity.User;
+import com.example.sns_feed.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,17 +32,18 @@ public class FollowService {
 
         // 자기 자신한테 신청 못하도록
         if (receiver.getId().equals(user.getId())){
-            throw new IllegalAccessException("나 한테 친구신청 못함");
+            throw new IllegalAccessException("자신에게는 요청이 안됩니다.");
         }
 
         // 팔로우 신청 했던 사람한테 못하도록
         if (followRepository.pendingRequest(user, receiver)){
-            throw new IllegalAccessException("이미 요청 보냄");
+            throw new IllegalAccessException("이미 요청 보낸 유저 입니다.");
         }
-
+        // 이미 친구인 상태인 유저한테 못하도록
         if (followRepository.alreadyFollowing(user, receiver)) {
             throw new IllegalAccessException("이미 친구입니다.");
         }
+
 
         FollowStatus status = FollowStatus.PENDING;
 
@@ -79,5 +85,8 @@ public class FollowService {
     }
 
 
-
+    public List<FollowListDto> getMyfriends(Long senderId) {
+        List<User> userList = followRepository.findAcceptedFollowingsBySenderId(senderId);
+        return userList.stream().map(user -> new FollowListDto(user.getId(),user.getEmail())).toList();
+    }
 }

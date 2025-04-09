@@ -1,11 +1,13 @@
 package com.example.sns_feed.domain.user.service;
 
+
+
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
-import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public interface UserService {
 
     boolean existsByEmail(String email);
 
-    MessageResponseDto signup(@RequestBody  RequestDto dto);
+    MessageResponseDto signup(@RequestBody RequestDto dto);
 
     UserResponseDto login(@RequestBody LoginRequestDto dto);
 

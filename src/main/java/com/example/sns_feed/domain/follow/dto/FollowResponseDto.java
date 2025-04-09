@@ -1,9 +1,8 @@
 package com.example.sns_feed.domain.follow.dto;
 
-import com.example.sns_feed.follow.entity.Follow;
-import com.example.sns_feed.follow.enums.FollowStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+
+import com.example.sns_feed.domain.follow.entity.Follow;
+import com.example.sns_feed.domain.follow.enums.FollowStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

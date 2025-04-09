@@ -1,8 +1,9 @@
-package com.example.sns_feed.follow.entity;
+package com.example.sns_feed.domain.follow.entity;
+
 
 import com.example.sns_feed.common.entity.BaseEntity;
-import com.example.sns_feed.follow.enums.FollowStatus;
-import com.example.sns_feed.user.entity.User;
+import com.example.sns_feed.domain.follow.enums.FollowStatus;
+import com.example.sns_feed.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

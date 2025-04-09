@@ -1,17 +1,19 @@
-package com.example.sns_feed.follow.controller;
+package com.example.sns_feed.domain.follow.controller;
+
 
 import com.example.sns_feed.common.Const;
-import com.example.sns_feed.follow.dto.FollowListDto;
-import com.example.sns_feed.follow.dto.FollowRequestDto;
-import com.example.sns_feed.follow.dto.FollowResponseDto;
-import com.example.sns_feed.follow.dto.RespondFollowRequestDto;
-import com.example.sns_feed.follow.service.FollowService;
-import com.example.sns_feed.user.dto.responsedto.ResponseDto;
-import com.example.sns_feed.user.dto.responsedto.UserResponseDto;
-import com.example.sns_feed.user.entity.User;
+import com.example.sns_feed.domain.follow.dto.FollowListDto;
+import com.example.sns_feed.domain.follow.dto.FollowRequestDto;
+import com.example.sns_feed.domain.follow.dto.FollowResponseDto;
+import com.example.sns_feed.domain.follow.dto.RespondFollowRequestDto;
+import com.example.sns_feed.domain.follow.service.FollowService;
+import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/follows")
@@ -44,9 +46,16 @@ public class FollowController {
         followService.respondFollowRequest(id, request, loginUser.getId());
     }
 
-    // 친구 목록
-//    @GetMapping
-//    public FollowListDto friends(
-//
-//    )
+     // 나랑 팔로우한 유저 목록
+    @GetMapping
+    public List<FollowListDto> friends(HttpSession session) throws IllegalAccessException{
+        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
+        if (loginUser == null){
+            throw new IllegalAccessException("로그인이 필요합니다.");
+        }
+
+        return followService.getMyfriends(loginUser.getId());
+    }
+
+
 }
