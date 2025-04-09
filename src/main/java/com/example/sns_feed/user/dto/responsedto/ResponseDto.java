@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ResponseDto {
+public class  ResponseDto {
 
     private final String email;
 
