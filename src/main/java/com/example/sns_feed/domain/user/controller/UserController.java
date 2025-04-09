@@ -4,6 +4,7 @@ import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
@@ -133,15 +134,10 @@ public class UserController {
      */
     @GetMapping("/users/{id}")
     public ResponseEntity<ResponseDto> findUserById(
-            @PathVariable Long id,
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
+            @PathVariable Long id
     ) {
 
-        if (id != loginUser.getId()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        ResponseDto findUser = userService.findUserById(loginUser.getId());
+        ResponseDto findUser = userService.findUserById(id);
 
         return new ResponseEntity<>(findUser, HttpStatus.OK);
     }
@@ -155,7 +151,7 @@ public class UserController {
     @PatchMapping("/users/{id}")
     public ResponseEntity<ResponseDto> updateUser(
             @PathVariable Long id,
-            @RequestBody RequestDto dto,
+            @RequestBody UpdateUserRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
 
