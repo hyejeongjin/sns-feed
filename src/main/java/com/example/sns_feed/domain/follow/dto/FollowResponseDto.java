@@ -1,12 +1,21 @@
 package com.example.sns_feed.domain.follow.dto;
 
-import lombok.AllArgsConstructor;
+
+import com.example.sns_feed.domain.follow.entity.Follow;
+import com.example.sns_feed.domain.follow.enums.FollowStatus;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FollowResponseDto {
-    private String message;
-    private Long followerId;
-    private Long followedId;
+    private final Long senderId;
+    private final Long receiverId;
+    private final FollowStatus status;
+
+    public FollowResponseDto(Follow follow) {
+        this.senderId = follow.getSender().getId();
+        this.receiverId = follow.getReceiver().getId();
+        this.status = follow.getFollowStatus();
+    }
 }
