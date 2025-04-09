@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(dto);
         user.updatePassword( passwordEncoder.encode(user.getPassword()));
-        User saveUser = userRepository.save(user);
+        userRepository.save(user);
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
     }
@@ -96,9 +96,9 @@ public class UserServiceImpl implements UserService {
         if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
            throw new CustomException(ErrorCode.SAME_PASSWORD);
         }
-        User user = findUser;
-        user.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
-        userRepository.save(user);
+
+        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(findUser);
     }
 
     /*
