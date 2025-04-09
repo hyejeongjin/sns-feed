@@ -2,8 +2,11 @@ package com.example.sns_feed.domain.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
+import com.example.sns_feed.common.exception.CustomException;
+import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
@@ -143,13 +146,22 @@ public class UserServiceImpl implements UserService {
      * 2025 04 08
      * 양재호
      * 유저 수정 기능
+     * 예외처리
+     * - 비밀번호 불일치
+     * - 비밀번호 형식 올바르지 않은 경우
+     * - 동일한 비밀번호로 수정 시
      */
     @Transactional
     @Override
-    public ResponseDto updateUser(Long id, RequestDto dto) {
+    public ResponseDto updateUser(Long id, UpdateUserRequestDto dto) {
 
         User findUser = userRepository.findUserByIdOrElseThrow(id);
 
+        if(dto.getPassword() != null) {
+            if (!(findUser.getPassword().equalsIgnoreCase(dto.getPassword()))) {
+                throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
+            }
+        }
         findUser.updateUser(dto);
 
         User updatedUser = userRepository.save(findUser);
