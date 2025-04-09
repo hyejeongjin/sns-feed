@@ -1,7 +1,8 @@
 package com.example.sns_feed.domain.comment.service;
 
-import com.example.sns_feed.comment.dto.CommentResponseDto;
-import com.example.sns_feed.comment.repository.CommentRepository;
+
+import com.example.sns_feed.domain.comment.dto.CommentResponseDto;
+import com.example.sns_feed.domain.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CommentService {
     private final CommentRepository commentRepository;
 
-    public CommentResponseDto save(Long userId, Long boardId, String contents) {
+    public CommentResponseDto save(Long userId, Long boardId, String content) {
 
 
 

@@ -2,13 +2,13 @@ package com.example.sns_feed.domain.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
-import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;

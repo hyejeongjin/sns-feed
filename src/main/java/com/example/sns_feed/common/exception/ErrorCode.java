@@ -19,10 +19,12 @@ public enum ErrorCode {
 
 
     //User
-    USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다.");
+    USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다."),
 
     //Board
+    BOARD_NOT_FOUND(404,"Not Found","B001","해당 게시글 번호가 존재하지 않습니다."),
 
+    BOARD_UNAUTHORIZED(401,"Unauthorized","B002","게시글 작성자만 수정/삭제 할 수 있습니다.");
 
     //Comment
 
