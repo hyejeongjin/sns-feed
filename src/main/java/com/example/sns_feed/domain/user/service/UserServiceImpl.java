@@ -2,13 +2,13 @@ package com.example.sns_feed.domain.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
-import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
         if(existsByEmail(dto.getEmail())){
             throw new DuplicateKeyException("이미 가입되었던 정보입니다.");
         }
+
         User user = new User(dto);
         user.updatePassword( passwordEncoder.encode(user.getPassword()));
         User saveUser = userRepository.save(user);
@@ -67,9 +68,11 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto login(LoginRequestDto dto) {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
+
         if(findUser.getDeletedAt() != null){
             throw new RuntimeException("로그인이 불가능한 아이디 비밀 번호 입니다.");
         }
+
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
             // 일벽한 비밀번호와 일치하지 않습니다.
         }
@@ -106,6 +109,7 @@ public class UserServiceImpl implements UserService {
             return new MessageResponseDto("입력한 비밀번호와 다릅니다.");
         }
         user.updatedeletedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
         userRepository.save(user);
 
         return new MessageResponseDto("탈퇴 되었습니다.");

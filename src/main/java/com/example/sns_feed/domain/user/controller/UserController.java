@@ -7,7 +7,7 @@ import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
-import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -70,8 +70,10 @@ public class UserController {
     public ResponseEntity<Map<String, String>> logOut(
             HttpServletRequest request
     ) {
+
         // 로그인하지 않으면 HttpSession이 null로 반환된다.
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.invalidate();// 해당 세션(데이터)을 삭제한다.
         }

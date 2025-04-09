@@ -1,7 +1,8 @@
 package com.example.sns_feed.domain.comment.service;
 
-import com.example.sns_feed.comment.dto.CommentResponseDto;
-import com.example.sns_feed.comment.repository.CommentRepository;
+import com.example.sns_feed.domain.comment.dto.CommentResponseDto;
+import com.example.sns_feed.domain.comment.dto.CommentResponseDto;
+import com.example.sns_feed.domain.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
