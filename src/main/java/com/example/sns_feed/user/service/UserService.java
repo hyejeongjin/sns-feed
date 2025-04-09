@@ -1,6 +1,7 @@
 package com.example.sns_feed.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
@@ -16,7 +17,7 @@ public interface UserService {
 
     MessageResponseDto signup(@RequestBody  RequestDto dto);
 
-    UserResponseDto login(@RequestBody RequestDto dto);
+    UserResponseDto login(@RequestBody LoginRequestDto dto);
 
     MessageResponseDto updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
 

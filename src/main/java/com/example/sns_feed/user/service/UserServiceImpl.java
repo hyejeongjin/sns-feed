@@ -2,6 +2,7 @@ package com.example.sns_feed.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
+import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
      * 로그인
      * */
     @Override
-    public UserResponseDto login(RequestDto dto) {
+    public UserResponseDto login(LoginRequestDto dto) {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){

@@ -2,6 +2,7 @@ package com.example.sns_feed.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
@@ -25,7 +26,6 @@ import java.util.Map;
  * 전제 기능에 session기준 추가해야함(로그인 되었을 경우에 조회가능~)
  */
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -55,16 +55,19 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String,String >> login(
-            @RequestBody RequestDto dto,
+            @RequestBody LoginRequestDto dto,
             HttpServletRequest request){
 
+        //이전에 탈퇴했던 회원인가?
         UserResponseDto UserResponseDto = userService.login(dto);
-
         HttpSession session = request.getSession();
         session.setAttribute(Const.LOGIN_USER,UserResponseDto);
 
         return new ResponseEntity<>(Map.of("message", "로그인에 성공하였습니다."),HttpStatus.OK);
     }
+
+
+
 
     @PostMapping("/logout")
     public ResponseEntity<Map<String,String >> logOut(
