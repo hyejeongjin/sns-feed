@@ -2,8 +2,11 @@ package com.example.sns_feed.domain.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
+import com.example.sns_feed.common.exception.CustomException;
+import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
@@ -14,6 +17,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -45,7 +50,7 @@ public class UserServiceImpl implements UserService {
             RequestDto dto) {
 
         if(existsByEmail(dto.getEmail())){
-            throw new DuplicateKeyException("이미 가입되었던 정보입니다.");
+            throw new CustomException(ErrorCode.INVALID_EMAIL, "이미 가입되었던 정보입니다.");
         }
 
         User user = new User(dto);
