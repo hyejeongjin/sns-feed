@@ -38,16 +38,16 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(boardService.saveBoard(loginUser.getId(), boardRequestDto));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<BoardPageResponseDto>> findAllPage(
-            @RequestParam(required = false) String titleSearch,
-            @RequestParam(required = false) Boolean isFollowingBoard,
-            @PageableDefault(page = 1,size=10, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
-
-        Page<BoardPageResponseDto> pageResult = boardService.findAllPage(titleSearch,isFollowingBoard,pageable);
-
-        return ResponseEntity.ok(pageResult);
-    }
+//    @GetMapping
+//    public ResponseEntity<Page<BoardPageResponseDto>> findAllPage(
+//            @RequestParam(required = false) String titleSearch,
+//            @RequestParam(required = false) Boolean isFollowingBoard,
+//            @PageableDefault(page = 1,size=10, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
+//
+//        Page<BoardPageResponseDto> pageResult = boardService.findAllPage(titleSearch,isFollowingBoard,pageable);
+//
+//        return ResponseEntity.ok(pageResult);
+//    }
 
 
 
