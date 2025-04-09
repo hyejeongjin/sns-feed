@@ -122,7 +122,7 @@ public class UserController {
     ) {
 
         if (!(userName == null)) {
-            List<ResponseDto> users = userService.findUsersByEmail(userName);
+            List<ResponseDto> users = userService.findUsersByUserName(userName);
             return new ResponseEntity<>(users, HttpStatus.OK);
         } else {
             List<ResponseDto> users = userService.findUsers();

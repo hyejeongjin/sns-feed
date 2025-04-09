@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
      * 전체 유저 조회 기능(QueryString에 userName이 있는 경우)
      */
     @Override
-    public List<ResponseDto> findUsersByEmail(String userName) {
+    public List<ResponseDto> findUsersByUserName(String userName) {
 
         List<User> findUsers = userRepository.findUserByUserName(userName);
 
