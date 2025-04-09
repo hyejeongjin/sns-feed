@@ -9,15 +9,11 @@ public class UpdateUserRequestDto {
 
     private final String email;
 
-
-    private final String password;
-
     private final String mobileNumber;
 
     public UpdateUserRequestDto(String profile, String email, String password, String mobileNumber) {
         this.profile = profile;
         this.email = email;
-        this.password = password;
         this.mobileNumber = mobileNumber;
     }
 }
