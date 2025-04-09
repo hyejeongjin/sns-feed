@@ -16,7 +16,7 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE(400, "Bad Request", "C005", "유효하지 않은 타입의 값입니다."),
 
     //Auth
-
+    INVALID_EMAIL(400, "Bad Request", "A001", "이미 가입된 이메일입니다."),
 
     //User
     USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다."),
