@@ -6,10 +6,10 @@ import lombok.Getter;
 public class CommentResponseDto {
     private final Long id;
 
-    private final String contents;
+    private final String content;
 
-    public CommentResponseDto(Long id, String contents) {
+    public CommentResponseDto(Long id, String content) {
         this.id = id;
-        this.contents = contents;
+        this.content = content;
     }
 }

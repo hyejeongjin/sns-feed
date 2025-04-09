@@ -17,7 +17,7 @@ public class BoardResponseDto {
 
     private final String title;
 
-    private final String contents;
+    private final String content;
 
     private final LocalDateTime updatedAt;
 

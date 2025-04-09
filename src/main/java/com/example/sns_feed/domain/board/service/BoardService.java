@@ -24,7 +24,7 @@ public class BoardService {
 
         User user = userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Board board = new Board(dto.getTitle(), dto.getContents(), user);
+        Board board = new Board(dto.getTitle(), dto.getContent(), user);
 
         boardRepository.save(board);
 
@@ -32,7 +32,7 @@ public class BoardService {
                                 board.getId(),
                                 user.getUserName(),
                                 board.getTitle(),
-                                board.getContents(),
+                                board.getContent(),
                                 board.getCreateAt(),
                                 board.getUpdatedAt());
     }
