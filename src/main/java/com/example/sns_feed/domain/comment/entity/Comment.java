@@ -17,7 +17,7 @@ public class Comment extends BaseEntity {
     private Long comment_id;
 
     @Column(nullable = false)
-    private String contents;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
@@ -31,8 +31,8 @@ public class Comment extends BaseEntity {
 
     }
 
-    public Comment(String contents, Board board, User user) {
-        this.contents = contents;
+    public Comment(String content, Board board, User user) {
+        this.content = content;
         this.board = board;
         this.user = user;
     }

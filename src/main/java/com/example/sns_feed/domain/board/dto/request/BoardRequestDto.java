@@ -15,6 +15,6 @@ public class BoardRequestDto {
 
     @NotBlank(message = "제목을 입력해주세요.")
     @Size(max=100, message = "게시글 내용은 100자 이내로 작성해주세요.")
-    private final String contents;
+    private final String content;
 
 }
