@@ -1,18 +1,17 @@
 package com.example.sns_feed.user.service;
 
-import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
+import com.example.sns_feed.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.user.entity.User;
 import com.example.sns_feed.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -22,20 +21,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-
-    /*
-    * 202 04 08
-    * 김형진
-    * 로그인 체크
-    * */
-    @Override
-    public String getEmail(@SessionAttribute(name = Const.LOGIN_USER, required = false) ResponseDto checked) {
-        if(checked.getEmail() == null){
-            //예외 처리
-        }
-        return checked.getEmail();
-    }
 
     /**
      * 2025 04 08
@@ -53,7 +38,6 @@ public class UserServiceImpl implements UserService {
      * 김형진
      * 가입
      * */
-    @Transactional
     @Override
     public MessageResponseDto signup(
             RequestDto dto) {
@@ -73,13 +57,13 @@ public class UserServiceImpl implements UserService {
      * 로그인
      * */
     @Override
-    public ResponseDto login(RequestDto dto) {
+    public UserResponseDto login(RequestDto dto) {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
         //return new MessageResponseDto("이");
         }
-        return new ResponseDto(findUser);
+        return new UserResponseDto(findUser.getId());
     }
     /*
      * 202 04 07
@@ -87,9 +71,9 @@ public class UserServiceImpl implements UserService {
      * 비밀번호 수정
      * */
     @Override
-    public MessageResponseDto updatePassword(UpdatePasswordRequestDto dto, String email ) {
+    public MessageResponseDto updatePassword(UpdatePasswordRequestDto dto, Long id) {
 
-        User findUser = userRepository.findByEmailOrThrow(email);
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
         if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
             //return new MessageResponseDto("이");
         }
@@ -105,9 +89,9 @@ public class UserServiceImpl implements UserService {
      * 예외 수정할것.
      * */
     @Override
-    public  MessageResponseDto delete(String email, String password) {
+    public  MessageResponseDto delete(UserResponseDto loginUser, String password) {
 
-        User user = userRepository.findByEmailOrThrow(email);
+        User user = userRepository.findUserByIdOrElseThrow(loginUser.getId());
         if (!passwordEncoder.matches( password, user.getPassword())){
             return new MessageResponseDto("탈퇴 되었습니다.");
         }
