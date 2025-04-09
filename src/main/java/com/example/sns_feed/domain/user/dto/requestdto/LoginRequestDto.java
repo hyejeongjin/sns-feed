@@ -1,4 +1,4 @@
-package com.example.sns_feed.user.dto.requestdto;
+package com.example.sns_feed.domain.user.dto.requestdto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
