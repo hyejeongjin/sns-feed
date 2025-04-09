@@ -33,8 +33,12 @@ public class CommentController {
 
     }
 
-    /*@GetMapping("/boards/{boardId}/comments")
-    public ResponseEntity<List<CommentResponseDto>>*/
+    @GetMapping("/boards/{boardId}/comments")
+    public ResponseEntity<List<CommentResponseDto>> findByBoard(@PathVariable Long boardId){
+        List<CommentResponseDto> commentResponseDtoList = commentService.findByBoard(boardId);
+
+        return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
+    }
 
 
 }
