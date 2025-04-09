@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
-            // 일벽한 비밀번호와 일치하지 않습니다.
+            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
         return new UserResponseDto(findUser.getId());
     }
