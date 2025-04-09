@@ -17,16 +17,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     List<User> findByUserName(String userName);
 
-
-    default User findByEmailOrThrow(String Email){
+        default User findByEmailOrThrow(String Email){
         return findByEmail(Email).orElseThrow(()-> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
     }
-
-    default User findByEmailOrThrow(String Email, String password){
-        return findByEmail(Email).filter(User-> User.getPassword().equals(password))
-                .orElseThrow(() -> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
-    }
-
     default User findUserByIdOrElseThrow(Long id) {
         return findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -34,4 +27,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
     default List<User> findUserByUserName(String userName) {
         return findByUserName(userName);
     }
+
+//    Optional<User> findByEmail(String email);
+//    default User findByIdOrThrow(Long id, String password){
+//        return findById(id).filter(User-> User.getPassword().equals(password))
+//                .orElseThrow(() -> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
+//    }
+//    default User findByEmailOrThrow(String Email){
+//        return findByEmail(Email).orElseThrow(()-> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
+//    }
+//
+//    default User findByEmailOrThrow(String Email, String password){
+//        return findByEmail(Email).filter(User-> User.getPassword().equals(password))
+//                .orElseThrow(() -> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
+//    }
+
 }
