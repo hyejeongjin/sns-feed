@@ -11,10 +11,14 @@ import com.example.sns_feed.user.entity.User;
 import com.example.sns_feed.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +38,7 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email){
         return userRepository.findByEmail(email).isPresent();
     }
+
     /*
      * 202 04 07
      * 김형진
@@ -42,8 +47,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public MessageResponseDto signup(
             RequestDto dto) {
+
         if(existsByEmail(dto.getEmail())){
-            throw new DuplicateKeyException("이미 가입된 정보입니다.");
+            throw new DuplicateKeyException("이미 가입되었던 정보입니다.");
         }
         User user = new User(dto);
         user.updatePassword( passwordEncoder.encode(user.getPassword()));
@@ -61,8 +67,11 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto login(LoginRequestDto dto) {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
+        if(findUser.getDeletedAt() != null){
+            throw new RuntimeException("로그인이 불가능한 아이디 비밀 번호 입니다.");
+        }
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
-        //return new MessageResponseDto("이");
+            // 일벽한 비밀번호와 일치하지 않습니다.
         }
         return new UserResponseDto(findUser.getId());
     }
@@ -90,12 +99,14 @@ public class UserServiceImpl implements UserService {
      * 예외 수정할것.
      * */
     @Override
-    public  MessageResponseDto delete(UserResponseDto loginUser, String password) {
+    public  MessageResponseDto delete(UserResponseDto  loginUser, String password) {
 
         User user = userRepository.findUserByIdOrElseThrow(loginUser.getId());
         if (!passwordEncoder.matches( password, user.getPassword())){
-            return new MessageResponseDto("탈퇴 되었습니다.");
+            return new MessageResponseDto("입력한 비밀번호와 다릅니다.");
         }
+        user.updatedeletedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        userRepository.save(user);
 
         return new MessageResponseDto("탈퇴 되었습니다.");
     }

@@ -25,6 +25,7 @@ import java.util.Map;
  * 양재호
  * 전제 기능에 session기준 추가해야함(로그인 되었을 경우에 조회가능~)
  */
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -96,7 +97,7 @@ public class UserController {
 
     /**
      * 2025 04 07
-     * 김형진
+     * 김형진(
      * @param dto
      * @return
      */
