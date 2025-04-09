@@ -92,27 +92,29 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-    @Transactional(readOnly = true)
-    public Page<BoardPageResponseDto> findAllPage(String titleSearch, Boolean isFollowingBoard, Pageable pageable) {
-
-        Page<Board> boardPage;
-
+//    @Transactional(readOnly = true)
+//    public Page<BoardPageResponseDto> findAllPage(String titleSearch, Boolean isFollowingBoard, Pageable pageable) {
+//
+//        Page<Board> boardPage;
+//
 //        if(titleSearch == null && isFollowingBoard == null) {
-//            boardPage = boardRepository.findAll(pageable);
+//            boardPage = boardRepository.findAllCount(pageable);
 //        }
 //
 //        if(titleSearch!=null&&isFollowingBoard==null) {
-//            boardPage = boardRepository.findBoaByTitleIsLike(titleSearch,pageable);
+//            boardPage = boardRepository.findByTitleIsLike(titleSearch,pageable);
 //        }
 //
 //        if(titleSearch==null&&isFollowingBoard!=null) {
-//            boardRepository.findBy
+//            boardRepository.find
 //        }
-
-
-
-        return null;
-    }
+//
+//        boardRepository.findBoardPageWithCommentCount(pageable);
+//
+//
+//
+//        return null;
+//    }
 
 
 
