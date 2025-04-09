@@ -6,8 +6,6 @@ import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Entity
 @Table(name = "users")

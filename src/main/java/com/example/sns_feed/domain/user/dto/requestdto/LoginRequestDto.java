@@ -1,7 +1,6 @@
 package com.example.sns_feed.domain.user.dto.requestdto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class LoginRequestDto {
