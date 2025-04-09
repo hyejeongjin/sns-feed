@@ -19,7 +19,8 @@ public enum ErrorCode {
 
 
     //User
-    USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다.");
+    USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다."),
+    PASSWORD_MISMATCH(400, "Bad Request", "U002", "패스워드가 일치하지 않습니다.");
 
     //Board
 
