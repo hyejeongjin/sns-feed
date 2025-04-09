@@ -5,25 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class RequestDto {
 
     private final String profile;
 
     private final String userName;
 
-    private String profile;
+    private final String email;
 
-    private String userName;
+    private final String password;
 
-    private String email;
-
-    private String password;
-
-    private String mobileNumber;
-
-    private String brithDate;
+    private final String mobileNumber;
 
     private final String birthDate;
 
