@@ -1,7 +1,10 @@
 package com.example.sns_feed.user.service;
 
+import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.common.PasswordEncoder;
 import com.example.sns_feed.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.user.entity.User;
 import com.example.sns_feed.user.repository.UserRepository;
@@ -9,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
@@ -19,49 +21,65 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     /*
-    * 202 04 07
+    * 202 04 08
     * 김형진
     * 로그인 체크
     * */
-//    public Long userId(@SessionAttribute(name = Const.LOGIN_USER, required = false) MessageResponseDto checked) {
-//        if(checked.)
-//        return 0L;
-//    }
-    /*
-     * 202 04 07
-     * 김형진
-     * 가입
-     * */
     @Override
-    public MessageResponseDto signup( RequestDto dto) {
-        if(existsByEmail(dto.getEmail())){
-            throw new DuplicateKeyException("이미 가입된 정보입니다.");
+    public String getEmail(@SessionAttribute(name = Const.LOGIN_USER, required = false) ResponseDto checked) {
+        if(checked.getEmail() == null){
+            //예외 처리
         }
-        User user = new User(dto);
-        User saveUser = userRepository.save(user);
-        //가입 완료 메세지를 보낸다.
-        return new MessageResponseDto("가입 완료 되었습니다.");
+        return checked.getEmail();
     }
+
+    /**
+     * 2025 04 08
+     *  김형진
+     *  해당 가입정보가 있는가?
+     * @param email String data
+     * @return bool
+     */
+
     public boolean existsByEmail(String email){
         return userRepository.findByEmail(email).isPresent();
     }
     /*
      * 202 04 07
      * 김형진
+     * 가입
+     * */
+    @Transactional
+    @Override
+    public MessageResponseDto signup(
+            RequestDto dto) {
+        if(existsByEmail(dto.getEmail())){
+            throw new DuplicateKeyException("이미 가입된 정보입니다.");
+        }
+        User user = new User(dto);
+        user.updatePassword( passwordEncoder.encode(user.getPassword()));
+        User saveUser = userRepository.save(user);
+        //가입 완료 메세지를 보낸다.
+        return new MessageResponseDto("가입 완료 되었습니다.");
+    }
+
+    /*
+     * 202 04 07
+     * 김형진
      * 로그인
      * */
     @Override
-    public MessageResponseDto Login(RequestDto dto) {
+    public ResponseDto login(RequestDto dto) {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
-        //세션에서 확인하기.
-        if (findUser.getEmail().equals(dto.getEmail())) {
-            throw new DuplicateKeyException("이미 가입된 정보입니다.");
+        if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
+        //return new MessageResponseDto("이");
         }
-        return new MessageResponseDto("로그인 성공!");
+        return new ResponseDto(findUser);
     }
     /*
      * 202 04 07
@@ -69,10 +87,16 @@ public class UserServiceImpl implements UserService {
      * 비밀번호 수정
      * */
     @Override
-    public ResponseDto findpassword(String email) {
-        //
+    public MessageResponseDto updatePassword(UpdatePasswordRequestDto dto, String email ) {
+
         User findUser = userRepository.findByEmailOrThrow(email);
-        return null;
+        if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
+            //return new MessageResponseDto("이");
+        }
+        User user = findUser;
+        user.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(user);
+        return new MessageResponseDto("성공적으로 수정했습니다.");
     }
     /*
      * 202 04 07
@@ -82,12 +106,13 @@ public class UserServiceImpl implements UserService {
      * */
     @Override
     public  MessageResponseDto delete(String email, String password) {
-        User findUser = userRepository.findByEmailOrThrow(email);
-        if(!findUser.equals(password)){
-            throw new RuntimeException("입력한 패스워드와 다릅니다.");
+
+        User user = userRepository.findByEmailOrThrow(email);
+        if (!passwordEncoder.matches( password, user.getPassword())){
+            return new MessageResponseDto("탈퇴 되었습니다.");
         }
-        userRepository.delete(findUser);
-        return new MessageResponseDto("탈퇴되었습니다.");
+
+        return new MessageResponseDto("탈퇴 되었습니다.");
     }
 
     /**
@@ -146,6 +171,4 @@ public class UserServiceImpl implements UserService {
 
         return new ResponseDto(updatedUser);
     }
-
-
 }

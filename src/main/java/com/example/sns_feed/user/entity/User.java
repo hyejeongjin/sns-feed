@@ -53,8 +53,7 @@ public class User extends BaseEntity {
        this.mobileNumber = dto.getMobileNumber();
        this.birthDate = dto.getBirthDate();
    }
-
-    /**g
+    /**
      * 2025 04 08
      * 양재호
      * updateUser를 위한 메서드
@@ -62,5 +61,7 @@ public class User extends BaseEntity {
     public void updateUser(RequestDto dto) {
         this.mobileNumber = dto.getMobileNumber();
     }
-
+    public void updatePassword(String password){
+        this.password = password;
+    }
 }
