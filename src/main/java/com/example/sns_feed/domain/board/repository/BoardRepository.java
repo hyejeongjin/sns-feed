@@ -14,11 +14,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findByTitleIsLike(String titleSearch, Pageable pageable);
 
-    @Query(value = "SELECT new com.example.sns_feed.domain.board.dto.response.BoardPageResponseDto(" +""
-    )
-    Page<BoardPageResponseDto> findAllCount(Pageable pageable);
 
-
-    @Query(value = "SELECT new com.example.sns_feed.domain.board.dto.response.BoardPageResponseDto(" +"")
-    Page<BoardPageResponseDto> findBoardPageWithCommentCount(Pageable pageable);
+//    @Query(value = "SELECT new com.example.sns_feed.domain.board.dto.response.BoardPageResponseDto(" +"")
+//    Page<BoardPageResponseDto> findBoardPageWithCommentCount(Pageable pageable);
 }
