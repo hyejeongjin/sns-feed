@@ -22,9 +22,9 @@ public interface UserService {
 
     UserResponseDto login(@RequestBody LoginRequestDto dto);
 
-    MessageResponseDto updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
+    void updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
 
-    MessageResponseDto delete (UserResponseDto loginUser, String password);
+    void delete (UserResponseDto loginUser, String password);
 
     List<ResponseDto> findUsers();
 

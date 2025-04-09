@@ -85,7 +85,7 @@ public class UserController {
      * @return
      */
     @PatchMapping("/updatePassword")
-    public ResponseEntity<Map<String, String>> updatePasswrd(
+    public ResponseEntity<Map<String, String>> updatePassword(
             @RequestBody UpdatePasswordRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
         userService.updatePassword(dto, loginUser.getId());
@@ -104,7 +104,7 @@ public class UserController {
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
         userService.delete(loginUser, dto.getPassword());
-        return new ResponseEntity<>(Map.of("message", "회원 탈퇴 성공하였습니다."), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "정상적으로 회원 탈퇴 성공하였습니다."), HttpStatus.OK);
     }
 
     /**
