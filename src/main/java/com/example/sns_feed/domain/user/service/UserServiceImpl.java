@@ -2,18 +2,23 @@ package com.example.sns_feed.domain.user.service;
 
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
+import com.example.sns_feed.common.exception.CustomException;
+import com.example.sns_feed.common.exception.ErrorCode;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
-import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -74,6 +79,7 @@ public class UserServiceImpl implements UserService {
         }
         return new UserResponseDto(findUser.getId());
     }
+
     /*
      * 202 04 07
      * 김형진
@@ -85,12 +91,30 @@ public class UserServiceImpl implements UserService {
         User findUser = userRepository.findUserByIdOrElseThrow(id);
         if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
             //return new MessageResponseDto("이");
+
+            //이렇게 처리하시는게 어떠신가요?
+//            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
+
         }
+
+        // 타입 불일치
+        // 이렇게 처리하시는게 어떠신가요?
+//        if(!(dto.getNewPassword() instanceof String) {
+//            throw new CustomException(ErrorCode.INVALID_TYPE_VALUE);
+//        }
+
+        // 동일 비번일 경우
+        // 이렇게 처리하시는게 어떠신가요?
+//        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
+//            throw new CustomException(ErrorCode.SAME_PASSWORD);
+//        }
+
         User user = findUser;
         user.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(user);
         return new MessageResponseDto("성공적으로 수정했습니다.");
     }
+
     /*
      * 202 04 07
      * 김형진

@@ -2,13 +2,10 @@ package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
-import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
-import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -103,7 +100,7 @@ public class UserController {
      */
     @DeleteMapping("/withdraw")
     public ResponseEntity<Map<String, String>> delete(
-            @RequestBody RequestDto dto,
+            @RequestBody WithdrawRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
         userService.delete(loginUser, dto.getPassword());
