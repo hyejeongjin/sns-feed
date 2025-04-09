@@ -21,18 +21,22 @@ public class FollowService {
 
 
     @Transactional
-    public FollowResponseDto followRequest(FollowRequestDto requestDto, User sender) throws IllegalAccessException {
-        User user = userRepository.findUserByIdOrElseThrow(sender.getId());
+    public FollowResponseDto followRequest(FollowRequestDto requestDto, Long senderId) throws IllegalAccessException {
+        User user = userRepository.findUserByIdOrElseThrow(senderId);
         User receiver = userRepository.findUserByIdOrElseThrow(requestDto.getReceiverId());
 
         // 자기 자신한테 신청 못하도록
         if (receiver.getId().equals(user.getId())){
-            throw new IllegalAccessException("자기자신 친구신청 못함");
+            throw new IllegalAccessException("나 한테 친구신청 못함");
         }
 
         // 팔로우 신청 했던 사람한테 못하도록
         if (followRepository.pendingRequest(user, receiver)){
             throw new IllegalAccessException("이미 요청 보냄");
+        }
+
+        if (followRepository.alreadyFollowing(user, receiver)) {
+            throw new IllegalAccessException("이미 친구입니다.");
         }
 
         FollowStatus status = FollowStatus.PENDING;
@@ -46,12 +50,20 @@ public class FollowService {
 
     //팔로우 수락, 거절
     @Transactional
-    public void respondFollowRequest(Long followId, RespondFollowRequestDto request) throws IllegalAccessException {
+    public void respondFollowRequest(Long followId, RespondFollowRequestDto request, Long loginUserID) throws IllegalAccessException {
         Follow follow = followRepository.findById(followId).orElseThrow(()-> new IllegalArgumentException("팔로우 요청 없음"));
 
-        if (!follow.getFollowStatus().equals(FollowStatus.PENDING)){
-            throw new IllegalAccessException("이미 처리했다");
+        // 수락, 거절은 receiver(요청 받은자)만 가능
+        if(!follow.getReceiver().getId().equals(loginUserID)){
+            throw new IllegalAccessException("권한 요청이 없습니다.");
         }
+
+
+
+        if (!follow.getFollowStatus().equals(FollowStatus.PENDING)){
+            throw new IllegalAccessException("이미 처리된 요청입니다.");
+        }
+
 
         if(request.getAccept()){
             // 요청 수락
@@ -61,29 +73,10 @@ public class FollowService {
             // 요청 거절
             follow.updateStatus(FollowStatus.REJECTED);
         } else {
-            throw new IllegalAccessException("잘못된 형식");
+            throw new IllegalAccessException("잘못된 요청 형식입니다.");
         }
 
     }
-
-//    @Transactional
-//    public FollowResponseDto follow(Long followUserId, FollowRequestDto requestDto) {
-//        User followUser = userRepository.findById(followUserId).orElseThrow();
-//        User followingUser = userRepository.findById(requestDto.getFollowingId()).orElseThrow();
-//
-//        if (followRepository.findByFollowUserAndFollowingUser(followUser, followingUser).isPresent()) {
-//            throw new IllegalArgumentException("이미 팔로우 신청을 했습니다.");
-//        }
-//
-//        Follow follow = new Follow(followUser, followingUser, FollowStatus.PENDING);
-//        followRepository.save(follow);
-//
-//        return FollowResponseDto.builder()
-//                .message("팔로우 성공")
-//                .followerId(followUser.getId())
-//                .followedId(followingUser.getId())
-//                .build();
-//    }
 
 
 
