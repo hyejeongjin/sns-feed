@@ -11,7 +11,7 @@ public class UpdateUserRequestDto {
 
     private final String mobileNumber;
 
-    public UpdateUserRequestDto(String profile, String email, String password, String mobileNumber) {
+    public UpdateUserRequestDto(String profile, String email, String mobileNumber) {
         this.profile = profile;
         this.email = email;
         this.mobileNumber = mobileNumber;
