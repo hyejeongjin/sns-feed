@@ -1,6 +1,7 @@
 package com.example.sns_feed.domain.user.dto.responsedto;
 
 import com.example.sns_feed.domain.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ public class  ResponseDto {
 
     private final String email;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime updatedAt;
 
 

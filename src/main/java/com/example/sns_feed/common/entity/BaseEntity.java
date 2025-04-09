@@ -16,7 +16,7 @@ public class BaseEntity {
     @CreatedDate
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
