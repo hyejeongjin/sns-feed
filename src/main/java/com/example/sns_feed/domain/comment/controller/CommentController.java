@@ -1,8 +1,8 @@
 package com.example.sns_feed.domain.comment.controller;
 
-import com.example.sns_feed.comment.dto.CommentRequestDto;
-import com.example.sns_feed.comment.dto.CommentResponseDto;
-import com.example.sns_feed.comment.service.CommentService;
+import com.example.sns_feed.domain.comment.dto.CommentRequestDto;
+import com.example.sns_feed.domain.comment.dto.CommentResponseDto;
+import com.example.sns_feed.domain.comment.service.CommentService;
 import com.example.sns_feed.common.Const;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class CommentController {
             @Valid @RequestBody CommentRequestDto requestDto){
 
 
-         CommentResponseDto commentResponseDto = commentService.save(userId, boardId, requestDto.getContents());
+         CommentResponseDto commentResponseDto = commentService.save(userId, boardId, requestDto.getContent());
 
         return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
 

@@ -8,7 +8,7 @@ import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
-import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ import java.util.Map;
  * 양재호
  * 전제 기능에 session기준 추가해야함(로그인 되었을 경우에 조회가능~)
  */
+
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
@@ -70,8 +71,10 @@ public class UserController {
     public ResponseEntity<Map<String, String>> logOut(
             HttpServletRequest request
     ) {
+
         // 로그인하지 않으면 HttpSession이 null로 반환된다.
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.invalidate();// 해당 세션(데이터)을 삭제한다.
         }
@@ -94,7 +97,7 @@ public class UserController {
 
     /**
      * 2025 04 07
-     * 김형진
+     * 김형진(
      * @param dto
      * @return
      */

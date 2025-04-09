@@ -35,7 +35,8 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String birthDate;
 
-    private LocalDateTime deletedAt;
+    @Column
+    private String deletedAt;
 
     public User() {
 
@@ -68,7 +69,7 @@ public class User extends BaseEntity {
     public void updatePassword(String password){
         this.password = password;
     }
-    public void updatedeletedAt(LocalDateTime deletedAt){
+    public void updatedeletedAt(String deletedAt){
         this.deletedAt = deletedAt;
     }
 }
