@@ -134,7 +134,7 @@ public class UserController {
      * 양재호
      * 특정 유저 조회 기능
      */
-    @GetMapping("/posts/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<ResponseDto> findUserById(
             @PathVariable Long id,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
@@ -155,7 +155,7 @@ public class UserController {
      * 양재호
      * 유저 수정 기능
      */
-    @PatchMapping("/{id}")
+    @PatchMapping("/users/{id}")
     public ResponseEntity<ResponseDto> updateUser(
             @PathVariable Long id,
             @RequestBody RequestDto dto,
