@@ -15,7 +15,7 @@ public class BoardSaveResponseDto {
 
     private final String title;
 
-    private final String contents;
+    private final String content;
 
     private final LocalDateTime createdAt;
 

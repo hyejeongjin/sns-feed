@@ -24,7 +24,7 @@ public class Board extends BaseEntity{
     private String title;
 
     @Column(nullable = false)
-    private String contents;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -38,9 +38,9 @@ public class Board extends BaseEntity{
 
     }
 
-    public Board(String title, String contents, User user) {
+    public Board(String title, String content, User user) {
         this.title = title;
-        this.contents = contents;
+        this.content = content;
         this.user = user;
     }
 
