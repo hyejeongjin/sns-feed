@@ -5,6 +5,11 @@ import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
+import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
+import com.example.sns_feed.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.user.dto.responsedto.ResponseDto;
+import com.example.sns_feed.user.dto.responsedto.UserResponseDto;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -16,7 +21,7 @@ public interface UserService {
 
     MessageResponseDto signup(@RequestBody  RequestDto dto);
 
-    UserResponseDto login(@RequestBody RequestDto dto);
+    UserResponseDto login(@RequestBody LoginRequestDto dto);
 
     MessageResponseDto updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
 

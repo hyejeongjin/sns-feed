@@ -7,6 +7,13 @@ import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
+import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
+import com.example.sns_feed.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.user.dto.responsedto.ResponseDto;
+import com.example.sns_feed.user.dto.responsedto.UserResponseDto;
+import com.example.sns_feed.user.entity.User;
+import com.example.sns_feed.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +41,6 @@ public class UserController {
      * 2025 04 08
      * 김형진
      * 회워 가입
-     *
      * @param dto
      * @return 정상가입 메제지 출력
      */
@@ -48,18 +54,17 @@ public class UserController {
      * 2025 04 08
      * 김형진
      * 로그인
-     *
      * @param dto
      * @param request
      * @return 정상로그인 메세지 출력
      */
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(
-            @RequestBody RequestDto dto,
-            HttpServletRequest request) {
+    public ResponseEntity<Map<String,String >> login(
+            @RequestBody LoginRequestDto dto,
+            HttpServletRequest request){
 
+        //이전에 탈퇴했던 회원인가?
         UserResponseDto UserResponseDto = userService.login(dto);
-
         HttpSession session = request.getSession();
         session.setAttribute(Const.LOGIN_USER, UserResponseDto);
 
@@ -81,7 +86,6 @@ public class UserController {
     /**
      * 2025 04 08
      * 김형진
-     *
      * @param dto
      * @return
      */
@@ -96,7 +100,6 @@ public class UserController {
     /**
      * 2025 04 07
      * 김형진
-     *
      * @param dto
      * @return
      */

@@ -8,6 +8,13 @@ import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
+import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
+import com.example.sns_feed.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.user.dto.responsedto.ResponseDto;
+import com.example.sns_feed.user.dto.responsedto.UserResponseDto;
+import com.example.sns_feed.user.entity.User;
+import com.example.sns_feed.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -57,7 +64,7 @@ public class UserServiceImpl implements UserService {
      * 로그인
      * */
     @Override
-    public UserResponseDto login(RequestDto dto) {
+    public UserResponseDto login(LoginRequestDto dto) {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
