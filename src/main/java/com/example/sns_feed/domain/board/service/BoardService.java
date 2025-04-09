@@ -33,7 +33,7 @@ public class BoardService {
                                 user.getUserName(),
                                 board.getTitle(),
                                 board.getContent(),
-                                board.getCreateAt(),
+                                board.getCreatedAt(),
                                 board.getUpdatedAt());
     }
 
