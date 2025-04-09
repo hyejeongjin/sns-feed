@@ -3,6 +3,7 @@ package com.example.sns_feed.domain.user.service;
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
@@ -27,7 +28,7 @@ public interface UserService {
 
     ResponseDto findUserById(Long id);
 
-    ResponseDto updateUser(Long id, RequestDto dto);
+    ResponseDto updateUser(Long id, UpdateUserRequestDto dto);
 
     List<ResponseDto> findUsersByUserName(String userName);
 }
