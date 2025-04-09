@@ -64,4 +64,7 @@ public class User extends BaseEntity {
     public void updatePassword(String password){
         this.password = password;
     }
+    public void updatedeletedAt(LocalDateTime deletedAt){
+        this.deletedAt = deletedAt;
+    }
 }
