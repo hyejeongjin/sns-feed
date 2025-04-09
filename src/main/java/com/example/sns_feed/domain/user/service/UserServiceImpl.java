@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
 
         if(findUser.getDeletedAt() != null){
-            throw new RuntimeException("로그인이 불가능한 아이디 비밀 번호 입니다.");
+            throw new RuntimeException("로그인이 불가능한 아이디 비밀번호 입니다.");
         }
 
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
@@ -86,33 +86,20 @@ public class UserServiceImpl implements UserService {
      * 비밀번호 수정
      * */
     @Override
-    public MessageResponseDto updatePassword(UpdatePasswordRequestDto dto, Long id) {
+    public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
 
         User findUser = userRepository.findUserByIdOrElseThrow(id);
         if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
-            //return new MessageResponseDto("이");
 
-            //이렇게 처리하시는게 어떠신가요?
-//            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
+            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
 
         }
-
-        // 타입 불일치
-        // 이렇게 처리하시는게 어떠신가요?
-//        if(!(dto.getNewPassword() instanceof String) {
-//            throw new CustomException(ErrorCode.INVALID_TYPE_VALUE);
-//        }
-
-        // 동일 비번일 경우
-        // 이렇게 처리하시는게 어떠신가요?
-//        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
-//            throw new CustomException(ErrorCode.SAME_PASSWORD);
-//        }
-
+        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
+           throw new CustomException(ErrorCode.SAME_PASSWORD);
+        }
         User user = findUser;
         user.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(user);
-        return new MessageResponseDto("성공적으로 수정했습니다.");
     }
 
     /*
@@ -122,17 +109,16 @@ public class UserServiceImpl implements UserService {
      * 예외 수정할것.
      * */
     @Override
-    public  MessageResponseDto delete(UserResponseDto  loginUser, String password) {
+    public void delete(UserResponseDto  loginUser, String password) {
 
         User user = userRepository.findUserByIdOrElseThrow(loginUser.getId());
         if (!passwordEncoder.matches( password, user.getPassword())){
-            return new MessageResponseDto("입력한 비밀번호와 다릅니다.");
+
+            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
         user.updatedeletedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         userRepository.save(user);
-
-        return new MessageResponseDto("탈퇴 되었습니다.");
     }
 
     /**
