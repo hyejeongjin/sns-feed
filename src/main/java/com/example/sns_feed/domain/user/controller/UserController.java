@@ -112,7 +112,7 @@ public class UserController {
      * 양재호
      * 전체 유저 조회 기능
      */
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<ResponseDto>> findUsers(
             @RequestParam(required = false) String userName
     ) {
