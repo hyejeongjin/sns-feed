@@ -5,6 +5,7 @@ import com.example.sns_feed.common.entity.BaseEntity;
 import com.example.sns_feed.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name="boards")
+@DynamicUpdate
 public class Board extends BaseEntity{
 
     @Id
@@ -42,6 +44,15 @@ public class Board extends BaseEntity{
         this.title = title;
         this.content = content;
         this.user = user;
+    }
+
+    public void update(String title, String content) {
+        if(title != null) {
+            this.title = title;
+        }
+        if(content != null) {
+            this.content = content;
+        }
     }
 
 }
