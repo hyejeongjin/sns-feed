@@ -142,22 +142,49 @@ public class BoardService {
 
         Pageable pageable = PageRequest.of(adjustedPage, 10);
 
+        System.out.println("페이지 서비스 "+isFollowingBoard);
 
         Page<BoardPageResponseDto> allPage = boardRepository.findBoardsPage(id,titleSearch,isFollowingBoard,pageable);
 
 
-//        return new PageResponseDto (
-//                allPage.getContent(),
-//                nowPage,
-//                allPage.getSize(),
-//                allPage.getTotalPages(),
-//                hasNext,
-//                hasPrevious,
-//                startPage,
-//                endPage);
+        //페이지 dto 객체에 담아 반환할 정보
+        int nowPage = allPage.getNumber() + 1;
+        int pageRange = 5;
 
-        return  null;
+
+        int endPage = (int)(Math.ceil(nowPage / (float) pageRange) * pageRange);
+
+        if (endPage > allPage.getTotalPages()) {
+            endPage = allPage.getTotalPages();
+        }
+
+        int startPage = endPage - (pageRange-1);
+        boolean hasNext = false;
+        boolean hasPrevious = false;
+
+        if(endPage < allPage.getTotalPages()) { //10,7
+            hasNext = true;
+        }
+
+        if(startPage >= 6) {
+            hasPrevious = true;
+        }
+
+
+
+        return new PageResponseDto (
+                                    allPage.getContent(),
+                                    nowPage,
+                                    allPage.getSize(),
+                                    allPage.getTotalPages()-1,
+                                    hasNext,
+                                    hasPrevious,
+                                    startPage,
+                                    endPage);
     }
+
+
+
 
 
 }

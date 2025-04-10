@@ -1,5 +1,6 @@
 package com.example.sns_feed.domain.board.dto.response;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +15,7 @@ public class BoardPageResponseDto {
     private final Long commentCount;
     private final LocalDateTime updatedAt;
 
+    @QueryProjection
     public BoardPageResponseDto(Long id, String userName, String title, Long commentCount, LocalDateTime updatedAt) {
         this.id = id;
         this.userName = userName;

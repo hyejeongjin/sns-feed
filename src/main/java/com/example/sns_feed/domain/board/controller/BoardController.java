@@ -38,8 +38,11 @@ public class BoardController {
     @GetMapping
     public ResponseEntity<PageResponseDto> findAllPage(@SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
             @RequestParam(required = false) String titleSearch,
-            @RequestParam(defaultValue = "false") Boolean isFollowingBoard,
+            @RequestParam(value = "isFollowingBoard", defaultValue = "false") Boolean isFollowingBoard,
             @RequestParam(defaultValue = "1") int page) {
+
+        System.out.println("isFollowingBoard 파라미터 = " + isFollowingBoard);
+
 
         PageResponseDto pageResponseDto = boardService.findAllPage(loginUser.getId(),titleSearch,isFollowingBoard,page);
 

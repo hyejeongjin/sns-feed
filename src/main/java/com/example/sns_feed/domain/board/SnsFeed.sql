@@ -59,6 +59,8 @@ insert into boards values (now(),39,now(),3,'게시글내용','제목내용');
 insert into boards values (now(),40,now(),3,'게시글내용','제목내용검색');
 insert into boards values (now(),41,now(),3,'게시글내용','제목내용');
 insert into boards values (now(),42,now(),3,'게시글내용','제목내용');
+insert into boards values (now(),43,now(),3,'게시글내용','제목내용');
+insert into boards values (now(),44,now(),3,'게시글내용','제목내용');
 
 
 
@@ -155,6 +157,7 @@ from boards b
 # 게시글, 댓글 카운트, 팔로윙, 검색
 select
     b.id,
+    u.id,
     u.user_name,
     b.title,
     (select
@@ -170,7 +173,11 @@ from boards b
          inner join users u on b.user_id = u.id
          left join follows f on b.user_id = f.receiver
 where title like '%검색%' and f.follow_status = 'ACCEPTED' and  f.sender = 1
-order by deleted_at desc;
+group by b.id, b.user_id, u.user_name, b.title, b.updated_at
+order by b.updated_at desc;
+
+
+
 
 
 #페이지만 검색
@@ -185,15 +192,31 @@ select
               left join comments c on c.board_id = b.id
      where bb.id  = b.id
      group by b.id) as comment_count,
-    b.updated_at,
-    COUNT(*) OVER() AS total_count
+    b.updated_at
 from boards b
-         inner join users u on b.user_id = u.id
+    left join users u on b.user_id = u.id
          left join follows f on b.user_id = f.receiver
+
 order by updated_at desc;
 
 
-
+select
+    b.id,
+    b.user_id,
+    u.user_name,
+    b.title,
+    (select
+         COUNT(c.user_id)
+     from boards bb
+              inner join users u on b.user_id = u.id
+              left join comments c on c.board_id = b.id
+     where bb.id  = b.id
+     group by b.id) as comment_count,
+    b.updated_at
+from boards b
+    left join users u on b.user_id = u.id
+        left join follows f on f.receiver = b.user_id
+group by b.id, b.user_id, u.user_name, b.title, b.updated_at;
 
 
 
