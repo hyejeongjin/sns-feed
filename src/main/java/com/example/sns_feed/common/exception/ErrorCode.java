@@ -3,6 +3,7 @@ package com.example.sns_feed.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -21,10 +22,10 @@ public enum ErrorCode {
     //User
     USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다."),
     PASSWORD_MISMATCH(400, "Bad Request", "U002", "패스워드가 일치하지 않습니다."),
-    SAME_PASSWORD(400, "Bad Request", "U003", "기존 패스워드와 동일합니다.");
+    SAME_PASSWORD(400, "Bad Request", "U003", "기존 패스워드와 동일합니다."),
+    DELETED_USER(400, "Bad Request", "U004", "이미 삭제된 유저입니다.");
 
     //Board
-
 
     //Comment
 
