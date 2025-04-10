@@ -146,15 +146,17 @@ public class BoardService {
         Page<BoardPageResponseDto> allPage = boardRepository.findBoardsPage(id,titleSearch,isFollowingBoard,pageable);
 
 
-        return new PageResponseDto (
-                allPage.getContent(),
-                nowPage,
-                allPage.getSize(),
-                allPage.getTotalPages(),
-                hasNext,
-                hasPrevious,
-                startPage,
-                endPage);
+//        return new PageResponseDto (
+//                allPage.getContent(),
+//                nowPage,
+//                allPage.getSize(),
+//                allPage.getTotalPages(),
+//                hasNext,
+//                hasPrevious,
+//                startPage,
+//                endPage);
+
+        return  null;
     }
 
 
