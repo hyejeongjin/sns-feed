@@ -13,7 +13,6 @@ public class RedisService {
 
 
     public void temp(Long id) {
-
         Object o = userRedisRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 }
