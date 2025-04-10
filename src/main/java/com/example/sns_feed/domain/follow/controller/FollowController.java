@@ -66,5 +66,23 @@ public class FollowController {
         return ResponseEntity.ok(pendingFollowRequest);
     }
 
+    // 친구 삭제 요청
+    /**
+     * @.build() : // 바디 없이 응답 완료
+     * */
+    @DeleteMapping("/unfollows")
+    public ResponseEntity<Void> deleteFriends(
+            HttpSession session,
+            @RequestBody DeleteRequestDto requestDto) throws IllegalAccessException {
+
+        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
+        if (loginUser == null){
+            throw new IllegalAccessException("로그인이 필요합니다.");
+        }
+
+        followService.receiverIdDelete(loginUser.getId(), requestDto.getReceiverId());
+        return ResponseEntity.ok().build();
+
+    }
 
 }

@@ -3,7 +3,9 @@ package com.example.sns_feed.domain.follow.repository;
 
 import com.example.sns_feed.domain.follow.entity.Follow;
 import com.example.sns_feed.domain.user.entity.User;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -25,4 +27,9 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     @Query("select f from Follow f where f.receiver.id = :receiverId and f.followStatus = 'PENDING'")
     List<Follow> findPendingSenderByReceiverId(@Param("receiverId") Long receiverId);
+
+    @Transactional
+    @Modifying
+    @Query("delete from Follow f where f.sender.id = :senderId and f.receiver.id = :receiverId and f.followStatus = 'ACCEPTED'")
+    void deleteFollow(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
 }

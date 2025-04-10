@@ -91,4 +91,19 @@ public class FollowService {
         return followRequestList.stream().map(FollowRequestListDto::new).toList();
     }
 
+    // 친구 삭제
+    @Transactional
+    public void receiverIdDelete(Long senderId, Long receiverId) throws IllegalAccessException {
+        boolean following = followRepository.alreadyFollowing(
+                userRepository.findUserByIdOrElseThrow(senderId),
+                userRepository.findUserByIdOrElseThrow(receiverId)
+        );
+
+        if (!following){
+            throw new IllegalAccessException("친구 관계가 아닙니다.");
+        }
+
+        followRepository.deleteFollow(senderId,receiverId);
+    }
+
 }
