@@ -27,7 +27,7 @@ public enum ErrorCode {
     INVALID_USER(401, "Unauthorized", "U005", "유저 정보가 일치하지 않습니다."),
     INVALID_SESSION(401, "Unauthorized", "U006", "세션이 유효하지 않습니다."),
     INVALID_CERT(400, "Bad Request", "U007", "CERT가 일치하지 않습니다."),
-    NEED_LOGIN(400, "Bad Request", "U008", "로그인 해주세요.");
+    NEED_LOGIN(400, "Bad Request", "U008", "로그인 해주세요."),
     //Board
     BOARD_NOT_FOUND(404,"Not Found","B001","해당 게시글 번호가 존재하지 않습니다."),
 
