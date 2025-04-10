@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
-            // 일벽한 비밀번호와 일치하지 않습니다.
+            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
         return new UserResponseDto(findUser.getId());
     }
@@ -97,9 +97,8 @@ public class UserServiceImpl implements UserService {
         if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
            throw new CustomException(ErrorCode.SAME_PASSWORD);
         }
-        User user = findUser;
-        user.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
-        userRepository.save(user);
+        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(findUser);
     }
 
     /*
