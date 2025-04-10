@@ -3,7 +3,6 @@ package com.example.sns_feed.domain.user.repository;
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.domain.user.entity.User;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
