@@ -17,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUserName(String userName);
 
     default User findByEmailOrThrow(String Email) {
-        return findByEmail(Email).orElseThrow(() -> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
+        return findByEmail(Email).orElseThrow(() -> new CustomException(ErrorCode.INVALID_EMAIL, "요청한 정보를 찾을 수 없습니다."));
     }
 
     default User findUserByIdOrElseThrow(Long id) {
