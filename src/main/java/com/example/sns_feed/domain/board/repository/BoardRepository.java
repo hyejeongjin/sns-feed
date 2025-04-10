@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom{
 
 
     @Query(value = "SELECT new com.example.sns_feed.domain.board.dto.response.BoardPageResponseDto( " +
@@ -61,4 +61,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
             countQuery =  "SELECT COUNT(b) FROM Board b JOIN b.user u JOIN Follow f ON f.receiver.id = u.id WHERE b.title LIKE CONCAT('%', :titleSearch, '%')")
     Page<BoardPageResponseDto> findSerachFollowingPageWithCommentCount(@Param("titleSearch") String titleSearch, Pageable pageable);
+
+    List<Board> title(String title);
 }

@@ -96,6 +96,45 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
+//    @Transactional(readOnly = true)
+//    public PageResponseDto findAllPage(Long id, String titleSearch, Boolean isFollowingBoard, int page) {
+//
+//        int adjustedPage = (page > 0) ? page - 1 : 0;
+//
+//        Pageable pageable = PageRequest.of(adjustedPage, 10);
+//
+//
+//        Page<BoardPageResponseDto> allPage = boardJDBCRepository.findAllPage(id, titleSearch, isFollowingBoard, pageable);
+//
+//        //페이지 dto 객체에 담아 반환할 정보
+//        int nowPage = allPage.getNumber() + 1;
+//        int pageRange = 5;
+//
+//
+//        int endPage = (int)(Math.ceil(nowPage/(float)pageRange)*pageRange); //현재 범위 중 마지막 페이지
+//        int startPage = endPage - (pageRange-1);
+//        boolean hasNext = false;
+//        boolean hasPrevious = false;
+//
+//        if(endPage < allPage.getTotalPages()) { //10,7
+//            hasNext = true;
+//        }
+//
+//        if(startPage >= 6) {
+//            hasPrevious = true;
+//        }
+//
+//        return new PageResponseDto (
+//                                    allPage.getContent(),
+//                                    nowPage,
+//                                    allPage.getSize(),
+//                                    allPage.getTotalPages(),
+//                                    hasNext,
+//                                    hasPrevious,
+//                                    startPage,
+//                                    endPage);
+//    }
+
     @Transactional(readOnly = true)
     public PageResponseDto findAllPage(Long id, String titleSearch, Boolean isFollowingBoard, int page) {
 
@@ -104,35 +143,18 @@ public class BoardService {
         Pageable pageable = PageRequest.of(adjustedPage, 10);
 
 
-        Page<BoardPageResponseDto> allPage = boardJDBCRepository.findAllPage(id, titleSearch, isFollowingBoard, pageable);
+        Page<BoardPageResponseDto> allPage = boardRepository.findBoardsPage(id,titleSearch,isFollowingBoard,pageable);
 
-        //페이지 dto 객체에 담아 반환할 정보
-        int nowPage = allPage.getNumber() + 1;
-        int pageRange = 5;
-
-
-        int endPage = (int)(Math.ceil(nowPage/(float)pageRange)*pageRange); //현재 범위 중 마지막 페이지
-        int startPage = endPage - (pageRange-1);
-        boolean hasNext = false;
-        boolean hasPrevious = false;
-
-        if(endPage < allPage.getTotalPages()) { //10,7
-            hasNext = true;
-        }
-
-        if(startPage >= 6) {
-            hasPrevious = true;
-        }
 
         return new PageResponseDto (
-                                    allPage.getContent(),
-                                    nowPage,
-                                    allPage.getSize(),
-                                    allPage.getTotalPages(),
-                                    hasNext,
-                                    hasPrevious,
-                                    startPage,
-                                    endPage);
+                allPage.getContent(),
+                nowPage,
+                allPage.getSize(),
+                allPage.getTotalPages(),
+                hasNext,
+                hasPrevious,
+                startPage,
+                endPage);
     }
 
 
