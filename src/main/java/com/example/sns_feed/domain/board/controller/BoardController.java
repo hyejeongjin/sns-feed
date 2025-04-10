@@ -3,10 +3,7 @@ package com.example.sns_feed.domain.board.controller;
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.domain.board.dto.request.BoardRequestDto;
 import com.example.sns_feed.domain.board.dto.request.BoardUpdateRequestDto;
-import com.example.sns_feed.domain.board.dto.response.BoardPageResponseDto;
-import com.example.sns_feed.domain.board.dto.response.BoardResponseDto;
-import com.example.sns_feed.domain.board.dto.response.BoardSaveResponseDto;
-import com.example.sns_feed.domain.board.dto.response.BoardUpdateResponseDto;
+import com.example.sns_feed.domain.board.dto.response.*;
 import com.example.sns_feed.domain.board.service.BoardService;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,16 +35,16 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.CREATED).body(boardService.saveBoard(loginUser.getId(), boardRequestDto));
     }
 
-//    @GetMapping
-//    public ResponseEntity<Page<BoardPageResponseDto>> findAllPage(
-//            @RequestParam(required = false) String titleSearch,
-//            @RequestParam(required = false) Boolean isFollowingBoard,
-//            @PageableDefault(page = 1,size=10, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
-//
-//        Page<BoardPageResponseDto> pageResult = boardService.findAllPage(titleSearch,isFollowingBoard,pageable);
-//
-//        return ResponseEntity.ok(pageResult);
-//    }
+    @GetMapping
+    public ResponseEntity<PageResponseDto> findAllPage(@SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            @RequestParam(required = false) String titleSearch,
+            @RequestParam(defaultValue = "false") Boolean isFollowingBoard,
+            @RequestParam(defaultValue = "1") int page) {
+
+        PageResponseDto pageResponseDto = boardService.findAllPage(loginUser.getId(),titleSearch,isFollowingBoard,page);
+
+        return ResponseEntity.ok(pageResponseDto);
+    }
 
 
 

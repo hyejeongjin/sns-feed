@@ -6,13 +6,19 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 
 @Getter
-@RequiredArgsConstructor
 public class BoardPageResponseDto {
 
     private final Long id;
     private final String userName;
     private final String title;
-    private final int commentCount;
+    private final Long commentCount;
     private final LocalDateTime updatedAt;
 
+    public BoardPageResponseDto(Long id, String userName, String title, Long commentCount, LocalDateTime updatedAt) {
+        this.id = id;
+        this.userName = userName;
+        this.title = title;
+        this.commentCount = commentCount;
+        this.updatedAt = updatedAt;
+    }
 }

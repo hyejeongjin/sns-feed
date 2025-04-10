@@ -27,7 +27,7 @@ public class BoardSaveResponseDto {
         this.userName = board.getUser().getUserName();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.createdAt = board.getCreateAt();
+        this.createdAt = board.getCreatedAt();
         this.updatedAt = board.getUpdatedAt();
     }
 }

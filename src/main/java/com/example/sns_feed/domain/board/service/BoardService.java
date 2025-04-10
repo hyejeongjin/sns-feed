@@ -7,11 +7,13 @@ import com.example.sns_feed.domain.board.dto.request.BoardRequestDto;
 import com.example.sns_feed.domain.board.dto.request.BoardUpdateRequestDto;
 import com.example.sns_feed.domain.board.dto.response.*;
 import com.example.sns_feed.domain.board.entity.Board;
+import com.example.sns_feed.domain.board.repository.BoardJdbcRepository;
 import com.example.sns_feed.domain.board.repository.BoardRepository;
 import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final BoardJdbcRepository boardJcbcRepository;
+    private final BoardJdbcRepository boardJDBCRepository;
 
     @Transactional
     public BoardSaveResponseDto saveBoard(Long sessionId, BoardRequestDto dto) {
@@ -92,30 +96,44 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-//    @Transactional(readOnly = true)
-//    public Page<BoardPageResponseDto> findAllPage(String titleSearch, Boolean isFollowingBoard, Pageable pageable) {
-//
-//        Page<Board> boardPage;
-//
-//        if(titleSearch == null && isFollowingBoard == null) {
-//            boardPage = boardRepository.findAllCount(pageable);
-//        }
-//
-//        if(titleSearch!=null&&isFollowingBoard==null) {
-//            boardPage = boardRepository.findByTitleIsLike(titleSearch,pageable);
-//        }
-//
-//        if(titleSearch==null&&isFollowingBoard!=null) {
-//            boardRepository.find
-//        }
-//
-//        boardRepository.findBoardPageWithCommentCount(pageable);
-//
-//
-//
-//        return null;
-//    }
+    @Transactional(readOnly = true)
+    public PageResponseDto findAllPage(Long id, String titleSearch, Boolean isFollowingBoard, int page) {
 
+        int adjustedPage = (page > 0) ? page - 1 : 0;
+
+        Pageable pageable = PageRequest.of(adjustedPage, 10);
+
+
+        Page<BoardPageResponseDto> allPage = boardJDBCRepository.findAllPage(id, titleSearch, isFollowingBoard, pageable);
+
+        //페이지 dto 객체에 담아 반환할 정보
+        int nowPage = allPage.getNumber() + 1;
+        int pageRange = 5;
+
+
+        int endPage = (int)(Math.ceil(nowPage/(float)pageRange)*pageRange); //현재 범위 중 마지막 페이지
+        int startPage = endPage - (pageRange-1);
+        boolean hasNext = false;
+        boolean hasPrevious = false;
+
+        if(endPage < allPage.getTotalPages()) { //10,7
+            hasNext = true;
+        }
+
+        if(startPage >= 6) {
+            hasPrevious = true;
+        }
+
+        return new PageResponseDto (
+                                    allPage.getContent(),
+                                    nowPage,
+                                    allPage.getSize(),
+                                    allPage.getTotalPages(),
+                                    hasNext,
+                                    hasPrevious,
+                                    startPage,
+                                    endPage);
+    }
 
 
 }
