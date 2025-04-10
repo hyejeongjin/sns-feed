@@ -23,9 +23,12 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다."),
     PASSWORD_MISMATCH(400, "Bad Request", "U002", "패스워드가 일치하지 않습니다."),
     SAME_PASSWORD(400, "Bad Request", "U003", "기존 패스워드와 동일합니다."),
-    DELETED_USER(400, "Bad Request", "U004", "이미 삭제된 유저입니다.");
+    DELETED_USER(400, "Bad Request", "U004", "이미 삭제된 유저입니다."),
 
     //Board
+    BOARD_NOT_FOUND(404,"Not Found","B001","해당 게시글 번호가 존재하지 않습니다."),
+
+    BOARD_UNAUTHORIZED(401,"Unauthorized","B002","게시글 작성자만 수정/삭제 할 수 있습니다.");
 
     //Comment
 

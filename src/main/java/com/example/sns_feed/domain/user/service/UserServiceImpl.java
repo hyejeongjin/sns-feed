@@ -4,6 +4,7 @@ import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.ErrorCode;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
