@@ -1,27 +1,27 @@
-package com.example.sns_feed.mail;
+package com.example.sns_feed.common.email;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
-
 @RestController
-@RequestMapping
 @RequiredArgsConstructor
-public class MailController {
-
-    private final MailService mailService;
+public class EmailController {
+    private final EmailService mailService;
     private int number; // 이메일 인증 숫자를 저장하는 변수
 
     // 인증 이메일 전송
     @PostMapping("/mailSend")
-    public HashMap<String, Object> mailSend(@RequestBody MailRequestDto dto) {
+    public HashMap<String, Object> mailSend(String mail) {
         HashMap<String, Object> map = new HashMap<>();
 
         try {
-            number = mailService.sendMail(dto.getMail());
+            number = mailService.sendMail(mail);
             String num = String.valueOf(number);
 
             map.put("success", Boolean.TRUE);
@@ -38,10 +38,8 @@ public class MailController {
     @GetMapping("/mailCheck")
     public ResponseEntity<?> mailCheck(@RequestParam String userNumber) {
 
-        // 번호 검증
         boolean isMatch = userNumber.equals(String.valueOf(number));
 
-        // 맞다면 OK
         return ResponseEntity.ok(isMatch);
     }
 }
