@@ -60,7 +60,6 @@ public class User extends BaseEntity {
     public void updateUser(UpdateUserRequestDto dto) {
         this.profile = dto.getProfile();
         this.email = dto.getEmail();
-        this.password = dto.getPassword();
         this.mobileNumber = dto.getMobileNumber();
     }
 

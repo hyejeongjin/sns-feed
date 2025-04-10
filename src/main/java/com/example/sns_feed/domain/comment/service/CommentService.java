@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class CommentService {
     private final CommentRepository commentRepository;
 
-    public CommentResponseDto save(Long userId, Long boardId, String contents) {
+    public CommentResponseDto save(Long userId, Long boardId, String content) {
 
 
 
