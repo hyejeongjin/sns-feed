@@ -24,7 +24,9 @@ public enum ErrorCode {
     PASSWORD_MISMATCH(400, "Bad Request", "U002", "패스워드가 일치하지 않습니다."),
     SAME_PASSWORD(400, "Bad Request", "U003", "기존 패스워드와 동일합니다."),
     DELETED_USER(400, "Bad Request", "U004", "이미 삭제된 유저입니다."),
-
+    INVALID_USER(401, "Unauthorized", "U005", "유저 정보가 일치하지 않습니다."),
+    INVALID_SESSION(401, "Unauthorized", "U006", "세션이 유효하지 않습니다."),
+    INVALID_CERT(400, "Bad Request", "U007", "CERT가 일치하지 않습니다."),
     //Board
     BOARD_NOT_FOUND(404,"Not Found","B001","해당 게시글 번호가 존재하지 않습니다."),
 
