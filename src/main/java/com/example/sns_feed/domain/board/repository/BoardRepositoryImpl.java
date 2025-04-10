@@ -15,5 +15,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     @Override
     public Page<BoardPageResponseDto> findBoardsPage(Long id, String titleSearch, Boolean isFollowingBoard, Pageable pageable) {
 
+        return  null;
+
     }
 }
