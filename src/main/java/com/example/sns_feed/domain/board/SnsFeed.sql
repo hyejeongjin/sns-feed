@@ -208,8 +208,6 @@ group by b.id;
 
 
 
-            left join follows f on f.receiver = b.user_id;
-
 
 
 
