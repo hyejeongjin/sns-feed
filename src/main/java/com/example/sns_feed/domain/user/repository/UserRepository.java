@@ -28,18 +28,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
         return findByUserName(userName);
     }
 
-//    Optional<User> findByEmail(String email);
-//    default User findByIdOrThrow(Long id, String password){
-//        return findById(id).filter(User-> User.getPassword().equals(password))
-//                .orElseThrow(() -> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
-//    }
-//    default User findByEmailOrThrow(String Email){
-//        return findByEmail(Email).orElseThrow(()-> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
-//    }
-//
-//    default User findByEmailOrThrow(String Email, String password){
-//        return findByEmail(Email).filter(User-> User.getPassword().equals(password))
-//                .orElseThrow(() -> new EntityNotFoundException("요청한 정보를 찾을 수 없습니다."));
-//    }
-
 }

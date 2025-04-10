@@ -112,6 +112,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findUserByIdOrElseThrow(loginUser.getId());
         if (!passwordEncoder.matches( password, user.getPassword())){
+
             throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
         user.updatedeletedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
