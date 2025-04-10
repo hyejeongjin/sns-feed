@@ -11,6 +11,7 @@ import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class UserController {
      */
     @PostMapping("/signup")
     public ResponseEntity<MessageResponseDto> signup(
-            @RequestBody RequestDto dto) {
+           @Valid @RequestBody RequestDto dto) {
         return new ResponseEntity<>(userService.signup(dto), HttpStatus.OK);
     }
 
@@ -56,7 +57,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String,String >> login(
-            @RequestBody LoginRequestDto dto,
+            @Valid @RequestBody LoginRequestDto dto,
             HttpServletRequest request){
 
         //이전에 탈퇴했던 회원인가?
@@ -68,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Map<String, String>> logOut(
+    public ResponseEntity<Map<String, String>> logout(
             HttpServletRequest request
     ) {
 
@@ -89,12 +90,21 @@ public class UserController {
      */
     @PatchMapping("/updatePassword")
     public ResponseEntity<Map<String, String>> updatePassword(
-            @RequestBody UpdatePasswordRequestDto dto,
+            @Valid @RequestBody UpdatePasswordRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
         userService.updatePassword(dto, loginUser.getId());
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
+    //이증 번호 생성 url
+    //이증 번호 확인 url
+    @PatchMapping("/findPassword")
+    public ResponseEntity<Map<String, String>> findPassword(
+            @Valid @RequestBody UpdatePasswordRequestDto dto,
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
 
+        userService.updatePassword(dto, loginUser.getId());
+        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
+    }
     /**
      * 2025 04 07
      * 김형진
@@ -103,7 +113,7 @@ public class UserController {
      */
     @DeleteMapping("/withdraw")
     public ResponseEntity<Map<String, String>> delete(
-            @RequestBody WithdrawRequestDto dto,
+            @Valid @RequestBody WithdrawRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
         userService.delete(loginUser, dto.getPassword());
@@ -115,7 +125,7 @@ public class UserController {
      * 양재호
      * 전체 유저 조회 기능
      */
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<ResponseDto>> findUsers(
             @RequestParam(required = false) String userName
     ) {
@@ -154,7 +164,7 @@ public class UserController {
     @PatchMapping("/users/{id}")
     public ResponseEntity<ResponseDto> updateUser(
             @PathVariable Long id,
-            @RequestBody UpdateUserRequestDto dto,
+            @Valid @RequestBody UpdateUserRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
 

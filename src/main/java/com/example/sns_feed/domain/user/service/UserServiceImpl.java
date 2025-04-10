@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
 
         if(findUser.getDeletedAt() != null){
-            throw new RuntimeException("로그인이 불가능한 아이디 비밀번호 입니다.");
+            throw new CustomException(ErrorCode.DELETED_USER, "로그인이 불가능한 이메일, 비밀번호 입니다.");
         }
 
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
@@ -113,6 +113,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findUserByIdOrElseThrow(loginUser.getId());
         if (!passwordEncoder.matches( password, user.getPassword())){
+
             throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
         user.updatedeletedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));

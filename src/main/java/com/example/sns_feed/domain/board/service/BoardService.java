@@ -80,6 +80,19 @@ public class BoardService {
         );
     }
 
+//    @Transactional(readOnly = true)
+//    public BoardResponseDto findById(Long id) {
+//
+//
+//        Board board = boardRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//
+//        return new BoardResponseDto(
+//                            board.getId(),
+//                            board.getUser().getUserName(),
+//                            board.getTitle(),
+//                            board.getContents(),
+//                            board.getUpdatedAt());
+//    }
 
     @Transactional
     public void deleteById(Long id, Long sessionId) {
