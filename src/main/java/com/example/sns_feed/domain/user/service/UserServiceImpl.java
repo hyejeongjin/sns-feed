@@ -4,10 +4,7 @@ import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.ErrorCode;
-import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
@@ -36,7 +33,7 @@ public class UserServiceImpl implements UserService {
      * @return bool
      */
 
-    public boolean existsByEmail(String email){
+    public boolean existsByEmail(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
 
@@ -49,12 +46,12 @@ public class UserServiceImpl implements UserService {
     public MessageResponseDto signup(
             RequestDto dto) {
 
-        if(existsByEmail(dto.getEmail())){
+        if (existsByEmail(dto.getEmail())) {
             throw new CustomException(ErrorCode.INVALID_EMAIL, "이미 가입되었던 정보입니다.");
         }
 
         User user = new User(dto);
-        user.updatePassword( passwordEncoder.encode(user.getPassword()));
+        user.updatePassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
@@ -70,11 +67,11 @@ public class UserServiceImpl implements UserService {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
 
-        if(findUser.getDeletedAt() != null){
+        if (findUser.getDeletedAt() != null) {
             throw new CustomException(ErrorCode.DELETED_USER, "로그인이 불가능한 이메일, 비밀번호 입니다.");
         }
 
-        if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){
+        if (!passwordEncoder.matches(dto.getPassword(), findUser.getPassword())) {
             throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
         return new UserResponseDto(findUser.getId());
@@ -89,13 +86,13 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
 
         User findUser = userRepository.findUserByIdOrElseThrow(id);
-        if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
+        if (!passwordEncoder.matches(dto.getOldPassword(), findUser.getPassword())) {
 
             throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
 
         }
-        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
-           throw new CustomException(ErrorCode.SAME_PASSWORD);
+        if (dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
+            throw new CustomException(ErrorCode.SAME_PASSWORD);
         }
 
         findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
@@ -109,10 +106,10 @@ public class UserServiceImpl implements UserService {
      * 예외 수정할것.
      * */
     @Override
-    public void delete(UserResponseDto  loginUser, String password) {
+    public void delete(UserResponseDto loginUser, String password) {
 
         User user = userRepository.findUserByIdOrElseThrow(loginUser.getId());
-        if (!passwordEncoder.matches( password, user.getPassword())){
+        if (!passwordEncoder.matches(password, user.getPassword())) {
 
             throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
@@ -145,6 +142,23 @@ public class UserServiceImpl implements UserService {
         List<User> findUsers = userRepository.findUserByUserName(userName);
 
         return findUsers.stream().map(ResponseDto::toDto).toList();
+    }
+
+    /**
+     * 2025 04 10
+     * 양재호
+     *
+     * @param dto
+     * @param email
+     */
+
+    @Override
+    public void changePassword(ChangePasswordRequestDto dto, String email) {
+        User findUser = userRepository.findByEmailOrThrow(email);
+
+        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+
+        userRepository.save(findUser);
     }
 
     /**

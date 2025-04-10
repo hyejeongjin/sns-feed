@@ -3,13 +3,11 @@ package com.example.sns_feed.domain.user.service;
 
 
 import com.example.sns_feed.common.MessageResponseDto;
-import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -34,4 +32,6 @@ public interface UserService {
     ResponseDto updateUser(Long id, UpdateUserRequestDto dto);
 
     List<ResponseDto> findUsersByUserName(String userName);
+
+    void changePassword(@Valid ChangePasswordRequestDto dto, String email);
 }
