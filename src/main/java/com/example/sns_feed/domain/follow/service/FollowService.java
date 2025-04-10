@@ -1,10 +1,7 @@
 package com.example.sns_feed.domain.follow.service;
 
 
-import com.example.sns_feed.domain.follow.dto.FollowListDto;
-import com.example.sns_feed.domain.follow.dto.FollowRequestDto;
-import com.example.sns_feed.domain.follow.dto.FollowResponseDto;
-import com.example.sns_feed.domain.follow.dto.RespondFollowRequestDto;
+import com.example.sns_feed.domain.follow.dto.*;
 import com.example.sns_feed.domain.follow.entity.Follow;
 import com.example.sns_feed.domain.follow.enums.FollowStatus;
 import com.example.sns_feed.domain.follow.repository.FollowRepository;
@@ -12,7 +9,6 @@ import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,7 +61,6 @@ public class FollowService {
         }
 
 
-
         if (!follow.getFollowStatus().equals(FollowStatus.PENDING)){
             throw new IllegalAccessException("이미 처리된 요청입니다.");
         }
@@ -74,7 +69,6 @@ public class FollowService {
         if(request.getAccept()){
             // 요청 수락
             follow.updateStatus(FollowStatus.ACCEPTED);
-            // follow 수 늘리는 코드
         } else if (request.getReject()) {
             // 요청 거절
             follow.updateStatus(FollowStatus.REJECTED);
@@ -85,8 +79,16 @@ public class FollowService {
     }
 
 
-    public List<FollowListDto> getMyfriends(Long senderId) {
+    // 친구 목록
+    public List<MyFriendsDto> getMyfriends(Long senderId) {
         List<User> userList = followRepository.findAcceptedFollowingsBySenderId(senderId);
-        return userList.stream().map(user -> new FollowListDto(user.getId(),user.getEmail())).toList();
+        return userList.stream().map(MyFriendsDto::new).toList();
     }
+
+    // 나를 팔로우 요청보낸 사용자들을 조회
+    public List<FollowRequestListDto> getPendingFollowRequests(Long receiverId){
+        List<Follow> followRequestList = followRepository.findPendingSenderByReceiverId(receiverId);
+        return followRequestList.stream().map(FollowRequestListDto::new).toList();
+    }
+
 }

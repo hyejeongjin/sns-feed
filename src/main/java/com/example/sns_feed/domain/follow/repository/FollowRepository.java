@@ -17,10 +17,12 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query("select count(f) > 0 from Follow f where f.sender = :sender and f.receiver = :receiver and f.followStatus = 'PENDING'")
     boolean pendingRequest(@Param("sender") User sender, @Param("receiver") User receiver);
 
-    @Query("SELECT count(f) > 0 FROM Follow f WHERE f.sender = :sender AND f.receiver = :receiver AND f.followStatus = 'ACCEPTED'")
+    @Query("select count(f) > 0 from Follow f where f.sender = :sender and f.receiver = :receiver and f.followStatus = 'ACCEPTED'")
     boolean alreadyFollowing(@Param("sender") User sender, @Param("receiver") User receiver);
 
-    @Query("SELECT f.receiver FROM Follow f WHERE f.sender.id = :senderId AND f.followStatus = 'ACCEPTED'")
+    @Query("select f.receiver from Follow f where f.sender.id = :senderId and f.followStatus = 'ACCEPTED'")
     List<User> findAcceptedFollowingsBySenderId(@Param("senderId") Long senderId);
 
+    @Query("select f from Follow f where f.receiver.id = :receiverId and f.followStatus = 'PENDING'")
+    List<Follow> findPendingSenderByReceiverId(@Param("receiverId") Long receiverId);
 }
