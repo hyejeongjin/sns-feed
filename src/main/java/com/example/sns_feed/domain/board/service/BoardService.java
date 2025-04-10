@@ -92,30 +92,6 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-//    @Transactional(readOnly = true)
-//    public Page<BoardPageResponseDto> findAllPage(String titleSearch, Boolean isFollowingBoard, Pageable pageable) {
-//
-//        Page<Board> boardPage;
-//
-//        if(titleSearch == null && isFollowingBoard == null) {
-//            boardPage = boardRepository.findAllCount(pageable);
-//        }
-//
-//        if(titleSearch!=null&&isFollowingBoard==null) {
-//            boardPage = boardRepository.findByTitleIsLike(titleSearch,pageable);
-//        }
-//
-//        if(titleSearch==null&&isFollowingBoard!=null) {
-//            boardRepository.find
-//        }
-//
-//        boardRepository.findBoardPageWithCommentCount(pageable);
-//
-//
-//
-//        return null;
-//    }
-
 
 
 }
