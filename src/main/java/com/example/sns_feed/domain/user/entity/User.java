@@ -5,8 +5,10 @@ import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.data.redis.core.RedisHash;
 
 @Getter
+@RedisHash(value = "user", timeToLive = 180)
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
