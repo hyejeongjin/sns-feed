@@ -4,7 +4,6 @@ import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.ErrorCode;
-import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
@@ -12,8 +11,8 @@ import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,12 +49,12 @@ public class UserServiceImpl implements UserService {
             RequestDto dto) {
 
         if(existsByEmail(dto.getEmail())){
-            throw new DuplicateKeyException("이미 가입되었던 정보입니다.");
+            throw new CustomException(ErrorCode.INVALID_EMAIL, "이미 가입되었던 정보입니다.");
         }
 
         User user = new User(dto);
         user.updatePassword( passwordEncoder.encode(user.getPassword()));
-        User saveUser = userRepository.save(user);
+        userRepository.save(user);
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
     }
@@ -97,6 +96,7 @@ public class UserServiceImpl implements UserService {
         if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
            throw new CustomException(ErrorCode.SAME_PASSWORD);
         }
+
         findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(findUser);
     }
