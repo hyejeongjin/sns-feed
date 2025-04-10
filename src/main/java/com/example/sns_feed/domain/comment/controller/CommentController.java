@@ -5,6 +5,7 @@ import com.example.sns_feed.common.Const;
 import com.example.sns_feed.domain.comment.dto.CommentRequestDto;
 import com.example.sns_feed.domain.comment.dto.CommentResponseDto;
 import com.example.sns_feed.domain.comment.dto.CommentSaveResponseDto;
+import com.example.sns_feed.domain.comment.dto.CommentUpdateRequestDto;
 import com.example.sns_feed.domain.comment.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +22,14 @@ public class CommentController {
     public CommentService commentService;
 
     @PostMapping("/boards/{boardId}/comments")
-    public ResponseEntity<CommentSaveResponseDto> saveComment(
+    public ResponseEntity<CommentResponseDto> save(
             @SessionAttribute(name = Const.LOGIN_USER) Long userId,
             @PathVariable Long boardId,
             @Valid @RequestBody CommentRequestDto requestDto){
 
+         CommentResponseDto commentResponseDto = commentService.save(userId, boardId, requestDto);
 
-         CommentSaveResponseDto commentSaveResponseDto = commentService.save(userId, boardId, requestDto.getContent());
-
-        return new ResponseEntity<>(commentSaveResponseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
 
     }
 
@@ -38,6 +38,28 @@ public class CommentController {
         List<CommentResponseDto> commentResponseDtoList = commentService.findByBoard(boardId);
 
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/comments/{id}")
+    public ResponseEntity<CommentResponseDto> findOne(@PathVariable Long id){
+        return new ResponseEntity<>(commentService.findOne(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/comments/{id}")
+    public ResponseEntity<CommentResponseDto>  update(@SessionAttribute(name = Const.LOGIN_USER) Long userId,
+                                                      @PathVariable Long id,
+                                                      @Valid @RequestBody CommentUpdateRequestDto dto){
+
+        CommentResponseDto commentResponseDto = commentService.update(userId, id, dto);
+
+        return new ResponseEntity<>(commentResponseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/comments/{id}")
+    public ResponseEntity<Void> delete (@SessionAttribute(name = Const.LOGIN_USER) Long userId,
+                                        @PathVariable Long id){
+        commentService.delete(userId, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

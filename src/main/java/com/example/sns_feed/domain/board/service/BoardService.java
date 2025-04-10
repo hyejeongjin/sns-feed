@@ -22,21 +22,20 @@ public class BoardService {
     @Transactional
     public BoardSaveResponseDto saveBoard(Long id, BoardRequestDto dto) {
 
-        User user = userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         Board board = new Board(dto.getTitle(), dto.getContent(), user);
 
         boardRepository.save(board);
 
         return new BoardSaveResponseDto(
-                                board.getId(),
-                                user.getUserName(),
-                                board.getTitle(),
-                                board.getContent(),
-                                board.getCreateAt(),
-                                board.getUpdatedAt());
+                board.getId(),
+                user.getUserName(),
+                board.getTitle(),
+                board.getContent(),
+                board.getCreatedAt(),
+                board.getUpdatedAt());
     }
-
 //    @Transactional(readOnly = true)
 //    public BoardResponseDto findById(Long id) {
 //
