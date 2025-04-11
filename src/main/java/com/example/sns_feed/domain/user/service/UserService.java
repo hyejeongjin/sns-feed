@@ -1,6 +1,6 @@
 package com.example.sns_feed.domain.user.service;
 
-import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.domain.user.dto.responsedto.MessageResponseDto;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;

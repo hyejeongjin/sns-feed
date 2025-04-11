@@ -102,7 +102,7 @@ public class BoardLikeService {
 
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(ErrorCode.USER_NOT_FOUND.getCode()));
 
-        BoardLike boardLike = boardLikeRepository.findByBoardAndUser(board, user).orElseThrow(() -> new BoardLikeFailedException(ErrorCode.BOARD_LIKE_NOT_FOUND));
+        BoardLike boardLike = boardLikeRepository.findByBoardAndUser(board, user).orElseThrow(() -> new BoardLikeNotFoundException(ErrorCode.BOARD_LIKE_NOT_FOUND));
 
         boardLikeRepository.delete(boardLike);
     }

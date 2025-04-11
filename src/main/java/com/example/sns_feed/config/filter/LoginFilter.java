@@ -25,7 +25,6 @@ public class LoginFilter implements Filter {
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-
         //White_List 포함된 경우 로직 수행하지 않음, 안된경우 해당 로직을 수행
         if (!isWhiteList(requestURI)) {
             System.out.println(requestURI); //check
