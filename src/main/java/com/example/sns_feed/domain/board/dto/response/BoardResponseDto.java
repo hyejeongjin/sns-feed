@@ -21,6 +21,6 @@ public class BoardResponseDto {
 
     private final LocalDateTime updatedAt;
 
-    private final List<Comment> CommentList;
+    private final List<BoardCommentDto> CommentList;
 
 }

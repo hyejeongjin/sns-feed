@@ -2,7 +2,13 @@ package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.common.exception.CustomException;
+import com.example.sns_feed.common.exception.ErrorCode;
+import com.example.sns_feed.domain.email.emailservice.EmailService;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
@@ -14,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +36,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-
+    private final EmailService emailService;
 
     /**
      * 2025 04 08
@@ -89,26 +96,30 @@ public class UserController {
     public ResponseEntity<Map<String, String>> updatePassword(
             @Valid @RequestBody UpdatePasswordRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
-        //userService.updatePassword(dto, loginUser.getId());
+        userService.updatePassword(dto, loginUser.getId());
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
 
 
-    //비번 찾기1
-
-
-    //본인인증2
     //비번 초기화
+    @PostMapping("/checkCode")
+    public ResponseEntity<Map<String, String>> checkCode(
+            @Valid @RequestBody CheckCodeRequestDto dto) {
+        userService.checkingCode(dto.getEmail(), dto.getCert());
+
+        return new ResponseEntity<>(Map.of("message", "비밀번호를 재설정해주세요(/findPassword)."), HttpStatus.OK);
+    }
+
 
     //새 비번 입력3
 
-//    @PatchMapping("/findPassword")
-//    public ResponseEntity<Map<String, String>> findPassword(
-//            @Valid @RequestBody UpdatePasswordRequestDto dto) {
-//
-//        userService.updatePassword(dto, loginUser.getId());
-//        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
-//    }
+    @PatchMapping("/findPassword")
+    public ResponseEntity<Map<String, String>> findPassword(
+            @Valid @RequestBody ChangePasswordRequestDto dto) {
+
+        userService.updateNewPassword(dto);
+        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
+    }
 
     /**
      * 2025 04 07
@@ -182,4 +193,115 @@ public class UserController {
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 
+    /**
+     * 2025 04 10
+     * 양재호
+     * @param dto
+     * @param request
+     * @return
+     */
+
+    // 이메일 보내는 메서드
+    // 여기선 유저 검증하고 맞으면 이메일 보냄
+    // 그리고 session 발급하고 CERTNum 저장해
+    @PostMapping("/send_email")
+    public ResponseEntity<String> pleaseFindMyPassword(
+            @Valid @RequestBody EmailRequestDto dto,
+            HttpServletRequest request){
+
+        boolean existsByEmail = userService.existsByEmail(dto.getEmail());
+
+        // 본인인증 -> 여기서 하지말고 updatePassword 에서 session발급하고?
+        if(!existsByEmail) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        // EmailService 추가
+        // email 있는 requestDto 추가
+        // 이메일 쏘며 생성했던 난수 저장
+        int num = emailService.sendMail(dto.getEmail());
+
+        // int num 을 String으로!
+        String CERTNum = String.valueOf(num);
+
+        Map<String, String> valueMap = new HashMap<>();
+
+        valueMap.put("CERT", CERTNum);
+        valueMap.put("email", dto.getEmail());
+
+        // String으로 변환한 CERTNum을 value에 저장하고 이걸 통과해야 비번변경 가능하게?
+        HttpSession session = request.getSession();
+        session.setAttribute("CERT", valueMap);
+
+        // 세션 만료 시간 3분으로 설정
+        session.setMaxInactiveInterval(180);
+
+        return new ResponseEntity<>("메일을 전송하였습니다.", HttpStatus.OK);
+    }
+
+    /**
+     * 2025 04 10
+     * 양재호
+     * @param dto
+     * @param httpServletRequest
+     * @return
+     */
+    // 패스워드 초기화
+    @PostMapping("/check")
+    public ResponseEntity<String> check(
+            @Valid @RequestBody CheckCodeRequestDto dto,
+            HttpServletRequest httpServletRequest
+            ) {
+
+        HttpSession session = httpServletRequest.getSession(false);
+
+        if(session == null || session.getAttribute("CERT") == null) {
+            throw new CustomException(ErrorCode.INVALID_SESSION);
+        }
+
+        Map<String, String> valueMap = (Map<String, String>) session.getAttribute("CERT");
+        String email = valueMap.get("email");
+
+        if(!valueMap.get("CERT").equals(dto.getCert())) {
+            throw new CustomException(ErrorCode.INVALID_CERT);
+        }
+
+        // 비밀번호 초기화 -> 근데 CERT Session만으로는 DB에 접근을 못하잖아?
+        // 어떻게 해야할까?
+        session.setAttribute("goNewPassword", email);
+
+        return new ResponseEntity<>("본인 인증에 성공하였습니다.", HttpStatus.OK);
+    }
+
+    /**
+     * 2025 04 10
+     * 양재호
+     * @param dto
+     * @param httpServletRequest
+     * @return
+     */
+    @PatchMapping("/change_password")
+    public ResponseEntity<String> changePassword(
+            @Valid @RequestBody ChangePasswordRequestDto dto,
+            HttpServletRequest httpServletRequest
+    ) {
+        // 아? 그러고보니 새 패스워드 받아오는 건 맞는데 여기서 DB에 어케 접근하지??
+        // CERT 세션에서 email, CERT를 Map 형태로 저장하고
+        // 그 중에 email만 꺼내서 goNewPassword에 저장하고
+        // 여기서 email을 꺼내서 DB에 접근하면? 가능하지 않나?
+        HttpSession session = httpServletRequest.getSession(false);
+
+        // String으로 저장했는데 왜 Object 형식인거지ㅣ....?
+        String email = (String) session.getAttribute("goNewPassword");
+
+        userService.changePassword(dto, email);
+
+        session.invalidate();
+        return new ResponseEntity<>("비밀번호가 변경되었습니다.", HttpStatus.OK);
+    }
 }
+
+//아.........난 왜이렇게 멍청한것인가........................................................................
+// 1. 비번 찾기
+// 2. 본인인증 / 비번 초기화
+// 3. 새 비번 입력
