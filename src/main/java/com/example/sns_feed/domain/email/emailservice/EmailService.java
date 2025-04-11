@@ -49,8 +49,4 @@ public class EmailService {
         javaMailSender.send(mimeMessage);
         return number;
     }
-
-    public Boolean isCERTCheck(String userNumber) {
-        return userNumber.equals(String.valueOf(number));
-    }
 }

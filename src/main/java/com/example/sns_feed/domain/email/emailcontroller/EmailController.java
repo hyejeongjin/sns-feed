@@ -2,11 +2,7 @@ package com.example.sns_feed.domain.email.emailcontroller;
 
 import com.example.sns_feed.domain.email.dto.EmailRequestDto;
 import com.example.sns_feed.domain.email.emailservice.EmailService;
-import com.example.sns_feed.domain.email.entity.EmailMessage;
-import com.example.sns_feed.domain.redis.entitiy.RedisItem;
 import com.example.sns_feed.domain.redis.service.RedisService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
