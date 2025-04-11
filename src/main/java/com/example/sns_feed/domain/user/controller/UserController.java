@@ -287,6 +287,10 @@ public class UserController {
         // 여기서 email을 꺼내서 DB에 접근하면? 가능하지 않나?
         HttpSession session = httpServletRequest.getSession(false);
 
+        if (session == null || session.getAttribute("changePassword") == null) {
+            throw new CustomException(ErrorCode.INVALID_SESSION);
+        }
+
         // String으로 저장했는데 왜 Object 형식인거지ㅣ....?
         String email = (String) session.getAttribute("changePassword");
 
