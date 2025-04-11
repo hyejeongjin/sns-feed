@@ -96,7 +96,7 @@ public class UserController {
     public ResponseEntity<Map<String, String>> updatePassword(
             @Valid @RequestBody UpdatePasswordRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
-        //userService.updatePassword(dto, loginUser.getId());
+        userService.updatePassword(dto, loginUser.getId());
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
 
