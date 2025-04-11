@@ -18,6 +18,6 @@ public class FollowRequestListDto {
         this.followId = follow.getFollowId();
         this.userId = follow.getSender().getId();
         this.username = follow.getSender().getUserName();
-        this.followRequestTime = follow.getCreateAt();
+        this.followRequestTime = follow.getCreatedAt();
     }
 }
