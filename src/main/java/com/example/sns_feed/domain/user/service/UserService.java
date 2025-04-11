@@ -34,5 +34,4 @@ public interface UserService {
 
     List<ResponseDto> findUsersByUserName(String userName);
 
-    void changePassword(@Valid ChangePasswordRequestDto dto, String email);
 }

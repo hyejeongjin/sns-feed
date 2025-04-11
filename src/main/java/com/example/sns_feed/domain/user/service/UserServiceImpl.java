@@ -167,22 +167,7 @@ public class UserServiceImpl implements UserService {
         return findUsers.stream().map(ResponseDto::toDto).toList();
     }
 
-    /**
-     * 2025 04 10
-     * 양재호
-     *
-     * @param dto
-     * @param email
-     */
 
-    @Override
-    public void changePassword(ChangePasswordRequestDto dto, String email) {
-        User findUser = userRepository.findByEmailOrThrow(email);
-
-        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
-
-        userRepository.save(findUser);
-    }
 
     /**
      * 2025 04 08
