@@ -89,19 +89,27 @@ public class UserController {
     public ResponseEntity<Map<String, String>> updatePassword(
             @Valid @RequestBody UpdatePasswordRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
-        userService.updatePassword(dto, loginUser.getId());
+        //userService.updatePassword(dto, loginUser.getId());
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
-    //이증 번호 생성 url
-    //이증 번호 확인 url
-    @PatchMapping("/findPassword")
-    public ResponseEntity<Map<String, String>> findPassword(
-            @Valid @RequestBody UpdatePasswordRequestDto dto,
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
 
-        userService.updatePassword(dto, loginUser.getId());
-        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
-    }
+
+    //비번 찾기1
+
+
+    //본인인증2
+    //비번 초기화
+
+    //새 비번 입력3
+
+//    @PatchMapping("/findPassword")
+//    public ResponseEntity<Map<String, String>> findPassword(
+//            @Valid @RequestBody UpdatePasswordRequestDto dto) {
+//
+//        userService.updatePassword(dto, loginUser.getId());
+//        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
+//    }
+
     /**
      * 2025 04 07
      * 김형진
