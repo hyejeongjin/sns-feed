@@ -18,23 +18,4 @@ public class WebConfig implements WebMvcConfigurer {
         return filterRegistrationBean;
     }
 
-//    @Bean
-//    public FilterRegistrationBean UserCERTFilter() {
-//        FilterRegistrationBean<UserCERTFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-//        filterRegistrationBean.setFilter(new UserCERTFilter()); // Filter 등록
-//        filterRegistrationBean.setOrder(2); // Filter 순서
-//        filterRegistrationBean.addUrlPatterns("/*"); // 전체 URL에 Filter 적용
-//
-//        return filterRegistrationBean;
-//    }
-
-//    @Bean
-//    public FilterRegistrationBean ChangePasswordFilter() {
-//        FilterRegistrationBean<ChangePasswordFilter> filterRegistrationBean = new FilterRegistrationBean<>();
-//        filterRegistrationBean.setFilter(new ChangePasswordFilter()); // Filter 등록
-//        filterRegistrationBean.setOrder(3); // Filter 순서
-//        filterRegistrationBean.addUrlPatterns("/*"); // 전체 URL에 Filter 적용
-//
-//        return filterRegistrationBean;
-//    }
 }
