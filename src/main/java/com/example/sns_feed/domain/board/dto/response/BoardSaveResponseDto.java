@@ -1,6 +1,7 @@
 package com.example.sns_feed.domain.board.dto.response;
 
 import com.example.sns_feed.domain.board.entity.Board;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +18,10 @@ public class BoardSaveResponseDto {
 
     private final String content;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime createdAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime updatedAt;
 
 
