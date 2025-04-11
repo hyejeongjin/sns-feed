@@ -19,9 +19,6 @@ public interface UserService {
 
     UserResponseDto login(@RequestBody LoginRequestDto dto);
 
-    //void updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
-
-   // void resetPassword(String code);
     void delete (UserResponseDto loginUser, String password);
 
     List<ResponseDto> findUsers();
@@ -32,5 +29,4 @@ public interface UserService {
 
     List<ResponseDto> findUsersByUserName(String userName);
 
-    void changePassword(@Valid ChangePasswordRequestDto dto, String email);
 }

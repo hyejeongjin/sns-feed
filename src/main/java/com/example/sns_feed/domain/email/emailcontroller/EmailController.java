@@ -3,6 +3,7 @@ package com.example.sns_feed.domain.email.emailcontroller;
 import com.example.sns_feed.domain.email.dto.EmailRequestDto;
 import com.example.sns_feed.domain.email.emailservice.EmailService;
 import com.example.sns_feed.domain.email.entity.EmailMessage;
+import com.example.sns_feed.domain.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +16,17 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EmailController {
     private final EmailService emailService;
+    private final RedisService redisService;
     private int number;
     @PostMapping("/mail")
-    public Map<String, Object> mailSend(@RequestBody EmailRequestDto EmailDto){
+    public Map<String, Object> mailSend(@RequestBody EmailRequestDto emailDto){
         HashMap<String , Object> map = new HashMap<>();
 
          try{
-             number = emailService.sendMail(EmailDto.getEmail());
+             number = emailService.sendMail(emailDto.getEmail());
              String num = String.valueOf(number);
              map.put("number", number);
+             redisService.setRedisData(emailDto.getEmail(), num);
          }
          catch (Exception ex){
              map.put("Success:", Boolean.FALSE);
