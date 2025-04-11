@@ -105,6 +105,7 @@ public class BoardService {
         boolean hasPrevious = startPage > 1;
         boolean hasNext = endPage < totalPages;
 
+
         return new PageResponseDto (
                 allPage.getContent(),
                 nowPage,

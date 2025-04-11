@@ -26,12 +26,16 @@ public enum ErrorCode {
 
     //Board
     BOARD_NOT_FOUND(404,"Not Found","B001","해당 게시글 번호가 존재하지 않습니다."),
-
     BOARD_UNAUTHORIZED(401,"Unauthorized","B002","게시글 작성자만 수정/삭제 할 수 있습니다."),
+
+    //BoardLike
+    BOARD_LIKE_FAILED(400,"Bad Request","BL01","본인이 작성한 게시글에는 좋아요를 누를 수 없습니다."),
+    BOARD_LIKE_NOT_FOUND(404,"Not Found","BL02","요청하신 게시글 좋아요 정보를 찾을 수 없습니다."),
+
 
     //Comment
     COMMENT_NOT_FOUND(404, "Not Found", "C001", "요청한 댓글을 찾을 수 없습니다."),
-    USER_MISMATCH(403, "Forbidden", "C002", "작성자만 수정 가능합니다.");
+    USER_MISMATCH(403, "Forbidden", "C002", "작성자만 수정 가능합니다."),
 
     //follow
     UNAUTHORIZED(401,"Unauthorized","F001","로그인이 필요합니다."),
