@@ -43,7 +43,7 @@ public class EmailService {
     }
 
     public int sendMail(String mail){
-        redisService.setRedisData(mail, String.valueOf(number));
+
         MimeMessage mimeMessage = CreateMail(mail);
         javaMailSender.send(mimeMessage);
         return number;

@@ -4,15 +4,12 @@ import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.common.PasswordEncoder;
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.ErrorCode;
-import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.redis.service.RedisServiceImpl;
-import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
 import com.example.sns_feed.domain.user.repository.UserRepository;
-import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +35,8 @@ public class UserServiceImpl implements UserService {
      * @return bool
      */
 
-    public boolean existsByEmail(String email) {
+
+    public boolean existsByEmail(String email){
         return userRepository.findByEmail(email).isPresent();
     }
 
@@ -82,31 +80,28 @@ public class UserServiceImpl implements UserService {
         return new UserResponseDto(findUser.getId());
     }
 
-//    /**
-//     *  파라미터 수정해줘!!!!!
-//     * 인증 확인 완료 승인 메세지 줄력
-//     * @param dto
-//     */
-//    @Override
-//    public void resetPassword(String code) {
-//        String email =  redisService.getRedisData(code);
-//        User findUser =  userRepository.findByEmailOrThrow(email);
-//        findUser.updatePassword("");
-//        userRepository.save(findUser);
-//        // 비밀번호 초기화 다음 URI로 보냅니다.
-//    }
-
+    //인증 번호 확인 서비스 추가
+    @Override
+    public void checkingCode(String email, String code) {
+        String getCode = redisService.getRedisData(email);
+        if(!getCode.equals(code)){
+            throw new CustomException(ErrorCode.CODE_MISMATCH);
+        }
+    }
 
     /*
      * 202 04 07
      * 김형진
-     * 비밀번호 수정
+     * 최종적으로 비밀번호를 재설정하고 레디스 초기화.
      * */
-//    @Override
-//    public void findPassword(@RequestBody UpdatePasswordRequestDto dto) {
-//
-//
-//    }
+    @Override
+    public void updateNewPassword(ChangePasswordRequestDto dto) {
+        User findUser =  userRepository.findByEmailOrThrow(dto.getEmail());
+        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(findUser);
+        redisService.resetCode(dto.getEmail());
+    }
+
 
     @Override
     public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
@@ -124,6 +119,8 @@ public class UserServiceImpl implements UserService {
         findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(findUser);
     }
+
+
 
     /*
      * 202 04 07

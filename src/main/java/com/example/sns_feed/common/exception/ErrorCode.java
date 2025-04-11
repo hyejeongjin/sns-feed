@@ -17,7 +17,8 @@ public enum ErrorCode {
 
     //Auth
     INVALID_EMAIL(400, "Bad Request", "A001", "이미 가입된 이메일입니다."),
-
+    SESSION_NOT_FOUND(404, "Not Found", "A002", "세션이 만료되었습니다."),
+    CODE_MISMATCH(400, "Bad Request", "A003", "인증 번호가 일치하지 않습니다."),
     //User
     USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다."),
     PASSWORD_MISMATCH(400, "Bad Request", "U002", "비밀번호가 일치하지 않습니다."),

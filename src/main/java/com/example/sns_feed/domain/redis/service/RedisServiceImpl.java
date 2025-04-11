@@ -1,11 +1,14 @@
 package com.example.sns_feed.domain.redis.service;
 
-import com.example.sns_feed.domain.redis.entitiy.RedisItem;
+import com.example.sns_feed.common.exception.CustomException;
+import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.domain.redis.repository.RedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -16,14 +19,22 @@ public class RedisServiceImpl implements RedisService{
 
     @Override
     public void setRedisData(String email, String code) {
-        RedisItem redisItem = new RedisItem(email, code);
-        redisRepository.save(redisItem);
+        //String redisKey = "emailCode:" + email;
+        redisTemplate.opsForValue().set(email, code, 5, TimeUnit.MINUTES);
     }
 
     @Override
-    public String getRedisData(String code) {
-       RedisItem redisItem =  redisRepository.findByCERTCodeOrThrow(code);
-       return  redisItem.getEmail();
+    public void resetCode(String email) {
+        redisTemplate.delete(email);
+    }
+
+    @Override
+    public String getRedisData(String email) {
+        String code = redisTemplate.opsForValue().get( email);
+        if(code == null){
+            throw new CustomException( ErrorCode.SESSION_NOT_FOUND);
+        }
+        return code;
     }
 
 }
