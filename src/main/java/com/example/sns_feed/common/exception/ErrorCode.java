@@ -3,7 +3,6 @@ package com.example.sns_feed.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -33,6 +32,18 @@ public enum ErrorCode {
     //Comment
     COMMENT_NOT_FOUND(404, "Not Found", "C001", "요청한 댓글을 찾을 수 없습니다."),
     USER_MISMATCH(403, "Forbidden", "C002", "작성자만 수정 가능합니다.");
+
+    //follow
+    UNAUTHORIZED(401,"Unauthorized","F001","로그인이 필요합니다."),
+    INVALID_FOLLOW_REQUEST(400,"Bad Request","F002","자신에게는 요청이 안됩니다."),
+    ALREADY_REQUESTED_FOLLOW(400,"Bad Request","F003","이미 팔로우 요청을 보냈습니다."),
+    ALREADY_FOLLOWING(400,"Bad Request","F004","이미 친구 상태입니다."),
+    FOLLOW_ACCESS_DENIED(403,"Forbidden","F005","팔로우 권한 요청이 없습니다."),
+    NOT_FRIEND(400,"Bad Request","F006","친구 관계가 아닙니다."),
+    REQUEST_PROCESSED(400,"Bad Request","F007","이미 처리된 요청입니다."),
+    BAD_REQUEST(400,"Bad Request","F008","잘못된 요청 형식입니다."),
+    FOLLOW_REQUEST_NOT_FOUND(400,"Bad Request","F009","해당 팔로우 요청을 찾을 수 없습니다.");
+
 
 
     private final int status;
