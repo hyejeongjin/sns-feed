@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
@@ -16,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUserName(String userName);
 
     default User findByEmailOrThrow(String Email) {
-        return findByEmail(Email).orElseThrow(() -> new CustomException(ErrorCode.INVALID_EMAIL, "요청한 정보를 찾을 수 없습니다."));
+        return findByEmail(Email).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND, "유저 정보를 찾을 수 없습니다."));
     }
 
     default User findUserByIdOrElseThrow(Long id) {

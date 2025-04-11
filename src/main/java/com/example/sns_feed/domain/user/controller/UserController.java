@@ -20,11 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 2025 04 08
- * 양재호
- * 전제 기능에 session기준 추가해야함(로그인 되었을 경우에 조회가능~)
- */
 
 @RestController
 @RequestMapping
@@ -68,6 +63,11 @@ public class UserController {
         return new ResponseEntity<>(Map.of("message", "로그인에 성공하였습니다."), HttpStatus.OK);
     }
 
+    /**
+     * 2025 04 09
+     * 김형진
+     * 로그아웃
+     * */
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(
             HttpServletRequest request
@@ -97,23 +97,29 @@ public class UserController {
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
 
-
-    //비번 초기화
-    @PostMapping("/checkCode")
+    /**
+     * 2025 04 11
+     * 김형진, 양재호
+     * 비번 초기화
+     * */
+    @PostMapping("/verifyEmailCode")
     public ResponseEntity<Map<String, String>> checkCode(
             @Valid @RequestBody CheckCodeRequestDto dto
     ) {
-        userService.checkingCode(dto.getEmail(), dto.getCert());
+        userService.verifyEmailCode(dto.getEmail(), dto.getCert());
         return new ResponseEntity<>(Map.of("message", "비밀번호를 재설정해주세요(/findPassword)."), HttpStatus.OK);
     }
 
-
-    //새 비번 입력3
-    @PatchMapping("/findPassword")
+    /**
+     * 2025 04 11
+     * 김형진, 양재호
+     * 새 비번 입력
+     * */
+    @PatchMapping("/resetPassword")
     public ResponseEntity<Map<String, String>> findPassword(
             @Valid @RequestBody ChangePasswordRequestDto dto
     ) {
-        userService.updateNewPassword(dto);
+        userService.resetPassword(dto);
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
 

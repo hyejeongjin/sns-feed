@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final RedisServiceImpl redisService;
 
-    private boolean isCERTCheckComplete;
     /**
      * 2025 04 08
      *  김형진
@@ -34,14 +33,12 @@ public class UserServiceImpl implements UserService {
      * @param email String data
      * @return bool
      */
-
-
     public boolean existsByEmail(String email){
         return userRepository.findByEmail(email).isPresent();
     }
 
-    /*
-     * 202 04 07
+    /**
+     * 2025 04 07
      * 김형진
      * 가입
      * */
@@ -56,12 +53,13 @@ public class UserServiceImpl implements UserService {
         User user = new User(dto);
         user.updatePassword( passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
         //가입 완료 메세지를 보낸다.
         return new MessageResponseDto("가입 완료 되었습니다.");
     }
 
-    /*
-     * 202 04 07
+    /**
+     * 2025 04 07
      * 김형진
      * 로그인
      * */
@@ -80,29 +78,37 @@ public class UserServiceImpl implements UserService {
         return new UserResponseDto(findUser.getId());
     }
 
-    //인증 번호 확인 서비스 추가
+    /**
+     * 2025 04 11
+     * 김형진, 양재호
+     * 인증 번호 확인 서비스 추가
+     * */
     @Override
-    public void checkingCode(String email, String code) {
+    public void verifyEmailCode(String email, String code) {
         String getCode = redisService.getRedisData(email);
         if(!getCode.equals(code)){
             throw new CustomException(ErrorCode.CODE_MISMATCH);
         }
     }
 
-    /*
-     * 202 04 07
+    /**
+     * 2025 04 07
      * 김형진
      * 최종적으로 비밀번호를 재설정하고 레디스 초기화.
      * */
     @Override
-    public void updateNewPassword(ChangePasswordRequestDto dto) {
+    public void resetPassword(ChangePasswordRequestDto dto) {
         User findUser =  userRepository.findByEmailOrThrow(dto.getEmail());
         findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(findUser);
         redisService.deleteVerificationCode(dto.getEmail());
     }
 
-
+    /**
+     * 2025 04 11
+     * 김형진, 양재호
+     * 비밀번호 변경
+     * */
     @Override
     public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
 
@@ -120,10 +126,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(findUser);
     }
 
-
-
-    /*
-     * 202 04 07
+    /**
+     * 2025 04 07
      * 김형진
      * 비밀번호 삭제
      * 예외 수정할것.
@@ -166,8 +170,6 @@ public class UserServiceImpl implements UserService {
 
         return findUsers.stream().map(ResponseDto::toDto).toList();
     }
-
-
 
     /**
      * 2025 04 08

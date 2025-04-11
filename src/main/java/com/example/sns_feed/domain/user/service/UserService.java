@@ -5,13 +5,11 @@ import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface UserService {
-
 
     boolean existsByEmail(String email);
 
@@ -21,8 +19,9 @@ public interface UserService {
 
     void updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
 
-    void checkingCode(String email, String code);
-    void updateNewPassword(@RequestBody ChangePasswordRequestDto dto);
+    void verifyEmailCode(String email, String code);
+
+    void resetPassword(@RequestBody ChangePasswordRequestDto dto);
 
     void delete (UserResponseDto loginUser, String password);
 

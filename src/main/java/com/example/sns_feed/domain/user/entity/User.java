@@ -18,6 +18,7 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String profile;
 
     @Column(nullable = false)
@@ -41,7 +42,8 @@ public class User extends BaseEntity {
     public User() {
 
     }
-    /*
+
+    /**
     * 2025 04 07
     * 김형진
     *  생성자 업데이트
@@ -69,6 +71,7 @@ public class User extends BaseEntity {
     public void updatePassword(String password){
         this.password = password;
     }
+
     public void updatedeletedAt(String deletedAt){
         this.deletedAt = deletedAt;
     }
