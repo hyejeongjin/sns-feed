@@ -23,6 +23,15 @@ public class FollowService {
     private final UserRepository userRepository;
 
 
+
+    /**
+     * 팔로우 요청을 처리하는 메서드
+     *
+     * @param requestDto 팔로우 요청 DTO
+     * @param senderId 요청을 보낸 사용자 ID
+     * @return 저장된 팔로우 응답 DTO
+     * @throws CustomException 유효하지 않은 요청, 중복 요청, 이미 친구인 경우 예외 발생
+     */
     @Transactional
     public FollowResponseDto followRequest(FollowRequestDto requestDto, Long senderId) throws CustomException {
         User user = userRepository.findUserByIdOrElseThrow(senderId);
@@ -52,7 +61,14 @@ public class FollowService {
         return new FollowResponseDto(savedFollow);
     }
 
-    //팔로우 수락, 거절
+    /**
+     * 팔로우 요청 수락 또는 거절 처리
+     *
+     * @param followId 팔로우 요청 ID
+     * @param request 수락 또는 거절 정보가 담긴 DTO
+     * @param loginUserID 로그인한 사용자 ID
+     * @throws CustomException 권한이 없거나, 이미 처리된 요청일 경우 예외 발생
+     */
     @Transactional
     public void respondFollowRequest(Long followId, RespondFollowRequestDto request, Long loginUserID) throws CustomException {
         Follow follow = followRepository.findById(followId).orElseThrow(FollowRequestNotFoundException::new);
@@ -82,19 +98,35 @@ public class FollowService {
     }
 
 
-    // 친구 목록
+    /**
+     * 로그인한 사용자의 친구 목록 조회
+     *
+     * @param senderId 사용자 ID
+     * @return 친구 목록 DTO 리스트
+     */
     public List<MyFriendsDto> getMyFriends(Long senderId) {
         List<User> userList = followRepository.findAcceptedFollowingsBySenderId(senderId);
         return userList.stream().map(MyFriendsDto::new).toList();
     }
 
-    // 나를 팔로우 요청보낸 사용자들을 조회
+    /**
+     * 나에게 팔로우 요청을 보낸 사용자 목록 조회
+     *
+     * @param receiverId 요청을 받은 사용자 ID
+     * @return 팔로우 요청 리스트 DTO
+     */
     public List<FollowRequestListDto> getPendingFollowRequests(Long receiverId){
         List<Follow> followRequestList = followRepository.findPendingSenderByReceiverId(receiverId);
         return followRequestList.stream().map(FollowRequestListDto::new).toList();
     }
 
-    // 친구 삭제
+    /**
+     * 친구 삭제 처리
+     *
+     * @param senderId 요청한 사용자 ID
+     * @param receiverId 삭제할 친구의 사용자 ID
+     * @throws CustomException 친구가 아닌 경우 예외 발생
+     */
     @Transactional
     public void receiverIdDelete(Long senderId, Long receiverId) throws CustomException {
         boolean following = followRepository.alreadyFollowing(
