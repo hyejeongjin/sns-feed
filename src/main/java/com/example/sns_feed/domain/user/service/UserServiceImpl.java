@@ -124,17 +124,17 @@ public class UserServiceImpl implements UserService {
 //        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
 //        userRepository.save(findUser);
 //    }
-
-            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
-
-        }
-        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
-           throw new CustomException(ErrorCode.SAME_PASSWORD);
-        }
-
-        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
-        userRepository.save(findUser);
-    }
+//
+//            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
+//
+//        }
+//        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
+//           throw new CustomException(ErrorCode.SAME_PASSWORD);
+//        }
+//
+//        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+//        userRepository.save(findUser);
+//    }
 
     /*
      * 202 04 07
