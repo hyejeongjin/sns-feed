@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
         User findUser =  userRepository.findByEmailOrThrow(dto.getEmail());
         findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
         userRepository.save(findUser);
-        redisService.resetCode(dto.getEmail());
+        redisService.deleteVerificationCode(dto.getEmail());
     }
 
 

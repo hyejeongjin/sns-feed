@@ -2,9 +2,7 @@ package com.example.sns_feed.domain.redis.service;
 
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.ErrorCode;
-import com.example.sns_feed.domain.redis.repository.RedisRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class RedisServiceImpl implements RedisService{
-    @Autowired
-    private final RedisRepository redisRepository;
+
     private final StringRedisTemplate redisTemplate;
 
     @Override
@@ -24,7 +21,7 @@ public class RedisServiceImpl implements RedisService{
     }
 
     @Override
-    public void resetCode(String email) {
+    public void deleteVerificationCode(String email) {
         redisTemplate.delete(email);
     }
 

@@ -4,7 +4,7 @@ public interface RedisService {
 
    void setRedisData(String email, String code);
 
-   void resetCode(String email);
+   void deleteVerificationCode(String email);
 
    String getRedisData(String code);
 }
