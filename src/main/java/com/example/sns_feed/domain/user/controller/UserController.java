@@ -2,14 +2,16 @@ package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.domain.user.dto.requestdto.*;
+import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.service.UserService;
-import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import java.util.Map;
  * 양재호
  * 전제 기능에 session기준 추가해야함(로그인 되었을 경우에 조회가능~)
  */
+
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
@@ -40,7 +43,7 @@ public class UserController {
      */
     @PostMapping("/signup")
     public ResponseEntity<MessageResponseDto> signup(
-            @RequestBody RequestDto dto) {
+           @Valid @RequestBody RequestDto dto) {
         return new ResponseEntity<>(userService.signup(dto), HttpStatus.OK);
     }
 
@@ -54,7 +57,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String,String >> login(
-            @RequestBody LoginRequestDto dto,
+            @Valid @RequestBody LoginRequestDto dto,
             HttpServletRequest request){
 
         //이전에 탈퇴했던 회원인가?
@@ -66,11 +69,13 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Map<String, String>> logOut(
+    public ResponseEntity<Map<String, String>> logout(
             HttpServletRequest request
     ) {
+
         // 로그인하지 않으면 HttpSession이 null로 반환된다.
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.invalidate();// 해당 세션(데이터)을 삭제한다.
         }
@@ -84,13 +89,22 @@ public class UserController {
      * @return
      */
     @PatchMapping("/updatePassword")
-    public ResponseEntity<Map<String, String>> updatePasswrd(
-            @RequestBody UpdatePasswordRequestDto dto,
+    public ResponseEntity<Map<String, String>> updatePassword(
+            @Valid @RequestBody UpdatePasswordRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
         userService.updatePassword(dto, loginUser.getId());
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
+    //이증 번호 생성 url
+    //이증 번호 확인 url
+    @PatchMapping("/findPassword")
+    public ResponseEntity<Map<String, String>> findPassword(
+            @Valid @RequestBody UpdatePasswordRequestDto dto,
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
 
+        userService.updatePassword(dto, loginUser.getId());
+        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
+    }
     /**
      * 2025 04 07
      * 김형진
@@ -99,11 +113,11 @@ public class UserController {
      */
     @DeleteMapping("/withdraw")
     public ResponseEntity<Map<String, String>> delete(
-            @RequestBody RequestDto dto,
+            @Valid @RequestBody WithdrawRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
         userService.delete(loginUser, dto.getPassword());
-        return new ResponseEntity<>(Map.of("message", "회원 탈퇴 성공하였습니다."), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "정상적으로 회원 탈퇴 성공하였습니다."), HttpStatus.OK);
     }
 
     /**
@@ -111,7 +125,7 @@ public class UserController {
      * 양재호
      * 전체 유저 조회 기능
      */
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<ResponseDto>> findUsers(
             @RequestParam(required = false) String userName
     ) {
@@ -133,15 +147,10 @@ public class UserController {
      */
     @GetMapping("/users/{id}")
     public ResponseEntity<ResponseDto> findUserById(
-            @PathVariable Long id,
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
+            @PathVariable Long id
     ) {
 
-        if (id != loginUser.getId()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        ResponseDto findUser = userService.findUserById(loginUser.getId());
+        ResponseDto findUser = userService.findUserById(id);
 
         return new ResponseEntity<>(findUser, HttpStatus.OK);
     }
@@ -155,7 +164,7 @@ public class UserController {
     @PatchMapping("/users/{id}")
     public ResponseEntity<ResponseDto> updateUser(
             @PathVariable Long id,
-            @RequestBody RequestDto dto,
+            @Valid @RequestBody UpdateUserRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
 

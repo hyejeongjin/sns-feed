@@ -1,11 +1,10 @@
 package com.example.sns_feed.domain.user.entity;
 
 import com.example.sns_feed.common.entity.BaseEntity;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -34,7 +33,8 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String birthDate;
 
-    private LocalDateTime deletedAt;
+    @Column
+    private String deletedAt;
 
     public User() {
 
@@ -57,13 +57,16 @@ public class User extends BaseEntity {
      * 양재호
      * updateUser를 위한 메서드
      */
-    public void updateUser(RequestDto dto) {
+    public void updateUser(UpdateUserRequestDto dto) {
+        this.profile = dto.getProfile();
+        this.email = dto.getEmail();
         this.mobileNumber = dto.getMobileNumber();
     }
+
     public void updatePassword(String password){
         this.password = password;
     }
-    public void updatedeletedAt(LocalDateTime deletedAt){
+    public void updatedeletedAt(String deletedAt){
         this.deletedAt = deletedAt;
     }
 }
