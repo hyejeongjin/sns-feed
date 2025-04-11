@@ -2,10 +2,10 @@ package com.example.sns_feed.domain.comment.controller;
 
 
 import com.example.sns_feed.common.Const;
-import com.example.sns_feed.domain.comment.dto.CommentNameResponseDto;
-import com.example.sns_feed.domain.comment.dto.CommentRequestDto;
-import com.example.sns_feed.domain.comment.dto.CommentResponseDto;
-import com.example.sns_feed.domain.comment.dto.CommentUpdateRequestDto;
+import com.example.sns_feed.domain.comment.dto.responsedto.CommentNameResponseDto;
+import com.example.sns_feed.domain.comment.dto.requestdto.CommentRequestDto;
+import com.example.sns_feed.domain.comment.dto.responsedto.CommentResponseDto;
+import com.example.sns_feed.domain.comment.dto.requestdto.CommentUpdateRequestDto;
 import com.example.sns_feed.domain.comment.service.CommentService;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.example.sns_feed.domain.comment.dto;
+package com.example.sns_feed.domain.comment.dto.responsedto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.example.sns_feed.domain.comment.dto;
+package com.example.sns_feed.domain.comment.dto.requestdto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
