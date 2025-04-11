@@ -21,7 +21,15 @@ public class FollowController {
 
     private final FollowService followService;
 
-    // 팔로우 요청
+
+    /**
+     * 팔로우 요청
+     *
+     * @param session     세션에서 로그인 유저 정보 조회
+     * @param requestDto  팔로우 요청 대상 ID를 담은 DTO
+     * @return 팔로우 성공 응답 DTO
+     * @throws CustomException 인증 실패 시 예외 발생
+     */
     @PostMapping
     public FollowResponseDto follow(
             HttpSession session,
@@ -33,7 +41,14 @@ public class FollowController {
         return followService.followRequest(requestDto, loginUser.getId()); // id 기반 전달
     }
 
-    // 팔로우 수락/거절
+    /**
+     * 팔로우 수락/거절
+     *
+     * @param id         팔로우 요청 ID
+     * @param request    수락 또는 거절 상태를 담은 DTO
+     * @param session    세션에서 로그인 유저 정보 조회
+     * @throws CustomException 인증 실패 시 예외 발생
+     */
     @PatchMapping("/{id}/accept")
     public void respondFollowAccept(@PathVariable Long id,
                                     @RequestBody RespondFollowRequestDto request,
@@ -45,7 +60,13 @@ public class FollowController {
         followService.respondFollowRequest(id, request, loginUser.getId());
     }
 
-     // 나랑 팔로우한 유저 목록
+    /**
+     * 나랑 팔로우한 유저 목록
+     *
+     * @param session 세션에서 로그인 유저 정보 조회
+     * @return 친구 목록 DTO 리스트
+     * @throws CustomException 인증 실패 시 예외 발생
+     */
     @GetMapping
     public ResponseEntity<List<MyFriendsDto>> friends(HttpSession session) throws CustomException{
         UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
@@ -56,7 +77,13 @@ public class FollowController {
         return ResponseEntity.ok(followService.getMyFriends(loginUser.getId()));
     }
 
-    // 나에게 요청 보낸 유저 목록
+    /**
+     * 나에게 팔로우 요청을 보낸 유저 목록 조회
+     *
+     * @param session 세션에서 로그인 유저 정보 조회
+     * @return 팔로우 요청 목록 DTO 리스트
+     * @throws CustomException 인증 실패 시 예외 발생
+     */
     @GetMapping("/requests")
     public ResponseEntity<List<FollowRequestListDto>> pendingRequests(HttpSession session) throws CustomException{
         UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
@@ -68,10 +95,14 @@ public class FollowController {
         return ResponseEntity.ok(pendingFollowRequest);
     }
 
-    // 친구 삭제 요청
     /**
-     * .build() : // 바디 없이 응답 완료
-     * */
+     * 팔로우 삭제 요청 (친구 삭제)
+     *
+     * @param session    세션에서 로그인 유저 정보 조회
+     * @param requestDto 삭제할 대상 유저 ID를 담은 DTO
+     * @return HTTP 200 OK 응답
+     * @throws CustomException 인증 실패 시 예외 발생
+     */
     @DeleteMapping("/unfollows")
     public ResponseEntity<Void> deleteFriends(
             HttpSession session,
