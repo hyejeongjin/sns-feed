@@ -42,12 +42,13 @@ public class UserController {
      * 2025 04 08
      * 김형진
      * 회워 가입
+     *
      * @param dto
      * @return 정상가입 메제지 출력
      */
     @PostMapping("/signup")
     public ResponseEntity<MessageResponseDto> signup(
-           @Valid @RequestBody RequestDto dto) {
+            @Valid @RequestBody RequestDto dto) {
         return new ResponseEntity<>(userService.signup(dto), HttpStatus.OK);
     }
 
@@ -55,14 +56,15 @@ public class UserController {
      * 2025 04 08
      * 김형진
      * 로그인
+     *
      * @param dto
      * @param request
      * @return 정상로그인 메세지 출력
      */
     @PostMapping("/login")
-    public ResponseEntity<Map<String,String >> login(
+    public ResponseEntity<Map<String, String>> login(
             @Valid @RequestBody LoginRequestDto dto,
-            HttpServletRequest request){
+            HttpServletRequest request) {
 
         //이전에 탈퇴했던 회원인가?
         UserResponseDto UserResponseDto = userService.login(dto);
@@ -89,6 +91,7 @@ public class UserController {
     /**
      * 2025 04 08
      * 김형진
+     *
      * @param dto
      * @return
      */
@@ -120,6 +123,7 @@ public class UserController {
     /**
      * 2025 04 07
      * 김형진
+     *
      * @param dto
      * @return
      */
@@ -192,6 +196,7 @@ public class UserController {
     /**
      * 2025 04 10
      * 양재호
+     *
      * @param dto
      * @param request
      * @return
@@ -203,12 +208,12 @@ public class UserController {
     @PostMapping("/send-email")
     public ResponseEntity<String> sendEmail(
             @Valid @RequestBody EmailRequestDto dto,
-            HttpServletRequest request){
+            HttpServletRequest request) {
 
         boolean existsByEmail = userService.existsByEmail(dto.getEmail());
 
         // 본인인증 -> 여기서 하지말고 updatePassword 에서 session발급하고?
-        if(!existsByEmail) {
+        if (!existsByEmail) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
 
@@ -238,6 +243,7 @@ public class UserController {
     /**
      * 2025 04 10
      * 양재호
+     *
      * @param dto
      * @param httpServletRequest
      * @return
@@ -247,18 +253,18 @@ public class UserController {
     public ResponseEntity<String> check(
             @Valid @RequestBody CheckRequestDto dto,
             HttpServletRequest httpServletRequest
-            ) {
+    ) {
 
         HttpSession session = httpServletRequest.getSession(false);
 
-        if(session == null || session.getAttribute("cert") == null) {
+        if (session == null || session.getAttribute("cert") == null) {
             throw new CustomException(ErrorCode.INVALID_SESSION);
         }
 
         Map<String, String> valueMap = (Map<String, String>) session.getAttribute("cert");
         String email = valueMap.get("email");
 
-        if(!valueMap.get("cert").equals(dto.getCert())) {
+        if (!valueMap.get("cert").equals(dto.getCert())) {
             throw new CustomException(ErrorCode.INVALID_CERT);
         }
 
@@ -272,6 +278,7 @@ public class UserController {
     /**
      * 2025 04 10
      * 양재호
+     *
      * @param dto
      * @param httpServletRequest
      * @return
