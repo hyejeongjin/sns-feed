@@ -27,10 +27,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     @Override
     public Page<BoardPageResponseDto> findBoardsPage(Long id, String titleSearch, Boolean isFollowingBoard, Pageable pageable) {
 
-        System.out.println("페이지 리포지터리 "+isFollowingBoard);
 
-
-        //전체 페이지
+        //전체 페이지 조회 sql
         List<BoardPageResponseDto> boardPageResponseDtoList = queryFactory
                 .select(new QBoardPageResponseDto(
                         board.id,
@@ -58,7 +56,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
                 .fetch();
 
 
-        //전체 페이지 개수
+        //전체 페이지 게시글 개수
         Long total = queryFactory
                 .select(board.countDistinct())
                 .from(board)
