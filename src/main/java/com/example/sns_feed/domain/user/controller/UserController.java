@@ -2,7 +2,6 @@ package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
-import com.example.sns_feed.domain.email.emailservice.EmailService;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;

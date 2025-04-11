@@ -1,15 +1,14 @@
-package com.example.sns_feed.domain.follow.dto;
+package com.example.sns_feed.domain.follow.dto.responsedto;
 
 import com.example.sns_feed.domain.user.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-public class MyFriendsDto {
+public class MyFriendsResponseDto {
     private final Long userId;
     private final String username;
 
-    public MyFriendsDto(User user) {
+    public MyFriendsResponseDto(User user) {
         this.userId = user.getId();
         this.username = user.getUserName();
     }

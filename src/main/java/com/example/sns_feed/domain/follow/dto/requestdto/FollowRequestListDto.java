@@ -1,4 +1,4 @@
-package com.example.sns_feed.domain.follow.dto;
+package com.example.sns_feed.domain.follow.dto.requestdto;
 
 import com.example.sns_feed.domain.follow.entity.Follow;
 import com.fasterxml.jackson.annotation.JsonFormat;

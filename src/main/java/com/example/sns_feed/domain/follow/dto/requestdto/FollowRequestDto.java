@@ -1,4 +1,4 @@
-package com.example.sns_feed.domain.follow.dto;
+package com.example.sns_feed.domain.follow.dto.requestdto;
 
 
 import lombok.Getter;

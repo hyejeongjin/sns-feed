@@ -14,6 +14,7 @@ public class RedisItem {
     private String certCode; // 인증 코드
     @TimeToLive
     private Long expiration = 300L; // 예: 5분
+
     public RedisItem(String email, String certCode) {
         this.email = email;
         this.certCode = certCode;

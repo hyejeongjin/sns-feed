@@ -34,11 +34,10 @@ public class CommentController {
     public ResponseEntity<CommentResponseDto> save(
             @SessionAttribute(name = Const.LOGIN_USER) UserResponseDto userDto,
             @PathVariable Long boardId,
-            @Valid @RequestBody CommentRequestDto requestDto){
-
+            @Valid @RequestBody CommentRequestDto requestDto
+    ){
         Long userId = userDto.getId();
         CommentResponseDto commentResponseDto = commentService.save(userId, boardId, requestDto);
-
         return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
 
     }
@@ -52,7 +51,6 @@ public class CommentController {
     @GetMapping("/boards/{boardId}/comments")
     public ResponseEntity<List<CommentResponseDto>> findByBoard(@PathVariable Long boardId){
         List<CommentResponseDto> commentResponseDtoList = commentService.findByBoard(boardId);
-
         return new ResponseEntity<>(commentResponseDtoList, HttpStatus.OK);
     }
 
@@ -76,13 +74,13 @@ public class CommentController {
      * @return 댓글 응답 dto
      */
     @PutMapping("/comments/{id}")
-    public ResponseEntity<CommentResponseDto>  update(@SessionAttribute(name = Const.LOGIN_USER) UserResponseDto userDto,
-                                                      @PathVariable Long id,
-                                                      @Valid @RequestBody CommentUpdateRequestDto dto){
-
+    public ResponseEntity<CommentResponseDto>  update(
+            @SessionAttribute(name = Const.LOGIN_USER) UserResponseDto userDto,
+            @PathVariable Long id,
+            @Valid @RequestBody CommentUpdateRequestDto dto
+    ){
         Long userId = userDto.getId();
         CommentResponseDto commentResponseDto = commentService.update(userId, id, dto);
-
         return new ResponseEntity<>(commentResponseDto, HttpStatus.OK);
     }
 
@@ -94,13 +92,12 @@ public class CommentController {
      * @return 삭제 완료
      */
     @DeleteMapping("/comments/{id}")
-    public ResponseEntity<Void> delete (@SessionAttribute(name = Const.LOGIN_USER) UserResponseDto userDto,
-                                        @PathVariable Long id){
-
+    public ResponseEntity<Void> delete (
+            @SessionAttribute(name = Const.LOGIN_USER) UserResponseDto userDto,
+            @PathVariable Long id
+    ){
         Long userId = userDto.getId();
         commentService.delete(userId, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

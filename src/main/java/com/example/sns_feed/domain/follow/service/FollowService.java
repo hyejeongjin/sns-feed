@@ -3,7 +3,11 @@ package com.example.sns_feed.domain.follow.service;
 
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.follow.*;
-import com.example.sns_feed.domain.follow.dto.*;
+import com.example.sns_feed.domain.follow.dto.requestdto.FollowRequestDto;
+import com.example.sns_feed.domain.follow.dto.requestdto.FollowRequestListDto;
+import com.example.sns_feed.domain.follow.dto.requestdto.RespondFollowRequestDto;
+import com.example.sns_feed.domain.follow.dto.responsedto.FollowResponseDto;
+import com.example.sns_feed.domain.follow.dto.responsedto.MyFriendsResponseDto;
 import com.example.sns_feed.domain.follow.entity.Follow;
 import com.example.sns_feed.domain.follow.enums.FollowStatus;
 import com.example.sns_feed.domain.follow.repository.FollowRepository;
@@ -21,7 +25,6 @@ public class FollowService {
 
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
-
 
 
     /**
@@ -51,7 +54,6 @@ public class FollowService {
             throw new AlreadyFollowingException();
         }
 
-
         FollowStatus status = FollowStatus.PENDING;
 
         Follow follow = new Follow(user, receiver, status);
@@ -78,12 +80,10 @@ public class FollowService {
             throw new FollowAccessDeniedException();
         }
 
-
         // 이미 요청을 응답했을 경우
         if (!follow.getFollowStatus().equals(FollowStatus.PENDING)){
             throw new FollowRequestAlreadyHandledException();
         }
-
 
         if(request.getAccept()){
             // 요청 수락
@@ -94,7 +94,6 @@ public class FollowService {
         } else {
             throw new BadRequestException(); // 다른 입력을 요청 했을때
         }
-
     }
 
 
@@ -104,9 +103,9 @@ public class FollowService {
      * @param senderId 사용자 ID
      * @return 친구 목록 DTO 리스트
      */
-    public List<MyFriendsDto> getMyFriends(Long senderId) {
+    public List<MyFriendsResponseDto> getMyFriends(Long senderId) {
         List<User> userList = followRepository.findAcceptedFollowingsBySenderId(senderId);
-        return userList.stream().map(MyFriendsDto::new).toList();
+        return userList.stream().map(MyFriendsResponseDto::new).toList();
     }
 
     /**

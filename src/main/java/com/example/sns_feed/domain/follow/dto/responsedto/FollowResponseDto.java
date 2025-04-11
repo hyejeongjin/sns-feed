@@ -1,4 +1,4 @@
-package com.example.sns_feed.domain.follow.dto;
+package com.example.sns_feed.domain.follow.dto.responsedto;
 
 
 import com.example.sns_feed.domain.follow.entity.Follow;

@@ -2,7 +2,12 @@ package com.example.sns_feed.domain.follow.controller;
 
 
 import com.example.sns_feed.common.Const;
-import com.example.sns_feed.domain.follow.dto.*;
+import com.example.sns_feed.domain.follow.dto.requestdto.DeleteRequestDto;
+import com.example.sns_feed.domain.follow.dto.requestdto.FollowRequestDto;
+import com.example.sns_feed.domain.follow.dto.requestdto.FollowRequestListDto;
+import com.example.sns_feed.domain.follow.dto.requestdto.RespondFollowRequestDto;
+import com.example.sns_feed.domain.follow.dto.responsedto.FollowResponseDto;
+import com.example.sns_feed.domain.follow.dto.responsedto.MyFriendsResponseDto;
 import com.example.sns_feed.domain.follow.service.FollowService;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +34,8 @@ public class FollowController {
     @PostMapping
     public ResponseEntity<FollowResponseDto> follow(
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
-            @RequestBody FollowRequestDto requestDto) {
-
+            @RequestBody FollowRequestDto requestDto
+    ) {
         FollowResponseDto responseDto = followService.followRequest(requestDto, loginUser.getId());
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -42,10 +47,11 @@ public class FollowController {
      * @param request    수락 또는 거절 상태를 담은 DTO
      */
     @PatchMapping("/{id}/accept")
-    public ResponseEntity<Void>  respondFollowAccept(@PathVariable Long id,
-                                    @RequestBody RespondFollowRequestDto request,
-                                    @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
-
+    public ResponseEntity<Void>  respondFollowAccept(
+            @PathVariable Long id,
+            @RequestBody RespondFollowRequestDto request,
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
+    ) {
         followService.respondFollowRequest(id, request, loginUser.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -57,10 +63,10 @@ public class FollowController {
      * @return 친구 목록 DTO 리스트
      */
     @GetMapping
-    public ResponseEntity<List<MyFriendsDto>> friends(
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
-
-        List<MyFriendsDto> myFriends = followService.getMyFriends(loginUser.getId());
+    public ResponseEntity<List<MyFriendsResponseDto>> friends(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
+    ) {
+        List<MyFriendsResponseDto> myFriends = followService.getMyFriends(loginUser.getId());
         return new ResponseEntity<>(myFriends,HttpStatus.OK);
     }
 
@@ -71,8 +77,8 @@ public class FollowController {
      */
     @GetMapping("/requests")
     public ResponseEntity<List<FollowRequestListDto>> pendingRequests(
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
-
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
+    ) {
         List<FollowRequestListDto> pendingFollowRequest = followService.getPendingFollowRequests(loginUser.getId());
         return new ResponseEntity<>(pendingFollowRequest, HttpStatus.OK);
     }
@@ -86,8 +92,8 @@ public class FollowController {
     @DeleteMapping("/unfollows")
     public ResponseEntity<Void> deleteFriends(
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
-            @RequestBody DeleteRequestDto requestDto) {
-
+            @RequestBody DeleteRequestDto requestDto
+    ) {
         followService.receiverIdDelete(loginUser.getId(), requestDto.getReceiverId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
