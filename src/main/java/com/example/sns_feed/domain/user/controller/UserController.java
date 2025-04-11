@@ -2,6 +2,9 @@ package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
+import com.example.sns_feed.common.exception.CustomException;
+import com.example.sns_feed.common.exception.ErrorCode;
+import com.example.sns_feed.domain.email.emailservice.EmailService;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
@@ -17,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +36,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-
+    private final EmailService emailService;
 
     /**
      * 2025 04 08
@@ -95,16 +99,28 @@ public class UserController {
         userService.updatePassword(dto, loginUser.getId());
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
-    //이증 번호 생성 url
-    //이증 번호 확인 url
+
+
+    //비번 초기화
+    @PostMapping("/checkCode")
+    public ResponseEntity<Map<String, String>> checkCode(
+            @Valid @RequestBody CheckCodeRequestDto dto) {
+        userService.checkingCode(dto.getEmail(), dto.getCert());
+
+        return new ResponseEntity<>(Map.of("message", "비밀번호를 재설정해주세요(/findPassword)."), HttpStatus.OK);
+    }
+
+
+    //새 비번 입력3
+
     @PatchMapping("/findPassword")
     public ResponseEntity<Map<String, String>> findPassword(
-            @Valid @RequestBody UpdatePasswordRequestDto dto,
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
+            @Valid @RequestBody ChangePasswordRequestDto dto) {
 
-        userService.updatePassword(dto, loginUser.getId());
+        userService.updateNewPassword(dto);
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
+
     /**
      * 2025 04 07
      * 김형진
