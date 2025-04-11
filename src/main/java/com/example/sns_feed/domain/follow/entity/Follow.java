@@ -27,7 +27,6 @@ public class Follow extends BaseEntity {
     @JoinColumn(name = "receiver", nullable = false)
     private User receiver;  // 팔로우 받는 유저
 
-
     @Column(name = "follow_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private FollowStatus followStatus;

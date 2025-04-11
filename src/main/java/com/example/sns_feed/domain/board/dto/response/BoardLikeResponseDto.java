@@ -8,9 +8,12 @@ import lombok.Getter;
 public class BoardLikeResponseDto {
 
     private final Long boardId;
-    private final Long likeCount;
-    private final Long userId;
-    private final String userName;
-    private final boolean isLiked;
 
+    private final Long likeCount;
+
+    private final Long userId;
+
+    private final String userName;
+
+    private final boolean isLiked;
 }

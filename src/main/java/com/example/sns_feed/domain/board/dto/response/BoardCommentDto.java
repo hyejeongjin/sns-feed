@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 public class BoardCommentDto {
 
     private final Long id;
+
     private final String userName;
+
     private final String content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

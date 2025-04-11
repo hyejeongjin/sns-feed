@@ -3,7 +3,6 @@ package com.example.sns_feed.domain.board.dto.response;
 import com.example.sns_feed.domain.board.entity.Board;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 

@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.resource.ResourceUrlProvider;
 
 import java.util.Map;
 
@@ -26,8 +25,6 @@ import java.util.Map;
 public class BoardController {
 
     private final BoardService boardService;
-    private final ResourceUrlProvider resourceUrlProvider;
-
 
     /**
      * 게시글 생성

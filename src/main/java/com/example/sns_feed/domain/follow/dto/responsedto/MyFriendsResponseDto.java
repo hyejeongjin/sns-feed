@@ -5,7 +5,9 @@ import lombok.Getter;
 
 @Getter
 public class MyFriendsResponseDto {
+
     private final Long userId;
+
     private final String username;
 
     public MyFriendsResponseDto(User user) {

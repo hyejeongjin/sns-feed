@@ -4,7 +4,6 @@ import com.example.sns_feed.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-
 @Getter
 @Entity
 @Table(name="board_like")

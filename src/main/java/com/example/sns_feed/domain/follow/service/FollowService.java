@@ -96,7 +96,6 @@ public class FollowService {
         }
     }
 
-
     /**
      * 로그인한 사용자의 친구 목록 조회
      *

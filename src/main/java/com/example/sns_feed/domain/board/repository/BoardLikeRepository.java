@@ -18,6 +18,5 @@ public interface BoardLikeRepository extends JpaRepository<BoardLike, Long> {
 
     Long id(Long id);
 
-
     List<BoardLike> findAllByBoard_Id(Long boardId);
 }

@@ -8,9 +8,13 @@ import java.time.LocalDateTime;
 
 @Getter
 public class FollowRequestListDto {
+
     private final Long followId;
+
     private final Long userId;
+
     private final String username;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime followRequestTime;
 

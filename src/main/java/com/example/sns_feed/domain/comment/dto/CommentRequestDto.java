@@ -2,7 +2,6 @@ package com.example.sns_feed.domain.comment.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class CommentRequestDto {

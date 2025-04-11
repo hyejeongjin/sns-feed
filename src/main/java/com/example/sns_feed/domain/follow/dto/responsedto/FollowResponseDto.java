@@ -9,8 +9,11 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class FollowResponseDto {
+
     private final Long senderId;
+
     private final Long receiverId;
+
     private final FollowStatus status;
 
     public FollowResponseDto(Follow follow) {
