@@ -1,6 +1,5 @@
 package com.example.sns_feed.domain.follow.repository;
 
-
 import com.example.sns_feed.domain.follow.entity.Follow;
 import com.example.sns_feed.domain.user.entity.User;
 import jakarta.transaction.Transactional;
