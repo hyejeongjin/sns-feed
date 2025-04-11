@@ -5,6 +5,9 @@ import com.example.sns_feed.common.PasswordEncoder;
 import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
+import com.example.sns_feed.domain.redis.service.RedisServiceImpl;
+import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import com.example.sns_feed.domain.user.entity.User;
@@ -24,7 +27,9 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RedisServiceImpl redisService;
 
+    private boolean isCERTCheckComplete;
     /**
      * 2025 04 08
      *  김형진
@@ -46,7 +51,7 @@ public class UserServiceImpl implements UserService {
     public MessageResponseDto signup(
             RequestDto dto) {
 
-        if (existsByEmail(dto.getEmail())) {
+        if(existsByEmail(dto.getEmail())){
             throw new CustomException(ErrorCode.INVALID_EMAIL, "이미 가입되었던 정보입니다.");
         }
 
@@ -67,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
 
-        if (findUser.getDeletedAt() != null) {
+        if(findUser.getDeletedAt() != null){
             throw new CustomException(ErrorCode.DELETED_USER, "로그인이 불가능한 이메일, 비밀번호 입니다.");
         }
 
@@ -77,22 +82,54 @@ public class UserServiceImpl implements UserService {
         return new UserResponseDto(findUser.getId());
     }
 
+//    /**
+//     *  파라미터 수정해줘!!!!!
+//     * 인증 확인 완료 승인 메세지 줄력
+//     * @param dto
+//     */
+//    @Override
+//    public void resetPassword(String code) {
+//        String email =  redisService.getRedisData(code);
+//        User findUser =  userRepository.findByEmailOrThrow(email);
+//        findUser.updatePassword("");
+//        userRepository.save(findUser);
+//        // 비밀번호 초기화 다음 URI로 보냅니다.
+//    }
+
+
     /*
      * 202 04 07
      * 김형진
      * 비밀번호 수정
      * */
-    @Override
-    public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
+//    @Override
+//    public void findPassword(@RequestBody UpdatePasswordRequestDto dto) {
+//
+//
+//    }
 
-        User findUser = userRepository.findUserByIdOrElseThrow(id);
-        if (!passwordEncoder.matches(dto.getOldPassword(), findUser.getPassword())) {
+//    @Override
+//    public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
+//
+//        User findUser = userRepository.findUserByIdOrElseThrow(id);
+//        if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
+//
+//            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
+//
+//        }
+//        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
+//            throw new CustomException(ErrorCode.SAME_PASSWORD);
+//        }
+//
+//        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+//        userRepository.save(findUser);
+//    }
 
             throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
 
         }
-        if (dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
-            throw new CustomException(ErrorCode.SAME_PASSWORD);
+        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
+           throw new CustomException(ErrorCode.SAME_PASSWORD);
         }
 
         findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));

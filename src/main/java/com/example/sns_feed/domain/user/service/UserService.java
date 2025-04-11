@@ -1,7 +1,5 @@
 package com.example.sns_feed.domain.user.service;
 
-
-
 import com.example.sns_feed.common.MessageResponseDto;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
@@ -21,8 +19,9 @@ public interface UserService {
 
     UserResponseDto login(@RequestBody LoginRequestDto dto);
 
-    void updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
+    //void updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
 
+   // void resetPassword(String code);
     void delete (UserResponseDto loginUser, String password);
 
     List<ResponseDto> findUsers();
