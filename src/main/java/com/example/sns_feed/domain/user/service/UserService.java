@@ -5,23 +5,21 @@ import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 
 public interface UserService {
 
     boolean existsByEmail(String email);
 
-    MessageResponseDto signup(@RequestBody RequestDto dto);
+    MessageResponseDto signup(RequestDto dto);
 
-    UserResponseDto login(@RequestBody LoginRequestDto dto);
+    UserResponseDto login(LoginRequestDto dto);
 
-    void updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
+    void updatePassword(UpdatePasswordRequestDto dto, Long id);
 
     void verifyEmailCode(String email, String code);
 
-    void resetPassword(@RequestBody ChangePasswordRequestDto dto);
+    void resetPassword(ChangePasswordRequestDto dto);
 
     void delete (UserResponseDto loginUser, String password);
 
