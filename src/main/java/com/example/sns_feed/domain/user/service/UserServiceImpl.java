@@ -108,33 +108,22 @@ public class UserServiceImpl implements UserService {
 //
 //    }
 
-//    @Override
-//    public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
-//
-//        User findUser = userRepository.findUserByIdOrElseThrow(id);
-//        if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
-//
-//            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
-//
-//        }
-//        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
-//            throw new CustomException(ErrorCode.SAME_PASSWORD);
-//        }
-//
-//        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
-//        userRepository.save(findUser);
-//    }
-//
-//            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
-//
-//        }
-//        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
-//           throw new CustomException(ErrorCode.SAME_PASSWORD);
-//        }
-//
-//        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
-//        userRepository.save(findUser);
-//    }
+    @Override
+    public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
+
+        User findUser = userRepository.findUserByIdOrElseThrow(id);
+        if (!passwordEncoder.matches( dto.getOldPassword(), findUser.getPassword())){
+
+            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
+
+        }
+        if(dto.getOldPassword().equalsIgnoreCase(dto.getNewPassword())) {
+            throw new CustomException(ErrorCode.SAME_PASSWORD);
+        }
+
+        findUser.updatePassword(passwordEncoder.encode(dto.getNewPassword()));
+        userRepository.save(findUser);
+    }
 
     /*
      * 202 04 07
