@@ -7,8 +7,4 @@ public class BoardLikeNotFoundException extends CustomException {
     public BoardLikeNotFoundException(ErrorCode errorCode) {
         super(errorCode);
     }
-
-    public BoardLikeNotFoundException(ErrorCode errorCode, String message) {
-        super(errorCode, message);
-    }
 }
