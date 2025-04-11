@@ -52,6 +52,7 @@ public class User extends BaseEntity {
        this.mobileNumber = dto.getMobileNumber();
        this.birthDate = dto.getBirthDate();
    }
+
     /**
      * 2025 04 08
      * 양재호

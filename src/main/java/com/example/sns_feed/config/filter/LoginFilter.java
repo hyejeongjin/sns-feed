@@ -1,6 +1,8 @@
 package com.example.sns_feed.config.filter;
 
 import com.example.sns_feed.common.Const;
+import com.example.sns_feed.common.exception.CustomException;
+import com.example.sns_feed.common.exception.ErrorCode;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,7 +12,7 @@ import org.springframework.util.PatternMatchUtils;
 import java.io.IOException;
 
 public class LoginFilter implements Filter {
-    private static final String[] WHITE_LIST = {"/", "/login", "/signup"};
+    private static final String[] WHITE_LIST = {"/", "/login", "/signup", "/send-email", "/check", "/change-password", "/mail"};
 
     @Override
     public void doFilter(ServletRequest request,
@@ -29,7 +31,7 @@ public class LoginFilter implements Filter {
             System.out.println(requestURI); //check
             HttpSession httpSession = httpRequest.getSession(false);
             if (httpSession == null || httpSession.getAttribute(Const.LOGIN_USER) == null) {
-                throw new IllegalArgumentException("로그인 해주세요");
+                throw new CustomException(ErrorCode.NEED_LOGIN);
             }
         }
 
