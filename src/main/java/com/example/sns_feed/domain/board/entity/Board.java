@@ -32,6 +32,7 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
+    //@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     @OneToMany(mappedBy = "board")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Comment> comments = new ArrayList<>();

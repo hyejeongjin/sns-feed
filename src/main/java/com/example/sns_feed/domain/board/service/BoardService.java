@@ -1,12 +1,15 @@
 package com.example.sns_feed.domain.board.service;
 
 import com.example.sns_feed.common.exception.ErrorCode;
+import com.example.sns_feed.common.exception.UserNotFoundException;
+import com.example.sns_feed.common.exception.board.BoardLikeNotFoundException;
 import com.example.sns_feed.common.exception.board.BoardNotFoundException;
 import com.example.sns_feed.common.exception.board.BoardUnauthorizedException;
 import com.example.sns_feed.domain.board.dto.request.BoardRequestDto;
 import com.example.sns_feed.domain.board.dto.request.BoardUpdateRequestDto;
 import com.example.sns_feed.domain.board.dto.response.*;
 import com.example.sns_feed.domain.board.entity.Board;
+import com.example.sns_feed.domain.board.entity.BoardLike;
 import com.example.sns_feed.domain.board.repository.BoardLikeRepository;
 import com.example.sns_feed.domain.board.repository.BoardRepository;
 import com.example.sns_feed.domain.user.entity.User;
@@ -15,14 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,15 +33,19 @@ public class BoardService {
     private final UserRepository userRepository;
 
 
-    /*
-    * 2025 04 09
-    * 조아현
-    * 게시글 생성
-    * */
+    /**
+     * 게시글 생성
+     * @author  조아현
+     * @since   2025 04 19
+     * @param   sessionId
+     * @param   dto
+     * @return  BoardSaveResponseDto
+     * @throws  UserNotFoundException 유저가 존재하지 않을 때 발생
+     */
     @Transactional
     public BoardSaveResponseDto saveBoard(Long sessionId, BoardRequestDto dto) {
 
-        User user = userRepository.findById(sessionId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        User user = userRepository.findById(sessionId).orElseThrow(()-> new UserNotFoundException(ErrorCode.USER_NOT_FOUND.getCode()));
 
         Board board = new Board(dto.getTitle(), dto.getContent(), user);
 
@@ -51,11 +54,15 @@ public class BoardService {
         return new BoardSaveResponseDto(board);
     }
 
-    /*
-     * 2025 04 09
-     * 조아현
+    /**
      * 게시글 단건 조회
-     * */
+     * @author  조아현
+     * @since   2025 04 11
+     * @param   loginUserId
+     * @param   id
+     * @return  BoardResponseDto
+     * @throws  BoardNotFoundException 게시글이 존재하지 않을 때 발생
+     */
     @Transactional(readOnly = true)
     public BoardResponseDto findById(Long loginUserId, Long id) {
 
@@ -82,11 +89,19 @@ public class BoardService {
                 boardCommentDtoList);
     }
 
-    /*
-     * 2025 04 10
-     * 조아현
-     * 게시글 전체 페이지네이션 조회 & 검색 & 팔로우 게시글 조건
-     * */
+
+    /**
+     * 게시글 전체 목록 조회, 페이지네이션 적용됨
+     * - 제목 검색 가능
+     * - 팔로우 목록만 조회 가능
+     * @author  조아현
+     * @since   2025 04 10
+     * @param   id
+     * @param   titleSearch
+     * @param   isFollowingBoard
+     * @param   page
+     * @return  PageResponseDto
+     */
     @Transactional(readOnly = true)
     public PageResponseDto findAllPage(Long id, String titleSearch, Boolean isFollowingBoard, int page) {
 
@@ -105,6 +120,7 @@ public class BoardService {
         boolean hasPrevious = startPage > 1;
         boolean hasNext = endPage < totalPages;
 
+
         return new PageResponseDto (
                 allPage.getContent(),
                 nowPage,
@@ -116,11 +132,18 @@ public class BoardService {
                 endPage);
     }
 
-    /*
-     * 2025 04 09
-     * 조아현
+
+    /**
      * 게시글 수정
-     * */
+     * @author  조아현
+     * @since   2025 04 09
+     * @param   sessionId
+     * @param   id
+     * @param   dto
+     * @return  BoardUpdateResponseDto
+     * @throws  BoardNotFoundException 게시글이 존재하지 않을 때 발생
+     * @throws  BoardUnauthorizedException 게시글을 작성한 유저만 수정/삭제 가능
+     */
     @Transactional
     public BoardUpdateResponseDto updateBoard(Long sessionId, Long id, BoardUpdateRequestDto dto) {
 
@@ -141,26 +164,32 @@ public class BoardService {
         );
     }
 
-    /*
-     * 2025 04 09
-     * 조아현
-     * 게시글 삭제
-     * */
+
+    /**
+     * 게시글 수정
+     * @author  조아현
+     * @since   2025 04 09
+     * @param   id
+     * @param   sessionId
+     * @return  void
+     * @throws  BoardNotFoundException 게시글이 존재하지 않을 때 발생
+     * @throws  BoardUnauthorizedException 게시글을 작성한 유저만 수정/삭제 가능
+     */
     @Transactional
-    public ResponseEntity<Map<String, String>> deleteById(Long id, Long sessionId) {
+    public void deleteById(Long id, Long sessionId) {
 
         Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         if(!sessionId.equals(board.getUser().getId())) {
             throw new BoardUnauthorizedException(ErrorCode.BOARD_UNAUTHORIZED);
         }
+
+        //게시글 좋아요 삭제 (연관관계 삭제 cascade를 구현)
+        List<BoardLike> deleteBoardLikes = boardLikeRepository.findAllByBoard_Id(id);
+        boardLikeRepository.deleteAll(deleteBoardLikes);
+
         boardRepository.delete(board);
-
-        return new ResponseEntity<>(Map.of("message", "게시글이 삭제되었습니다."), HttpStatus.ACCEPTED);
     }
-
-
-
 
 
 }
