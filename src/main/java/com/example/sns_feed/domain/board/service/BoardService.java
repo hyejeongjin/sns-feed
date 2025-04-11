@@ -66,7 +66,7 @@ public class BoardService {
         boolean isLiked = boardLikeRepository.existsByBoard_IdAndUser_Id(board.getId(),loginUserId);
 
         List<BoardCommentDto> boardCommentDtoList = board.getComments().stream().map(comment -> new BoardCommentDto(
-                comment.getComment_id(),
+                comment.getId(),
                 board.getUser().getUserName(),
                 comment.getContent(),
                 comment.getUpdatedAt())).toList();

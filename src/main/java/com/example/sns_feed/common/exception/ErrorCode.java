@@ -30,7 +30,8 @@ public enum ErrorCode {
     BOARD_UNAUTHORIZED(401,"Unauthorized","B002","게시글 작성자만 수정/삭제 할 수 있습니다."),
 
     //Comment
-
+    COMMENT_NOT_FOUND(404, "Not Found", "C001", "요청한 댓글을 찾을 수 없습니다."),
+    USER_MISMATCH(403, "Forbidden", "C002", "작성자만 수정 가능합니다.");
 
     //follow
     UNAUTHORIZED(401,"Unauthorized","F001","로그인이 필요합니다."),
