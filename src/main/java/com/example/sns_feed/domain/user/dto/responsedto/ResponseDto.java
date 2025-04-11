@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 @Getter
 public class  ResponseDto {
 
+    private final String prfile;
+
+    private final String userName;
+
     private final String email;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -16,6 +20,8 @@ public class  ResponseDto {
 
 
     public ResponseDto(User user) {
+        this.prfile = user.getProfile();
+        this.userName = user.getUserName();
         this.email = user.getEmail();
         this.updatedAt = user.getUpdatedAt();
     }
