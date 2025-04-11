@@ -9,6 +9,7 @@ import com.example.sns_feed.domain.follow.service.FollowService;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,20 +26,16 @@ public class FollowController {
     /**
      * 팔로우 요청
      *
-     * @param session     세션에서 로그인 유저 정보 조회
      * @param requestDto  팔로우 요청 대상 ID를 담은 DTO
      * @return 팔로우 성공 응답 DTO
-     * @throws CustomException 인증 실패 시 예외 발생
      */
     @PostMapping
-    public FollowResponseDto follow(
-            HttpSession session,
-            @RequestBody FollowRequestDto requestDto) throws CustomException {
-        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
-        if (loginUser == null){
-            throw new UnauthorizedException();
-        }
-        return followService.followRequest(requestDto, loginUser.getId()); // id 기반 전달
+    public ResponseEntity<FollowResponseDto> follow(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            @RequestBody FollowRequestDto requestDto) {
+
+        FollowResponseDto responseDto = followService.followRequest(requestDto, loginUser.getId());
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     /**
@@ -46,76 +43,55 @@ public class FollowController {
      *
      * @param id         팔로우 요청 ID
      * @param request    수락 또는 거절 상태를 담은 DTO
-     * @param session    세션에서 로그인 유저 정보 조회
-     * @throws CustomException 인증 실패 시 예외 발생
      */
     @PatchMapping("/{id}/accept")
-    public void respondFollowAccept(@PathVariable Long id,
+    public ResponseEntity<Void>  respondFollowAccept(@PathVariable Long id,
                                     @RequestBody RespondFollowRequestDto request,
-                                    HttpSession session) throws CustomException {
-        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
-        if (loginUser == null){
-            throw new UnauthorizedException();
-        }
+                                    @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
+
         followService.respondFollowRequest(id, request, loginUser.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     /**
      * 나랑 팔로우한 유저 목록
      *
-     * @param session 세션에서 로그인 유저 정보 조회
      * @return 친구 목록 DTO 리스트
-     * @throws CustomException 인증 실패 시 예외 발생
      */
     @GetMapping
-    public ResponseEntity<List<MyFriendsDto>> friends(HttpSession session) throws CustomException{
-        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
-        if (loginUser == null){
-            throw new UnauthorizedException();
-        }
+    public ResponseEntity<List<MyFriendsDto>> friends(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
 
-        return ResponseEntity.ok(followService.getMyFriends(loginUser.getId()));
+        List<MyFriendsDto> myFriends = followService.getMyFriends(loginUser.getId());
+        return new ResponseEntity<>(myFriends,HttpStatus.OK);
     }
 
     /**
      * 나에게 팔로우 요청을 보낸 유저 목록 조회
      *
-     * @param session 세션에서 로그인 유저 정보 조회
      * @return 팔로우 요청 목록 DTO 리스트
-     * @throws CustomException 인증 실패 시 예외 발생
      */
     @GetMapping("/requests")
-    public ResponseEntity<List<FollowRequestListDto>> pendingRequests(HttpSession session) throws CustomException{
-        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
-        if (loginUser == null){
-            throw new UnauthorizedException();
-        }
+    public ResponseEntity<List<FollowRequestListDto>> pendingRequests(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
 
         List<FollowRequestListDto> pendingFollowRequest = followService.getPendingFollowRequests(loginUser.getId());
-        return ResponseEntity.ok(pendingFollowRequest);
+        return new ResponseEntity<>(pendingFollowRequest, HttpStatus.OK);
     }
 
     /**
      * 팔로우 삭제 요청 (친구 삭제)
      *
-     * @param session    세션에서 로그인 유저 정보 조회
      * @param requestDto 삭제할 대상 유저 ID를 담은 DTO
      * @return HTTP 200 OK 응답
-     * @throws CustomException 인증 실패 시 예외 발생
      */
     @DeleteMapping("/unfollows")
     public ResponseEntity<Void> deleteFriends(
-            HttpSession session,
-            @RequestBody DeleteRequestDto requestDto) throws CustomException {
-
-        UserResponseDto loginUser = (UserResponseDto) session.getAttribute(Const.LOGIN_USER);
-        if (loginUser == null){
-            throw new UnauthorizedException();
-        }
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            @RequestBody DeleteRequestDto requestDto) {
 
         followService.receiverIdDelete(loginUser.getId(), requestDto.getReceiverId());
-        return ResponseEntity.ok().build();
-
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }
