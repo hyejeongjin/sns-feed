@@ -7,8 +7,7 @@ import java.io.Serializable;
 
 @Setter
 @Getter
-public class UserResponseDto implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class UserResponseDto {
 
     private final Long id;
 
