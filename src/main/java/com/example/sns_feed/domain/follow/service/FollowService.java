@@ -63,6 +63,7 @@ public class FollowService {
         }
 
 
+        // 이미 요청을 응답했을 경우
         if (!follow.getFollowStatus().equals(FollowStatus.PENDING)){
             throw new FollowRequestAlreadyHandledException();
         }
@@ -75,7 +76,7 @@ public class FollowService {
             // 요청 거절
             follow.updateStatus(FollowStatus.REJECTED);
         } else {
-            throw new BadRequestException();
+            throw new BadRequestException(); // 다른 입력을 요청 했을때
         }
 
     }
