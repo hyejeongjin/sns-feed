@@ -192,8 +192,8 @@ public class UserController {
     // 이메일 보내는 메서드
     // 여기선 유저 검증하고 맞으면 이메일 보냄
     // 그리고 session 발급하고 CERTNum 저장해
-    @PostMapping("/send_email")
-    public ResponseEntity<String> pleaseFindMyPassword(
+    @PostMapping("/send-email")
+    public ResponseEntity<String> sendEmail(
             @Valid @RequestBody EmailRequestDto dto,
             HttpServletRequest request){
 
@@ -210,16 +210,16 @@ public class UserController {
         int num = emailService.sendMail(dto.getEmail());
 
         // int num 을 String으로!
-        String CERTNum = String.valueOf(num);
+        String certNum = String.valueOf(num);
 
         Map<String, String> valueMap = new HashMap<>();
 
-        valueMap.put("CERT", CERTNum);
+        valueMap.put("cert", certNum);
         valueMap.put("email", dto.getEmail());
 
-        // String으로 변환한 CERTNum을 value에 저장하고 이걸 통과해야 비번변경 가능하게?
+        // String으로 변환한 certNum을 value에 저장하고 이걸 통과해야 비번변경 가능하게?
         HttpSession session = request.getSession();
-        session.setAttribute("CERT", valueMap);
+        session.setAttribute("cert", valueMap);
 
         // 세션 만료 시간 3분으로 설정
         session.setMaxInactiveInterval(180);
@@ -243,20 +243,20 @@ public class UserController {
 
         HttpSession session = httpServletRequest.getSession(false);
 
-        if(session == null || session.getAttribute("CERT") == null) {
+        if(session == null || session.getAttribute("cert") == null) {
             throw new CustomException(ErrorCode.INVALID_SESSION);
         }
 
-        Map<String, String> valueMap = (Map<String, String>) session.getAttribute("CERT");
+        Map<String, String> valueMap = (Map<String, String>) session.getAttribute("cert");
         String email = valueMap.get("email");
 
-        if(!valueMap.get("CERT").equals(dto.getCert())) {
+        if(!valueMap.get("cert").equals(dto.getCert())) {
             throw new CustomException(ErrorCode.INVALID_CERT);
         }
 
-        // 비밀번호 초기화 -> 근데 CERT Session만으로는 DB에 접근을 못하잖아?
+        // 비밀번호 초기화 -> 근데 cert Session만으로는 DB에 접근을 못하잖아?
         // 어떻게 해야할까?
-        session.setAttribute("goNewPassword", email);
+        session.setAttribute("changePassword", email);
 
         return new ResponseEntity<>("본인 인증에 성공하였습니다.", HttpStatus.OK);
     }
@@ -268,19 +268,19 @@ public class UserController {
      * @param httpServletRequest
      * @return
      */
-    @PatchMapping("/change_password")
+    @PatchMapping("/change-password")
     public ResponseEntity<String> changePassword(
             @Valid @RequestBody ChangePasswordRequestDto dto,
             HttpServletRequest httpServletRequest
     ) {
         // 아? 그러고보니 새 패스워드 받아오는 건 맞는데 여기서 DB에 어케 접근하지??
         // CERT 세션에서 email, CERT를 Map 형태로 저장하고
-        // 그 중에 email만 꺼내서 goNewPassword에 저장하고
+        // 그 중에 email만 꺼내서 changePassword에 저장하고
         // 여기서 email을 꺼내서 DB에 접근하면? 가능하지 않나?
         HttpSession session = httpServletRequest.getSession(false);
 
         // String으로 저장했는데 왜 Object 형식인거지ㅣ....?
-        String email = (String) session.getAttribute("goNewPassword");
+        String email = (String) session.getAttribute("changePassword");
 
         userService.changePassword(dto, email);
 
