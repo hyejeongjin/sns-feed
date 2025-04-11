@@ -46,7 +46,7 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         List<BoardCommentDto> boardCommentDtoList = board.getComments().stream().map(comment -> new BoardCommentDto(
-                comment.getComment_id(),
+                comment.getId(),
                 board.getUser().getUserName(),
                 comment.getContent(),
                 comment.getUpdatedAt())).toList();
