@@ -1,11 +1,14 @@
-# <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbW29Gs%2FbtsNiprn0Mq%2F0w4XWxxaWP2W7AiCWywGik%2Fimg.png" width="50px" height="50px"> 90s' Feed
+# <img src="https://github.com/user-attachments/assets/1ef3d230-1d72-4c31-8be9-d0d3ee73031f" width="50px" height="50px"> 90s' Feed
 
-### 📱 SNS 기반 뉴스피드 웹사이트
+![Image](https://github.com/user-attachments/assets/c8cce066-f94f-4859-904d-44aad7e2205a)
+
+
+
 
 <br>
 
 ##  📅 개발 기간  
-### 2023.2.6 ~ 2023.3.13
+### 2025.04.07 ~ 2025.04.14
 
 <br>
 
@@ -14,7 +17,7 @@
 |팀원|기능|
 |------|---|
 | 김형진 | 인증 / 인가 |
-| 양재호 | 로그인 |
+| 양재호 | 회원 |
 | 이윤승 | 팔로우 |
 | 조아현 | 게시글 / 좋아요 |
 | 진혜정 | 댓글 |
@@ -60,3 +63,19 @@
 
 <!-- Figma -->
 - <img src="https://img.shields.io/badge/Design-dc6d4b?style=for-the-badge"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
+
+
+<br>
+
+## 와이어 프레임
+<img src="https://github.com/user-attachments/assets/cdf524c0-5649-48cb-9440-d3cd07aaa9df">
+<img src="https://github.com/user-attachments/assets/14220940-ebee-4c97-bc27-a0223368ab3c">
+
+
+
+
+
+
+## ERD
+
+<img src ="https://github.com/user-attachments/assets/8a9be633-1ec7-44d1-bba6-dc1f60ec424d">
