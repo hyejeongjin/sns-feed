@@ -174,16 +174,11 @@ public class UserController {
      * 양재호
      * 유저 수정 기능
      */
-    @PatchMapping("/users/{id}")
+    @PatchMapping("/users")
     public ResponseEntity<ResponseDto> updateUser(
-            @PathVariable Long id,
             @Valid @RequestBody UpdateUserRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
-        if (id != loginUser.getId()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         ResponseDto updateUser = userService.updateUser(loginUser.getId(), dto);
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
