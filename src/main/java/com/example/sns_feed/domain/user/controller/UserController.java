@@ -33,7 +33,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final EmailService emailService;
 
     /**
      * 2025 04 08
@@ -44,7 +43,8 @@ public class UserController {
      */
     @PostMapping("/signup")
     public ResponseEntity<MessageResponseDto> signup(
-           @Valid @RequestBody RequestDto dto) {
+           @Valid @RequestBody RequestDto dto
+    ) {
         return new ResponseEntity<>(userService.signup(dto), HttpStatus.OK);
     }
 
@@ -59,8 +59,8 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Map<String,String >> login(
             @Valid @RequestBody LoginRequestDto dto,
-            HttpServletRequest request){
-
+            HttpServletRequest request
+    ){
         //이전에 탈퇴했던 회원인가?
         UserResponseDto UserResponseDto = userService.login(dto);
         HttpSession session = request.getSession();
@@ -92,7 +92,8 @@ public class UserController {
     @PatchMapping("/updatePassword")
     public ResponseEntity<Map<String, String>> updatePassword(
             @Valid @RequestBody UpdatePasswordRequestDto dto,
-            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser) {
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
+    ) {
         userService.updatePassword(dto, loginUser.getId());
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
@@ -101,19 +102,18 @@ public class UserController {
     //비번 초기화
     @PostMapping("/checkCode")
     public ResponseEntity<Map<String, String>> checkCode(
-            @Valid @RequestBody CheckCodeRequestDto dto) {
+            @Valid @RequestBody CheckCodeRequestDto dto
+    ) {
         userService.checkingCode(dto.getEmail(), dto.getCert());
-
         return new ResponseEntity<>(Map.of("message", "비밀번호를 재설정해주세요(/findPassword)."), HttpStatus.OK);
     }
 
 
     //새 비번 입력3
-
     @PatchMapping("/findPassword")
     public ResponseEntity<Map<String, String>> findPassword(
-            @Valid @RequestBody ChangePasswordRequestDto dto) {
-
+            @Valid @RequestBody ChangePasswordRequestDto dto
+    ) {
         userService.updateNewPassword(dto);
         return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
     }
@@ -142,7 +142,6 @@ public class UserController {
     public ResponseEntity<List<ResponseDto>> findUsers(
             @RequestParam(required = false) String userName
     ) {
-
         if (!(userName == null)) {
             List<ResponseDto> users = userService.findUsersByUserName(userName);
             return new ResponseEntity<>(users, HttpStatus.OK);
@@ -151,7 +150,6 @@ public class UserController {
             return new ResponseEntity<>(users, HttpStatus.OK);
         }
     }
-
 
     /**
      * 2025 04 08
@@ -162,12 +160,9 @@ public class UserController {
     public ResponseEntity<ResponseDto> findUserById(
             @PathVariable Long id
     ) {
-
         ResponseDto findUser = userService.findUserById(id);
-
         return new ResponseEntity<>(findUser, HttpStatus.OK);
     }
-
 
     /**
      * 2025 04 08
@@ -180,13 +175,11 @@ public class UserController {
             @Valid @RequestBody UpdateUserRequestDto dto,
             @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser
     ) {
-
         if (id != loginUser.getId()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         ResponseDto updateUser = userService.updateUser(loginUser.getId(), dto);
-
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 

@@ -2,12 +2,9 @@ package com.example.sns_feed.domain.follow.controller;
 
 
 import com.example.sns_feed.common.Const;
-import com.example.sns_feed.common.exception.CustomException;
-import com.example.sns_feed.common.exception.follow.UnauthorizedException;
 import com.example.sns_feed.domain.follow.dto.*;
 import com.example.sns_feed.domain.follow.service.FollowService;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
