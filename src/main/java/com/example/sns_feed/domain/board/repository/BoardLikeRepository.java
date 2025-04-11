@@ -16,4 +16,8 @@ public interface BoardLikeRepository extends JpaRepository<BoardLike, Long> {
 
     Optional<BoardLike> findByBoardAndUser(Board board, User user);
 
+    Long id(Long id);
+
+
+    List<BoardLike> findAllByBoard_Id(Long boardId);
 }

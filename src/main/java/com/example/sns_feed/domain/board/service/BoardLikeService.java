@@ -3,6 +3,7 @@ package com.example.sns_feed.domain.board.service;
 import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.common.exception.UserNotFoundException;
 import com.example.sns_feed.common.exception.board.BoardLikeFailedException;
+import com.example.sns_feed.common.exception.board.BoardLikeNotFoundException;
 import com.example.sns_feed.common.exception.board.BoardNotFoundException;
 import com.example.sns_feed.domain.board.dto.response.BoardLikeResponseDto;
 import com.example.sns_feed.domain.board.entity.Board;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BoardLikeService {
@@ -23,11 +26,20 @@ public class BoardLikeService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
 
-    /*
-     * 2025 04 11
-     * 조아현
-     * 게시글 좋아요 생성
-     * */
+
+    /**
+     * 게시글 좋아요 생성 및 삭제
+     * - 본인이 작성한 게시글에 좋아요 누를 수 없음
+     * - 이미 좋아요를 누른 경우엔 -> 삭제 처리
+     * @author  조아현
+     * @since   2025 04 011
+     * @param   id
+     * @param   boardId
+     * @return  BoardLikeResponseDto
+     * @throws  BoardNotFoundException 게시글이 존재하지 않을 때 발생
+     * @throws  UserNotFoundException 유저가 존재하지 않을 때 발생
+     * @throws  BoardLikeFailedException 본인 게시글에 좋아요를 누를 때 발생
+     */
     @Transactional
     public BoardLikeResponseDto likeBoard(Long id, Long boardId) {
 
@@ -71,11 +83,18 @@ public class BoardLikeService {
         );
     }
 
-    /*
-     * 2025 04 11
-     * 조아현
+
+    /**
      * 게시글 좋아요 삭제
-     * */
+     * @author  조아현
+     * @since   2025 04 11
+     * @param   id
+     * @param   boardId
+     * @return
+     * @throws  BoardNotFoundException 게시글이 존재하지 않을 때 발생
+     * @throws  UserNotFoundException 유저가 존재하지 않을 때 발생
+     * @throws  BoardLikeNotFoundException 좋아요 내역이 존재하지 않을 때 발생
+     */
     @Transactional
     public void unlikeBoard(Long id, Long boardId) {
 
@@ -87,4 +106,8 @@ public class BoardLikeService {
 
         boardLikeRepository.delete(boardLike);
     }
+
+
+
+
 }
