@@ -2,8 +2,6 @@ package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
 import com.example.sns_feed.common.MessageResponseDto;
-import com.example.sns_feed.common.exception.CustomException;
-import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.domain.email.emailservice.EmailService;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
@@ -20,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

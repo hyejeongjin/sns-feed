@@ -38,9 +38,11 @@ public class BoardController {
      * @return  BoardSaveResponseDto
      */
     @PostMapping
-    public ResponseEntity<BoardSaveResponseDto> saveBoard(@SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser, @Valid @RequestBody BoardRequestDto boardRequestDto){
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.saveBoard(loginUser.getId(), boardRequestDto));
+    public ResponseEntity<BoardSaveResponseDto> saveBoard(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            @Valid @RequestBody BoardRequestDto boardRequestDto
+    ){
+        return new ResponseEntity<>(boardService.saveBoard(loginUser.getId(), boardRequestDto), HttpStatus.CREATED);
     }
 
 
@@ -55,14 +57,15 @@ public class BoardController {
      * @return  PageResponseDto
      */
     @GetMapping
-    public ResponseEntity<PageResponseDto> findAllPage(@SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+    public ResponseEntity<PageResponseDto> findAllPage(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
             @RequestParam(required = false) String titleSearch,
             @RequestParam(value = "isFollowingBoard", defaultValue = "false") Boolean isFollowingBoard,
             @RequestParam(defaultValue = "1") int page) {
 
         PageResponseDto pageResponseDto = boardService.findAllPage(loginUser.getId(),titleSearch,isFollowingBoard,page);
 
-        return ResponseEntity.ok(pageResponseDto);
+        return new ResponseEntity<>(pageResponseDto, HttpStatus.OK);
     }
 
 
@@ -75,9 +78,12 @@ public class BoardController {
      * @return  BoardResponseDto
      */
     @GetMapping("/{id}")
-    public ResponseEntity<BoardResponseDto> findSingleBoard(@SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser, @PathVariable Long id) {
+    public ResponseEntity<BoardResponseDto> findSingleBoard(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            @PathVariable Long id
+    ) {
 
-        return ResponseEntity.ok(boardService.findById(loginUser.getId() ,id));
+        return new ResponseEntity<>(boardService.findById(loginUser.getId(), id), HttpStatus.OK);
     }
 
     /**
@@ -90,9 +96,12 @@ public class BoardController {
      * @throws
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<BoardUpdateResponseDto> updateBoard(@SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser, @PathVariable Long id, @Valid @RequestBody BoardUpdateRequestDto dto) {
+    public ResponseEntity<BoardUpdateResponseDto> updateBoard(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            @PathVariable Long id,
+            @Valid @RequestBody BoardUpdateRequestDto dto) {
 
-        return ResponseEntity.ok(boardService.updateBoard(loginUser.getId(), id, dto));
+        return new ResponseEntity<>(boardService.updateBoard(loginUser.getId(), id, dto), HttpStatus.OK);
     }
 
 
@@ -105,12 +114,13 @@ public class BoardController {
      * @return  삭제 메시지 출력
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteBoard(@SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser, @PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteBoard(
+            @SessionAttribute(name = Const.LOGIN_USER, required = false) UserResponseDto loginUser,
+            @PathVariable Long id
+    ) {
 
         boardService.deleteById(id, loginUser.getId());
 
         return new ResponseEntity<>(Map.of("message", "게시글이 삭제되었습니다."), HttpStatus.ACCEPTED);
     }
-
-
 }
