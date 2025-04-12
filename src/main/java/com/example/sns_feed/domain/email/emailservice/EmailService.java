@@ -27,13 +27,13 @@ public class EmailService {
         {
             message.setRecipients(MimeMessage.RecipientType.TO, mail);
             message.setFrom(mail);
-            message.setSubject("이메일 인증");
+            message.setSubject("이메일 인증"); // 이메일 제목
             String body = "";
             body += "<h3>from. 90Company </h3>";
             body += "<h3>요청하신 인증 번호입니다.</h3>";
             body += "<h1>" + number + "</h1>";
             body += "<h3>  감사합니다. </h3>";
-            message.setText(body, "UTF-8", "html");
+            message.setText(body, "UTF-8", "html"); // 이메일 본문
             log.info("sent email: {}", "@90Company");
         }
         catch (MessagingException e){
