@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         User findUser = userRepository.findByEmailOrThrow(dto.getEmail());
 
         if(findUser.getDeletedAt() != null){
-            throw new CustomException(ErrorCode.DELETED_USER, "로그인이 불가능한 이메일, 비밀번호 입니다.");
+            throw new CustomException(ErrorCode.DELETED_USER);
         }
 
         if (!passwordEncoder.matches( dto.getPassword(), findUser.getPassword())){

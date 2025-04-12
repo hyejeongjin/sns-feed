@@ -1,6 +1,7 @@
 package com.example.sns_feed.domain.user.controller;
 
 import com.example.sns_feed.common.Const;
+import com.example.sns_feed.common.exception.CustomException;
 import com.example.sns_feed.domain.user.dto.responsedto.MessageResponseDto;
 import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.requestdto.LoginRequestDto;
@@ -67,6 +68,7 @@ public class UserController {
      * 2025 04 09
      * 김형진
      * 로그아웃
+     * 세션 없이 진행되는게 옳을까요?
      * */
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(
@@ -76,9 +78,8 @@ public class UserController {
         // 로그인하지 않으면 HttpSession이 null로 반환된다.
         HttpSession session = request.getSession(false);
 
-        if (session != null) {
-            session.invalidate();// 해당 세션(데이터)을 삭제한다.
-        }
+        session.invalidate();// 해당 세션(데이터)을 삭제한다.
+
         return new ResponseEntity<>(Map.of("message", "로그아웃이 정상 처리 되었습니다."), HttpStatus.ACCEPTED);
     }
 
@@ -107,7 +108,7 @@ public class UserController {
             @Valid @RequestBody CheckCodeRequestDto dto
     ) {
         userService.verifyEmailCode(dto.getEmail(), dto.getCert());
-        return new ResponseEntity<>(Map.of("message", "비밀번호를 재설정해주세요(/findPassword)."), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "비밀번호를 재설정해주세요."), HttpStatus.OK);
     }
 
     /**

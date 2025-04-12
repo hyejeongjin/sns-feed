@@ -48,6 +48,7 @@ public class FollowService {
         if (followRepository.pendingRequest(user, receiver)){
             throw new AlreadyRequestedFollowException();
         }
+
         // 이미 친구인 상태인 유저한테 못하도록
         if (followRepository.alreadyFollowing(user, receiver)) {
             throw new AlreadyFollowingException();

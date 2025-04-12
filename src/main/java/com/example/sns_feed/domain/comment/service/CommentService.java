@@ -100,7 +100,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 ()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         if(!comment.getUser().getId().equals(userId)){
-            throw new IllegalArgumentException("본인이 작성한 댓글만 수정 가능합니다.");
+            throw new CustomException(ErrorCode.USER_MISMATCH);
         }
         comment.update(dto.getContent());
         return new CommentResponseDto(comment.getId(), comment.getUser().getId(),
@@ -117,7 +117,7 @@ public class CommentService {
     public void delete(Long userId, Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         if(!comment.getUser().getId().equals(userId)){
-            throw new IllegalArgumentException("본인이 작성한 댓글만 삭제 가능합니다.");
+            throw new CustomException(ErrorCode.USER_MISMATCH);
         }
         commentRepository.delete(comment);
     }
