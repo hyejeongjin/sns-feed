@@ -18,7 +18,7 @@ public class EmailController {
     private final RedisService redisService;
     private int number;
 
-    @PostMapping("/mail")
+    @PostMapping("/sendMail")
     public Map<String, Object> mailSend(@RequestBody EmailRequestDto emailDto){
         HashMap<String , Object> map = new HashMap<>();
 
