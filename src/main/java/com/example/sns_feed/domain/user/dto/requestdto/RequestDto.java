@@ -20,7 +20,7 @@ public class RequestDto {
     private final String email;
 
     @Pattern(regexp ="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[$!@*()-])[A-Za-z[0-9]$!@*()-]{8,20}",
-            message = "최소 8 ~ 20자 입력해주세요.")
+            message = "최소 8 ~ 20자 입력해주세요.(대소문자, 숫자, 특수문자가 최소 1개씩은 포함되어야 합니다.)")
     private final String password;
 
     @NotBlank(message = "번호를 입력해주세요")
