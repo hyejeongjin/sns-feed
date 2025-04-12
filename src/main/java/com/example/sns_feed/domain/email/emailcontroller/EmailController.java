@@ -5,10 +5,10 @@ import com.example.sns_feed.domain.email.emailservice.EmailService;
 import com.example.sns_feed.domain.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping
@@ -19,7 +19,7 @@ public class EmailController {
     private int number;
 
     @PostMapping("/sendMail")
-    public Map<String, Object> mailSend(@RequestBody EmailRequestDto emailDto){
+    public ResponseEntity<String> mailSend(@RequestBody EmailRequestDto emailDto){
         HashMap<String , Object> map = new HashMap<>();
 
          try{
@@ -27,12 +27,12 @@ public class EmailController {
              String num = String.valueOf(number);
              map.put("number", num);
              redisService.setRedisData(emailDto.getEmail(), num);
+             return new ResponseEntity<>("이메일을 확인해주세요", HttpStatus.OK);
          }
          catch (Exception ex){
              map.put("Success:", Boolean.FALSE);
              map.put("Error:", ex.getMessage());
+             return new ResponseEntity<>("인증코드 발급이 실패하였습니다.", HttpStatus.BAD_REQUEST);
          }
-
-        return Map.of("전송 성공", HttpStatus.OK);
     }
 }

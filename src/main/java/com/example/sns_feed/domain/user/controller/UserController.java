@@ -108,7 +108,7 @@ public class UserController {
             @Valid @RequestBody CheckCodeRequestDto dto
     ) {
         userService.verifyEmailCode(dto.getEmail(), dto.getCert());
-        return new ResponseEntity<>(Map.of("message", "비밀번호를 재설정해주세요."), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "인증확인 완료되었습니다. 비밀번호를 재설정해주세요."), HttpStatus.OK);
     }
 
     /**
@@ -121,7 +121,7 @@ public class UserController {
             @Valid @RequestBody ChangePasswordRequestDto dto
     ) {
         userService.resetPassword(dto);
-        return new ResponseEntity<>(Map.of("message", "비밀번호 변경을 성공하였습니다."), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "비밀번호가 정상적으로 재설정 되었습니다."), HttpStatus.OK);
     }
 
     /**
