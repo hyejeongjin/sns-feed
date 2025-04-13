@@ -73,7 +73,7 @@ public class BoardService {
 
         List<BoardCommentDto> boardCommentDtoList = board.getComments().stream().map(comment -> new BoardCommentDto(
                 comment.getId(),
-                board.getUser().getUserName(),
+                comment.getUser().getUserName(),
                 comment.getContent(),
                 comment.getUpdatedAt())).toList();
 
