@@ -19,6 +19,8 @@ public enum ErrorCode {
     INVALID_EMAIL(400, "Bad Request", "A001", "이미 가입된 이메일입니다."),
     SESSION_NOT_FOUND(404, "Not Found", "A002", "세션이 만료되었습니다."),
     CODE_MISMATCH(400, "Bad Request", "A003", "인증 번호가 일치하지 않습니다."),
+    INVALID_SESSION(401, "Unauthorized", "A004", "세션이 유효하지 않습니다."),
+    INVALID_CERT(400, "Bad Request", "A005", "cert가 일치하지 않습니다."),
 
     //User
     USER_NOT_FOUND(404, "Not Found", "U001", "요청한 유저 정보를 찾을 수 없습니다."),
@@ -26,9 +28,7 @@ public enum ErrorCode {
     SAME_PASSWORD(400, "Bad Request", "U003", "기존 패스워드와 동일합니다."),
     DELETED_USER(400, "Bad Request", "U004", "이미 삭제된 유저입니다."),
     INVALID_USER(401, "Unauthorized", "U005", "유저 정보가 일치하지 않습니다."),
-    INVALID_SESSION(401, "Unauthorized", "U006", "세션이 유효하지 않습니다."),
-    INVALID_CERT(400, "Bad Request", "U007", "cert가 일치하지 않습니다."),
-    NEED_LOGIN(400, "Bad Request", "U008", "로그인 해주세요."),
+    NEED_LOGIN(400, "Bad Request", "U006", "로그인 해주세요."),
 
     //Board
     BOARD_NOT_FOUND(404,"Not Found","B001","해당 게시글 번호가 존재하지 않습니다."),
