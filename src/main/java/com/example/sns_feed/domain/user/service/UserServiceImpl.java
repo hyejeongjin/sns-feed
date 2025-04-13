@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
      * 김형진
      * 가입
      * */
+    @Transactional
     @Override
     public MessageResponseDto signup(
             RequestDto dto) {
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = new User(dto);
-        user.updatePassword( passwordEncoder.encode(user.getPassword()));
+        user.updatePassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
         //가입 완료 메세지를 보낸다.
@@ -96,6 +97,7 @@ public class UserServiceImpl implements UserService {
      * 김형진
      * 최종적으로 비밀번호를 재설정하고 레디스 초기화.
      * */
+    @Transactional
     @Override
     public void resetPassword(ChangePasswordRequestDto dto) {
         User findUser =  userRepository.findByEmailOrThrow(dto.getEmail());
@@ -109,6 +111,7 @@ public class UserServiceImpl implements UserService {
      * 김형진, 양재호
      * 비밀번호 변경
      * */
+    @Transactional
     @Override
     public void updatePassword(UpdatePasswordRequestDto dto, Long id) {
 
