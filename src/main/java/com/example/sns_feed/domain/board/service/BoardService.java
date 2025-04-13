@@ -2,7 +2,6 @@ package com.example.sns_feed.domain.board.service;
 
 import com.example.sns_feed.common.exception.ErrorCode;
 import com.example.sns_feed.common.exception.UserNotFoundException;
-import com.example.sns_feed.common.exception.board.BoardLikeNotFoundException;
 import com.example.sns_feed.common.exception.board.BoardNotFoundException;
 import com.example.sns_feed.common.exception.board.BoardUnauthorizedException;
 import com.example.sns_feed.domain.board.dto.request.BoardRequestDto;
@@ -150,7 +149,7 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         if(!sessionId.equals(board.getUser().getId())) {
-            throw new BoardUnauthorizedException(ErrorCode.BOARD_UNAUTHORIZED);
+            throw new BoardUnauthorizedException(ErrorCode.BOARD_FORBIDDEN);
         }
 
         board.update(dto.getTitle(), dto.getContent());
@@ -181,7 +180,7 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
         if(!sessionId.equals(board.getUser().getId())) {
-            throw new BoardUnauthorizedException(ErrorCode.BOARD_UNAUTHORIZED);
+            throw new BoardUnauthorizedException(ErrorCode.BOARD_FORBIDDEN);
         }
 
         //게시글 좋아요 삭제 (연관관계 삭제 cascade를 구현)

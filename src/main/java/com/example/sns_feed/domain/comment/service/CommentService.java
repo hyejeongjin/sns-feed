@@ -117,7 +117,7 @@ public class CommentService {
     public void delete(Long userId, Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(()-> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         if(!comment.getUser().getId().equals(userId)){
-            throw new CustomException(ErrorCode.USER_MISMATCH);
+            throw new CustomException(ErrorCode.COMMENT_FORBIDDEN);
         }
         commentRepository.delete(comment);
     }
