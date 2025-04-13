@@ -93,8 +93,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 2025 04 07
-     * 김형진
+     * 2025 04 11
+     * 김형진, 양재호
      * 최종적으로 비밀번호를 재설정하고 레디스 초기화.
      * */
     @Transactional
@@ -107,8 +107,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 2025 04 11
-     * 김형진, 양재호
+     * 2025 04 07
+     * 김형진
      * 비밀번호 변경
      * */
     @Transactional

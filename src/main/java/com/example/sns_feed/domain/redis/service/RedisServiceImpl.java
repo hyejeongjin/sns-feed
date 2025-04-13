@@ -27,9 +27,9 @@ public class RedisServiceImpl implements RedisService{
 
     @Override
     public String getRedisData(String email) {
-        String code = redisTemplate.opsForValue().get( email);
+        String code = redisTemplate.opsForValue().get(email);
         if(code == null){
-            throw new CustomException( ErrorCode.SESSION_NOT_FOUND);
+            throw new CustomException(ErrorCode.SESSION_NOT_FOUND);
         }
         return code;
     }
