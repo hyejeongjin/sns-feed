@@ -67,7 +67,6 @@
 <!-- Figma -->
 - <img src="https://img.shields.io/badge/Design-dc6d4b?style=for-the-badge"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
 
-
 <br>
 
 ## 와이어 프레임
@@ -75,13 +74,12 @@
 <img src="https://github.com/user-attachments/assets/74a81a0f-6333-4814-b4eb-e4413e95e4c2">
 <img src="https://github.com/user-attachments/assets/8d1b4077-8e91-4d59-80d7-f4994d172abc">
 
-
-
 <br>
 
 ## ERD
 <img src ="https://github.com/user-attachments/assets/8a9be633-1ec7-44d1-bba6-dc1f60ec424d">
 
+<br>
 
 ## API 명세서
 https://www.notion.so/teamsparta/API-1ce2dc3ef514809080dbe2df23d16fee?pvs=4
