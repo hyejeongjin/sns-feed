@@ -1,13 +1,14 @@
 package com.example.sns_feed.domain.user.entity;
 
 import com.example.sns_feed.common.entity.BaseEntity;
+import com.example.sns_feed.domain.user.dto.requestdto.UpdateUserRequestDto;
 import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
+import org.springframework.data.redis.core.RedisHash;
 
 @Getter
+@RedisHash(value = "user", timeToLive = 180)
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {
@@ -17,6 +18,7 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String profile;
 
     @Column(nullable = false)
@@ -34,12 +36,14 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String birthDate;
 
-    private LocalDateTime deletedAt;
+    @Column
+    private String deletedAt;
 
     public User() {
 
     }
-    /*
+
+    /**
     * 2025 04 07
     * 김형진
     *  생성자 업데이트
@@ -52,18 +56,22 @@ public class User extends BaseEntity {
        this.mobileNumber = dto.getMobileNumber();
        this.birthDate = dto.getBirthDate();
    }
+
     /**
      * 2025 04 08
      * 양재호
      * updateUser를 위한 메서드
      */
-    public void updateUser(RequestDto dto) {
+    public void updateUser(UpdateUserRequestDto dto) {
+        this.profile = dto.getProfile();
         this.mobileNumber = dto.getMobileNumber();
     }
+
     public void updatePassword(String password){
         this.password = password;
     }
-    public void updatedeletedAt(LocalDateTime deletedAt){
+
+    public void updatedeletedAt(String deletedAt){
         this.deletedAt = deletedAt;
     }
 }

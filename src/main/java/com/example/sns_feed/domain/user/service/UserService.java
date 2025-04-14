@@ -1,33 +1,34 @@
 package com.example.sns_feed.domain.user.service;
 
-import com.example.sns_feed.common.MessageResponseDto;
-import com.example.sns_feed.domain.user.dto.requestdto.RequestDto;
-import com.example.sns_feed.domain.user.dto.requestdto.UpdatePasswordRequestDto;
+import com.example.sns_feed.domain.user.dto.responsedto.MessageResponseDto;
+import com.example.sns_feed.domain.user.dto.requestdto.*;
 import com.example.sns_feed.domain.user.dto.responsedto.ResponseDto;
 import com.example.sns_feed.domain.user.dto.responsedto.UserResponseDto;
-import com.example.sns_feed.user.dto.requestdto.LoginRequestDto;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface UserService {
 
-
     boolean existsByEmail(String email);
 
-    MessageResponseDto signup(@RequestBody  RequestDto dto);
+    MessageResponseDto signup(RequestDto dto);
 
-    UserResponseDto login(@RequestBody LoginRequestDto dto);
+    UserResponseDto login(LoginRequestDto dto);
 
-    MessageResponseDto updatePassword(@RequestBody UpdatePasswordRequestDto dto, Long id);
+    void updatePassword(UpdatePasswordRequestDto dto, Long id);
 
-    MessageResponseDto delete (UserResponseDto loginUser, String password);
+    void verifyEmailCode(String email, String code);
+
+    void resetPassword(ChangePasswordRequestDto dto);
+
+    void delete (UserResponseDto loginUser, String password);
 
     List<ResponseDto> findUsers();
 
     ResponseDto findUserById(Long id);
 
-    ResponseDto updateUser(Long id, RequestDto dto);
+    ResponseDto updateUser(Long id, UpdateUserRequestDto dto);
 
     List<ResponseDto> findUsersByUserName(String userName);
+
 }

@@ -1,6 +1,5 @@
-package com.example.sns_feed.common;
+package com.example.sns_feed.domain.user.dto.responsedto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
