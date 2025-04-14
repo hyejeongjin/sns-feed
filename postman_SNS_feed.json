@@ -1,0 +1,685 @@
+{
+	"info": {
+		"_postman_id": "0cdc51c2-f837-4463-8526-dd9ac15b69b6",
+		"name": "sns_feed 팀프로젝트",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43184955",
+		"_collection_link": "https://lunar-firefly-383843.postman.co/workspace/Team-Workspace~a906e5fa-b18f-4b0f-82ba-bbc6308fb027/collection/43184955-0cdc51c2-f837-4463-8526-dd9ac15b69b6?action=share&source=collection_link&creator=43184955"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "회원가입",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile\" : \"사진\",\r\n    \"userName\" : \"홍길동\",\r\n    \"email\" : \"abcd@gmail.com\",\r\n    \"password\" : \"12a!A345\",\r\n    \"mobileNumber\" : \"010-1111-2222\",\r\n    \"birthDate\" : \"900101\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "로그인",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"abcd@gmail.com\",\r\n    \"password\" : \"12a!A345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "전체 회원 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "전체 회원 조회(유저명 기반)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users?userName=홍길동",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "userName",
+									"value": "홍길동"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "특정 회원 조회(식별자 기반)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/users/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "회원 수정",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile\" : \"사진2\",\r\n    \"mobileNumber\" : \"017-333-4444\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "로그아웃",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "패스워드 변경",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\" : \"12a!A345\",\r\n    \"newPassword\" : \"aaBB33$$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/updatePassword",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "회원탈퇴",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\" : \"aaBB33$$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/withdraw",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mail send",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"진짜 이메일\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/sendMail",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sendMail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mail check",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"진짜 이메일\",\r\n    \"cert\" : \"151228\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/verifyEmailCode",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"verifyEmailCode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "비밀번호 찾기 후 변경",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"진짜 이메일\",\r\n    \"newPassword\" : \"(Wpsptltm56)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/resetPassword",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "게시글 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"제목\",\r\n    \"content\":\"내용테스트\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/boards",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"boards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시글 단건조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/boards/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"boards",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시글 수정",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"90컴퍼니\",\r\n    \"content\" : \"마무리중~\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/boards/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"boards",
+								"1"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "90컴퍼니",
+									"disabled": true
+								},
+								{
+									"key": "contents",
+									"value": "마무리중~",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "페이지 게시글 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/boards",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"boards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시글 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/boards/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"boards",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시글 좋아요 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/boards/2/like",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"boards",
+								"2",
+								"like"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "댓글 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"댓글4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/boards/5/comments",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"boards",
+								"5",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 수정",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\" : \"댓글 수정1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/comments/8",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/comments/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "댓글 단일 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/comments/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Follow",
+			"item": [
+				{
+					"name": "팔로우 요청",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"receiverId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/follows",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follows"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "팔로우 수락,거절",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"accept\": true,\r\n  \"reject\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/follows/3/accept",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follows",
+								"3",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "친구 목록",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/follows",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follows"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "요청 발신자 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/follows/requests",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follows",
+								"requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "친구 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiverId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/follows/unfollows",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"follows",
+								"unfollows"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
