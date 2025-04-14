@@ -69,20 +69,21 @@
 
 <br>
 
-## 와이어 프레임
+## [와이어 프레임](https://www.figma.com/design/VzHGj2FeCsncYvQFMm4jQA/Twitter-UI-Screens--Community-?node-id=4-1224&t=fxLVreCYsl6gIRNW-1)
 
 <img src="https://github.com/user-attachments/assets/74a81a0f-6333-4814-b4eb-e4413e95e4c2">
 <img src="https://github.com/user-attachments/assets/8d1b4077-8e91-4d59-80d7-f4994d172abc">
 
-<br>
+<br><br>
 
 ## ERD
 <img src ="https://github.com/user-attachments/assets/8a9be633-1ec7-44d1-bba6-dc1f60ec424d">
 
-<br>
+<br><br>
 
-## API 명세서
-https://www.notion.so/teamsparta/API-1ce2dc3ef514809080dbe2df23d16fee?pvs=4
+
+## [API 명세서](https://www.notion.so/teamsparta/API-1ce2dc3ef514809080dbe2df23d16fee?pvs=4)
+
 <!-- API 명세서 -->
 <img src="https://github.com/user-attachments/assets/1c88ab7e-5c2a-4a97-91b0-dd3af7af38f1">
 <img src="https://github.com/user-attachments/assets/408356fe-f1d3-42f8-af18-9cb9e6016dc6">
@@ -90,7 +91,15 @@ https://www.notion.so/teamsparta/API-1ce2dc3ef514809080dbe2df23d16fee?pvs=4
 <img src="https://github.com/user-attachments/assets/d18a9421-7bc2-4868-ba4b-fa1f76c3128d">
 <img src="https://github.com/user-attachments/assets/0032b628-b86b-4f33-91b2-657fec1da580">
 
-<br>
+<br><br>
+
+## [트러블슈팅](https://www.notion.so/teamsparta/1ce2dc3ef51480f590b8c33cd428f94e?v=9463f3c2e1be456f8df582d730bdcd5f&pvs=4)
+<img src="https://github.com/user-attachments/assets/9916cd68-f3b7-4940-b851-ba5978148a5a" width="1000px" height="500px">
+
+
+
+<br><br>
+
 
 ## 프로젝트 계층 구조
 ```
