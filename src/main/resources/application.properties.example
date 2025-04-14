@@ -6,6 +6,19 @@ spring.datasource.username=${DB_USERNAME}
 spring.datasource.password=${DB_PASSWORD}
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
+#mail
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=${TEST_EMAIL}
+spring.mail.password=${EMAIL_AUTH}
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+#redis
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
+
 #Hibernate
 spring.jpa.hibernate.ddl-auto=update
 
